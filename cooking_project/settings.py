@@ -31,7 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'users',
+    # 'users',
+    'account.apps.AccountConfig',
     'social_django',
     'ingredients',
     'django.contrib.admin',
@@ -129,18 +130,22 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = "dashboard"
-LOGOUT_REDIRECT_URL = "dashboard"
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
 
-EMAIL_HOST = "smtp.mailgun.org"
-EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-EMAIL_USE_TLS = True
-
-AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "social_core.backends.github.GithubOAuth2",
-]
-
-SOCIAL_AUTH_GITHUB_KEY = os.environ.get("078bf4a5e4e953fb897b")
-SOCIAL_AUTH_GITHUB_SECRET = os.environ.get("99bcc5dcef95476eb36c6926fc0921acb2be2293 ")
+# LOGIN_REDIRECT_URL = "dashboard"
+# LOGOUT_REDIRECT_URL = "dashboard"
+#
+# EMAIL_HOST = "smtp.mailgun.org"
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+# EMAIL_USE_TLS = True
+#
+# AUTHENTICATION_BACKENDS = [
+#     "django.contrib.auth.backends.ModelBackend",
+#     "social_core.backends.github.GithubOAuth2",
+# ]
+#
+# SOCIAL_AUTH_GITHUB_KEY = os.environ.get("078bf4a5e4e953fb897b")
+# SOCIAL_AUTH_GITHUB_SECRET = os.environ.get("99bcc5dcef95476eb36c6926fc0921acb2be2293 ")
