@@ -140,6 +140,9 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'veronica.jodkowska@gmail.com'
 EMAIL_HOST_PASSWORD = 'AR77gonmix'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
 # LOGIN_REDIRECT_URL = "dashboard"
 # LOGOUT_REDIRECT_URL = "dashboard"
 #
