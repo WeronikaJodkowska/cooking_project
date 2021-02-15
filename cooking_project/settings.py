@@ -143,6 +143,10 @@ EMAIL_HOST_PASSWORD = 'AR77gonmix'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'account.authentication.EmailAuthBackend',
+]
 # LOGIN_REDIRECT_URL = "dashboard"
 # LOGOUT_REDIRECT_URL = "dashboard"
 #
