@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'social_django',
     'ingredients',
+    # 'recipes.apps.RecipesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

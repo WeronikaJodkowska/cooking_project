@@ -2,12 +2,6 @@ from django.db import models
 from django.urls import reverse
 
 
-# class Teacher(models.Model):
-#     name = models.CharField(max_length=80)
-#     age = models.IntegerField()
-#     new_field = models.CharField(max_length=140, default='SOME STRING')
-
-
 class Category(models.Model):
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, unique=True)

@@ -15,5 +15,3 @@ def ingredient_list(request, category_slug=None):
                   {'category': category,
                    'categories': categories,
                    'ingredients': ingredients})
-
-
