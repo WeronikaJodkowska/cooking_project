@@ -8,6 +8,7 @@
 <body>
     <div id="header">
         <span class="logo">Cooking project</span>
+        <a href="/" class="logo">Ингредиенты</a>
         {% if request.user.is_authenticated %}
             <ul class="menu">
             <li {% if section == "dashboard" %}class="selected"{% endif %}>

@@ -24,8 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
     path('social-auth/', include('social_django.urls', namespace='social')),
-    # path('', include('ingredients.urls', namespace='ingredients')),
-    path('', include('recipes.urls', namespace='recipes')),
+    path('', include('ingredients.urls', namespace='ingredients')),
+    # path('', include('recipes.urls', namespace='recipes')),
 ]
 
 if settings.DEBUG:
