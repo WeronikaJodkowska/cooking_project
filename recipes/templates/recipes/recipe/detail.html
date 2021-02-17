@@ -1,0 +1,19 @@
+{% extends "recipes/base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ recipe.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="recipe-detail">
+    <img src="{{ recipe.image.url }}">
+    <h1>{{ recipe.name }}</h1>
+    <h2>
+        <a href="{{ recipe.category.get_absolute_url }}">
+            {{ recipe.category }}
+        </a>
+    </h2>
+    {{ recipe.directions|linebreaks }}
+    </div>
+{% endblock %}

@@ -1,6 +1,10 @@
 {% extends "ingredients/base.html" %}
 {% load static %}
 
+{% block title %}
+ {% if category %}{{ category.name }}{% else %}Ингредиенты{% endif %}
+{% endblock %}
+
 {% block content %}
     <div id="sidebar">
     <h3>Категории</h3>
@@ -9,7 +13,7 @@
         <a href="{% url "ingredients:ingredient_list" %}">Все ингредиенты</a>
         </li>
         {% for c in categories %}
-            <li {% if categoru.slug == c.slug %}class="selected"{% endif %}>
+            <li {% if category.slug == c.slug %}class="selected"{% endif %}>
             <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
             </li>
         {% endfor %}
