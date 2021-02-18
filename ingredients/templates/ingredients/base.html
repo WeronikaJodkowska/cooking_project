@@ -10,6 +10,7 @@
 <div id="header">
     <a href="/" class="logo">Ингредиенты</a>
 {#    <a href="/account" class="logo">Аккаунт</a>#}
+    <a href="{% url 'recipes:recipe_list' %}" class="logo">Рецепты</a>
     <span class="user">
         {% if request.user.is_authenticated %}
 {#            Hello {{ request.user.first_name }},#}

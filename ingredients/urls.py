@@ -26,5 +26,6 @@ urlpatterns = [
     path('<slug:category_slug>/', views.ingredient_list,
          name='ingredient_list_by_category'),
     path('account/', include('account.urls')),
+    path('recipes/', include('recipes.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
