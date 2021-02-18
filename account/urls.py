@@ -3,6 +3,7 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from ingredients import views as ingredients_views
 
 urlpatterns = [
     # path('login/', views.user_login, name='login'),
@@ -20,6 +21,8 @@ urlpatterns = [
     # path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
     path('', views.dashboard, name='dashboard'),
+    # path('ingredients/', include("ingredients.urls")),
+    # path('', ingredients_views.ingredient_list, name='ingredient_list'),
     path('', include('django.contrib.auth.urls')),
     path('register/', views.register, name='register'),
     path('edit/', views.edit, name='edit'),

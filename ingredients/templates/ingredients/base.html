@@ -9,10 +9,11 @@
 <body>
 <div id="header">
     <a href="/" class="logo">Ингредиенты</a>
-    <a href="/account" class="logo">Аккаунт</a>
+{#    <a href="/account" class="logo">Аккаунт</a>#}
     <span class="user">
         {% if request.user.is_authenticated %}
-            Hello {{ request.user.first_name }},
+{#            Hello {{ request.user.first_name }},#}
+            Hello, <a href="{% url 'dashboard' %}">{{ request.user.first_name }}</a>,
             <a href="{% url 'logout' %}">Logout</a>
         {% else %}
             <a href="{% url 'login' %}">Log-in</a>
