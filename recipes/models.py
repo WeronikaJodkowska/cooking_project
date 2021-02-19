@@ -27,6 +27,8 @@ class Recipe(models.Model):
     directions = models.TextField(default=None)
     image = models.ImageField(upload_to='recipes/%Y/%m/%d')
 
+    # users = models.ManyToManyField('auth.User', null=True, blank=True)
+
     class Meta:
         ordering = ('name',)
         index_together = (('id', 'slug'),)

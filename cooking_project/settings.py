@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'cooking_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dbtest',
+        'NAME': 'cooking',
         'USER': 'postgres',
         'PASSWORD': '1111',
         'HOST': '127.0.0.1',
