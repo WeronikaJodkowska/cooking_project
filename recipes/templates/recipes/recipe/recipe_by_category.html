@@ -1,0 +1,18 @@
+{% extends "recipes/base.html" %}
+{% load static %}
+
+{% block title %}Рецепты{% endblock %}
+
+{% block content %}
+    <div id="main" class="recipe-list">
+    <h1>{% if category %}{{ category.name }}{% else %}Рецепты{% endif %}</h1>
+    {% for recipe in recipes %}
+        <div class="item">
+        <a href="{{ recipe.get_absolute_url }}">
+            <img src="{{ recipe.image.url }}">
+        </a>
+        <a href="{{ recipe.get_absolute_url }}">{{ recipe.name }}</a>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

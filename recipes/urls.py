@@ -16,16 +16,20 @@ Including another URLconf
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from . import views
-
+# from . import views
+from .views import CategoryListView, CategoryDetailView
 
 app_name = 'recipes'
 
 urlpatterns = [
-    path('', views.recipe_list, name='recipe_list'),
-    path('<slug:category_slug>/', views.recipe_list,
-         name='recipe_list_by_category'),
-    path('<int:id>/<slug:slug>/', views.recipe_detail,
-         name='recipe_detail'),
+    # path('', views.recipe_list, name='recipe_list'),
+    # path('<slug:category_slug>/', views.recipe_list,
+    #      name='recipe_list_by_category'),
+    # path('<int:id>/<slug:slug>/', views.recipe_detail,
+    #      name='recipe_detail'),
+
+    path('', CategoryListView.as_view(), name='category_list'),
+    path('category/<int:pk>', CategoryDetailView.as_view(), name='category_detail'),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
