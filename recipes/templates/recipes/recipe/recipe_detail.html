@@ -10,9 +10,7 @@
     <img src="{{ recipe.image.url }}">
     <h1>{{ recipe.name }}</h1>
     <h2>
-        <a href="{{ recipe.category.get_absolute_url }}">
-            {{ recipe.category }}
-        </a>
+        {{ recipe.category }}
     </h2>
     {{ recipe.directions|linebreaks }}
     </div>

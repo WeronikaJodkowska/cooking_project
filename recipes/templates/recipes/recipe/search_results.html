@@ -1,19 +1,35 @@
 {% extends "recipes/base.html" %}
 {% load static %}
+{##}
+{#{% block title %}#}
+{#    {{ recipe.name }}#}
+{#{% endblock %}#}
+{##}
+{#{% block content %}#}
+{#    <div class="recipe-detail">#}
+{#    <img src="{{ recipe.image.url }}">#}
+{#    <h1>{{ recipe.name }}</h1>#}
+{#    <h2>#}
+{#        <a href="{{ recipe.category.get_absolute_url }}">#}
+{#            {{ recipe.category }}#}
+{#        </a>#}
+{#    </h2>#}
+{#    {{ recipe.directions|linebreaks }}#}
+{#    </div>#}
+{#{% endblock %}#}
 
-{% block title %}
-    {{ recipe.name }}
-{% endblock %}
+{% block title %}Результаты поиска{% endblock %}
 
 {% block content %}
-    <div class="recipe-detail">
-    <img src="{{ recipe.image.url }}">
-    <h1>{{ recipe.name }}</h1>
-    <h2>
-        <a href="{{ recipe.category.get_absolute_url }}">
-            {{ recipe.category }}
-        </a>
-    </h2>
-    {{ recipe.directions|linebreaks }}
-    </div>
+<h1>Результаты поиска</h1>
+
+    {% for recipe in recipe_list %}
+        <div class="item">
+            <a href="{% url 'recipes:recipe_detail' recipe.id %}">
+                <img src="{{ recipe.image.url }}">
+            </a>
+            <br>
+            <a href="{% url 'recipes:recipe_detail' recipe.id %}">{{ recipe.name }}</a>
+        </div>
+    {% endfor %}
 {% endblock %}

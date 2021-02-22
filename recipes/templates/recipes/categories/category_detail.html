@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+
 {% block content %}
     <h1>Category name: {{ category.name }}</h1>
     {% for recipe in category.recipes.all %}

@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 
@@ -23,7 +24,7 @@ def recipe_detail(request, id, slug):
                                id=id,
                                slug=slug)
     return render(request,
-                  'recipes/recipe/detail.html',
+                  'recipes/recipe/recipe_detail.html',
                   {'recipe': recipe})
 
 
@@ -56,3 +57,31 @@ class CategoryDetailView(DetailView):
 
     # def get_queryset(self):
     #     return Recipe.objects.filter(category_id=self.kwargs.get('pk'))
+
+
+class RecipeListView(ListView):
+    model = Recipe
+    template_name = 'recipes/recipe/recipe_list.html'
+
+
+class RecipeDetailView(DetailView):
+    model = Recipe
+    context_object_name = 'recipe'
+    template_name = 'recipes/recipe/recipe_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_id'] = self.kwargs.get('pk')
+        return context
+
+
+class SearchResultsListView(ListView):
+    model = Recipe
+    context_object_name = 'recipe_list'
+    template_name = 'recipes/recipe/search_results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        return Recipe.objects.filter(
+            Q(name__icontains=query)
+        )

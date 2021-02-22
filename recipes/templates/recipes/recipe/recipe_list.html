@@ -1,33 +1,56 @@
-{% extends "recipes/base.html" %}
-{% load static %}
+{#{% extends "recipes/base.html" %}#}
+{#{% load static %}#}
+{##}
+{#{% block title %}#}
+{#    {% if category %}{{ category.name }}{% else %}Рецепты{% endif %}#}
+{#{% endblock %}#}
+{##}
+{#{% block content %}#}
+{#    <div id="sidebar">#}
+{#    <h3>Categories</h3>#}
+{#    <ul>#}
+{#        <li {% if not category %}class="selected"{% endif %}>#}
+{#        <a href="{% url "recipes:recipe_list" %}">Все рецепты</a>#}
+{#        </li>#}
+{#        {% for c in categories %}#}
+{#            <li {% if category.slug == c.slug %}class="selected" {% endif %}>#}
+{#            <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>#}
+{#            </li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+{#    </div>#}
+{#    <div id="main" class="recipe-list">#}
+{#    <h1>{% if category %}{{ category.name }}{% else %}Рецепты{% endif %}</h1>#}
+{#    {% for recipe in recipes %}#}
+{#        <div class="item">#}
+{#        <a href="{{ recipe.get_absolute_url }}">#}
+{#            <img src="{{ recipe.image.url }}">#}
+{#        </a>#}
+{#        <a href="{{ recipe.get_absolute_url }}">{{ recipe.name }}</a>#}
+{#        </div>#}
+{#    {% endfor %}#}
+{#    </div>#}
+{#{% endblock %}#}
 
-{% block title %}
-    {% if category %}{{ category.name }}{% else %}Рецепты{% endif %}
-{% endblock %}
+{% extends "base.html" %}
+{% block title %}Рецепты{% endblock %}
 
 {% block content %}
-    <div id="sidebar">
-    <h3>Categories</h3>
-    <ul>
-        <li {% if not category %}class="selected"{% endif %}>
-        <a href="{% url "recipes:recipe_list" %}">Все рецепты</a>
-        </li>
-        {% for c in categories %}
-            <li {% if category.slug == c.slug %}class="selected" {% endif %}>
-            <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-    </div>
-    <div id="main" class="recipe-list">
-    <h1>{% if category %}{{ category.name }}{% else %}Рецепты{% endif %}</h1>
-    {% for recipe in recipes %}
+{#    <form action="{% url 'recipes:search_results' %}" method="get">#}
+{#        <input name="q" type="text" placeholder="Search...">#}
+{#    </form>#}
+    <form class="form-inline mt-2 mt-md-0" action="{% url 'recipes:search_results' %}" method="get">
+        <input name="q" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+    </form>
+
+
+    {% for recipe in recipe_list %}
         <div class="item">
-        <a href="{{ recipe.get_absolute_url }}">
-            <img src="{{ recipe.image.url }}">
-        </a>
-        <a href="{{ recipe.get_absolute_url }}">{{ recipe.name }}</a>
+            <a href="{% url 'recipes:recipe_detail' recipe.id %}">
+                <img src="{{ recipe.image.url }}">
+            </a>
+            <br>
+            <a href="{% url 'recipes:recipe_detail' recipe.id %}">{{ recipe.name }}</a>
         </div>
     {% endfor %}
-    </div>
 {% endblock %}
