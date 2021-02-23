@@ -19,10 +19,10 @@
 
 {% extends "base.html" %}
 {% block title %}Категории ингредиентов{% endblock %}
-
 {% block content %}
     {% for category in category_list %}
         <div class="item">
+
             <a href="{% url 'ingredients:category_detail' category.id %}">
                 <img src="{{ category.image.url }}">
             </a>

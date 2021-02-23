@@ -36,9 +36,7 @@
 {% block title %}Рецепты{% endblock %}
 
 {% block content %}
-{#    <form action="{% url 'recipes:search_results' %}" method="get">#}
-{#        <input name="q" type="text" placeholder="Search...">#}
-{#    </form>#}
+
     <form class="form-inline mt-2 mt-md-0" action="{% url 'recipes:search_results' %}" method="get">
         <input name="q" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
     </form>

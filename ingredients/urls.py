@@ -25,13 +25,13 @@ urlpatterns = [
     # path('', views.ingredient_list, name='ingredient_list'),
     # path('<slug:category_slug>/', views.ingredient_list,
     #      name='ingredient_list_by_category'),
-    path('account/', include('account.urls')),
-    path('recipes/', include('recipes.urls')),
-
     path('', CategoryListView.as_view(), name='category_list'),
     path('category/<int:pk>', CategoryDetailView.as_view(), name='category_detail'),
     path('ingredients/', IngredientListView.as_view(), name='ingredient_list'),
     path('search/', SearchResultsListView.as_view(), name='ingredient_search_results'),
+
+    path('account/', include('account.urls')),
+    # path('recipes/', include('recipes.urls')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

@@ -3,10 +3,6 @@
 
 {% block content %}
     {% for category in category_list %}
-{#        <div>#}
-{#        <h2><a href="">{{ category.name }}</a></h2>#}
-{#        </div>#}
-{#        {% url 'recipes:recipes_by_category' category.id %}#}
         <div class="item">
             <a href="{% url 'recipes:category_detail' category.id %}">
                 <img src="{{ category.image.url }}">

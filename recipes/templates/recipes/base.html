@@ -8,8 +8,8 @@
 </head>
 <body>
 <div id="header">
-    <a href="/" class="logo">Рецепты</a>
-    <a href="{% url 'ingredients:ingredient_list' %}" class="logo">Ингредиенты</a>
+{#    <a href="/" class="logo">Рецепты1111</a>#}
+{#    <a href="{% url 'ingredients:ingredient_list' %}" class="logo">Ингредиенты</a>#}
     <span class="user">
         {% if request.user.is_authenticated %}
             Hello, <a href="{% url 'dashboard' %}">{{ request.user.first_name }}</a>,
