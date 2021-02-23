@@ -17,15 +17,21 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
-
+from .views import CategoryListView, CategoryDetailView, IngredientListView, SearchResultsListView
 
 app_name = 'ingredients'
 
 urlpatterns = [
-    path('', views.ingredient_list, name='ingredient_list'),
-    path('<slug:category_slug>/', views.ingredient_list,
-         name='ingredient_list_by_category'),
+    # path('', views.ingredient_list, name='ingredient_list'),
+    # path('<slug:category_slug>/', views.ingredient_list,
+    #      name='ingredient_list_by_category'),
     path('account/', include('account.urls')),
     path('recipes/', include('recipes.urls')),
+
+    path('', CategoryListView.as_view(), name='category_list'),
+    path('category/<int:pk>', CategoryDetailView.as_view(), name='category_detail'),
+    path('ingredients/', IngredientListView.as_view(), name='ingredient_list'),
+    path('search/', SearchResultsListView.as_view(), name='ingredient_search_results'),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

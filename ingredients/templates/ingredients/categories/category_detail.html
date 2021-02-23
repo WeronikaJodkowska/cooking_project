@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form class="form-inline mt-2 mt-md-0" action="{% url 'ingredients:ingredient_search_results' %}" method="get">
+        <input name="q" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+    </form>
+
+    <h1>{{ category.name }}</h1>
+    {% for ingredient in category.ingredients.all %}
+         <div class="item">
+             <img src="{{ ingredient.image.url }}">
+             {{ ingredient.name }}
+         </div>
+    {% endfor %}
+{% endblock %}
