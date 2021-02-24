@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Favourites{% endblock %}
+
+{% block content %}
+{% for recipe in new %}
+    {{ recipe.get_absolute_url }}
+    {{ recipe.name }}
+    {{ recipe.image.url }}
+    <div id="favourite-section">
+        <a href="{% url 'favourite_add' recipe.id %}" class="btn btn-outline-primary">
+            Remove
+        </a>
+    </div>
+{% endfor %}
+{% endblock %}

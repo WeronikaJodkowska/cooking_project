@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
@@ -27,6 +28,7 @@ class Recipe(models.Model):
     slug = models.SlugField(max_length=200, db_index=True)
     directions = models.TextField(default=None)
     image = models.ImageField(upload_to='recipes/%Y/%m/%d')
+    favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
 
     # users = models.ManyToManyField('auth.User', null=True, blank=True)
 

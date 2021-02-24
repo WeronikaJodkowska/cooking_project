@@ -7,11 +7,10 @@
 
 {% block content %}
     <div class="recipe-detail">
-    <img src="{{ recipe.image.url }}">
-    <h1>{{ recipe.name }}</h1>
-    <h2>
-        {{ recipe.category }}
-    </h2>
-    {{ recipe.directions|linebreaks }}
+        <img src="{{ recipe.image.url }}">
+        <h1>{{ recipe.name }}</h1>
+        <a href="{% url 'account:favourite_add' recipe.id %}" class="btn btn-outline-primary">Add to Favourites</a>
+        <h2>{{ recipe.category }}</h2>
+        {{ recipe.directions|linebreaks }}
     </div>
 {% endblock %}

@@ -5,6 +5,8 @@ from django.conf.urls.static import static
 from . import views
 from ingredients import views as ingredients_views
 
+app_name = 'account'
+
 urlpatterns = [
     # path('login/', views.user_login, name='login'),
     # path('login/', auth_views.LoginView.as_view(), name='login'),
@@ -26,6 +28,8 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('register/', views.register, name='register'),
     path('edit/', views.edit, name='edit'),
+    path('fav/<int:id>/', views.favourite_add, name='favourite_add'),
+    path('favourites/', views.favourite_list, name='favourite_list'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
