@@ -8,6 +8,25 @@ from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditFor
 from .models import Profile
 from recipes.models import Recipe
 
+
+@login_required
+def favourite_list(request):
+    new = Recipe.objects.filter(favourites=request.user)
+    return render(request,
+                  'account/favourites.html',
+                  {'new': new})
+
+
+@login_required
+def favourite_add(request, id):
+    recipe = get_object_or_404(Recipe, id=id)
+    if recipe.favourites.filter(id=request.user.id).exists():
+        recipe.favourites.remove(request.user)
+    else:
+        recipe.favourites.add(request.user)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -76,21 +95,3 @@ def edit(request):
                   'account/edit.html',
                   {'user_form': user_form,
                    'profile_form': profile_form})
-
-
-@login_required
-def favourite_add(request, id):
-    recipe = get_object_or_404(Recipe, id=id)
-    if recipe.favourites.filter(id=request.user.id).exists():
-        recipe.favourites.remove(request.user)
-    else:
-        recipe.favourites.add(request.user)
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
-
-
-@login_required
-def favourite_list(request):
-    new = Recipe.objects.filter(favourites=request.user)
-    return render(request,
-                  'account/favourites.html',
-                  {'new': new})
