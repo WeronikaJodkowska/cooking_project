@@ -7,23 +7,42 @@ from django.contrib import messages
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile
 from recipes.models import Recipe
+from ingredients.models import Ingredient
 
 
 @login_required
-def favourite_list(request):
+def favourite_recipe_list(request):
     new = Recipe.objects.filter(favourites=request.user)
     return render(request,
-                  'account/favourites.html',
+                  'account/favourite_recipes.html',
                   {'new': new})
 
 
 @login_required
-def favourite_add(request, id):
+def favourite_recipe_add(request, id):
     recipe = get_object_or_404(Recipe, id=id)
     if recipe.favourites.filter(id=request.user.id).exists():
         recipe.favourites.remove(request.user)
     else:
         recipe.favourites.add(request.user)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+@login_required
+def favourite_ingredient_list(request):
+    new = Ingredient.objects.filter(favourites=request.user)
+    return render(request,
+                  'account/favourite_ingredients.html',
+                  {'new': new})
+
+
+@login_required
+def favourite_ingredient_add(request, id):
+    ingredient = get_object_or_404(Ingredient, id=id)
+    if ingredient.favourites.filter(id=request.user.id).exists():
+        ingredient.favourites.remove(request.user)
+    else:
+        ingredient.favourites.add(request.user)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 

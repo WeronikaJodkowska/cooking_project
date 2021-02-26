@@ -12,6 +12,7 @@
             <img src="{{ ingredient.image.url }}">
             <br>
             {{ ingredient.name }}
+            <a href="{% url 'account:favourite_ingredient_add' ingredient.id %}" class="btn btn-outline-primary">Add to Favourites</a>
         </div>
     {% endfor %}
 {% endblock %}

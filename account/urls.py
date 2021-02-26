@@ -28,8 +28,10 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('register/', views.register, name='register'),
     path('edit/', views.edit, name='edit'),
-    path('fav/<int:id>/', views.favourite_add, name='favourite_add'),
-    path('favourites/', views.favourite_list, name='favourite_list'),
+    path('favrecipe/<int:id>/', views.favourite_recipe_add, name='favourite_recipe_add'),
+    path('favrecipes/', views.favourite_recipe_list, name='favourite_recipe_list'),
+    path('favingredient/<int:id>/', views.favourite_ingredient_add, name='favourite_ingredient_add'),
+    path('favingredients/', views.favourite_ingredient_list, name='favourite_ingredient_list'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
