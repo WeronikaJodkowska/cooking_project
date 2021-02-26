@@ -72,7 +72,11 @@ class RecipeDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['category_id'] = self.kwargs.get('pk')
+        # context['list_ingredient'] = self.kwargs.get('pk')
         return context
+
+    # def get_queryset(self):
+    #     return Recipe.objects.prefetch_related('list_ingredient')
 
 
 class SearchResultsListView(ListView):

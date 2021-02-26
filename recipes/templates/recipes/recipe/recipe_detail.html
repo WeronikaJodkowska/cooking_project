@@ -12,5 +12,9 @@
         <a href="{% url 'account:favourite_recipe_add' recipe.id %}" class="btn btn-outline-primary">Add to Favourites</a>
         <h2>{{ recipe.category }}</h2>
         {{ recipe.directions|linebreaks }}
+
+        {% for ingredient in recipe.list_ingredient.all %}
+			<ul><li>{{ ingredient.name }}</li></ul>
+        {% endfor %}
     </div>
 {% endblock %}

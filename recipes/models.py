@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
+from ingredients.models import Ingredient
 
 class Category(models.Model):
     name = models.CharField(max_length=200, db_index=True)
@@ -29,7 +30,7 @@ class Recipe(models.Model):
     directions = models.TextField(default=None)
     image = models.ImageField(upload_to='recipes/%Y/%m/%d')
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
-
+    list_ingredient = models.ManyToManyField(Ingredient)
     # users = models.ManyToManyField('auth.User', null=True, blank=True)
 
     class Meta:
