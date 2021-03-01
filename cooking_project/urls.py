@@ -25,6 +25,7 @@ urlpatterns = [
     path('account/', include('account.urls')),
     path('social-auth/', include('social_django.urls', namespace='social')),
     path('recipes/', include('recipes.urls', namespace='recipes')),
+    path('cart/', include('cart.urls')),
     path('', include('ingredients.urls', namespace='ingredients')),
 
     # path('', include('recipes.urls', namespace='recipes')),
