@@ -12,6 +12,7 @@
         <a href="/recipes" class="logo">Рецепты</a>
         <a href="{% url 'account:favourite_recipe_list' %}" class="logo">Любимые рецепты</a>
         <a href="{% url 'account:favourite_ingredient_list' %}" class="logo">Любимые ингредиенты</a>
+        <a href="{% url 'account:cart_list' %}" class="logo">Корзина</a>
 
         {% if request.user.is_authenticated %}
             <ul class="menu">

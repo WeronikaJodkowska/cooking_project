@@ -10,11 +10,15 @@
         <img src="{{ recipe.image.url }}">
         <h1>{{ recipe.name }}</h1>
         <a href="{% url 'account:favourite_recipe_add' recipe.id %}" class="btn btn-outline-primary">Add to Favourites</a>
+        <br>
+        <a href="{% url 'account:add_to_cart' recipe.id %}" class="btn btn-outline-primary">Add to Cart</a>
         <h2>{{ recipe.category }}</h2>
-        {{ recipe.directions|linebreaks }}
 
+        <h1>Ингредиенты</h1>
         {% for ingredient in recipe.list_ingredient.all %}
 			<ul><li>{{ ingredient.name }}</li></ul>
         {% endfor %}
+
+        {{ recipe.directions|linebreaks }}
     </div>
 {% endblock %}

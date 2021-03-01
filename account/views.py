@@ -46,6 +46,24 @@ def favourite_ingredient_add(request, id):
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
+@login_required
+def cart_list(request):
+    cart = Recipe.objects.filter(cart=request.user)
+    return render(request,
+                  'account/cart.html',
+                  {'cart': cart})
+
+
+@login_required
+def add_to_cart(request, id):
+    recipe = get_object_or_404(Recipe, id=id)
+    if recipe.cart.filter(id=request.user.id).exists():
+        recipe.cart.remove(request.user)
+    else:
+        recipe.cart.add(request.user)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)

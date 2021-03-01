@@ -32,6 +32,7 @@ urlpatterns = [
     path('favrecipes/', views.favourite_recipe_list, name='favourite_recipe_list'),
     path('favingredient/<int:id>/', views.favourite_ingredient_add, name='favourite_ingredient_add'),
     path('favingredients/', views.favourite_ingredient_list, name='favourite_ingredient_list'),
+    path('cart/<int:id>/', views.add_to_cart, name='add_to_cart'),
+    path('cart/', views.cart_list, name='cart_list'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-

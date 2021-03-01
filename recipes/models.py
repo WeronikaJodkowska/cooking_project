@@ -4,6 +4,7 @@ from django.urls import reverse
 
 from ingredients.models import Ingredient
 
+
 class Category(models.Model):
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, unique=True)
@@ -32,6 +33,7 @@ class Recipe(models.Model):
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
     list_ingredient = models.ManyToManyField(Ingredient)
     # users = models.ManyToManyField('auth.User', null=True, blank=True)
+    cart = models.ManyToManyField(User, related_name='cart', default=None, blank=True)
 
     class Meta:
         ordering = ('name',)
