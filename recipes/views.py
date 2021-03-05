@@ -1,8 +1,9 @@
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import ListView, DetailView, CreateView
 
 from .models import Category, Recipe
+from .forms import RecipeForm
 
 
 def recipe_list(request, category_slug=None):
@@ -89,3 +90,23 @@ class SearchResultsListView(ListView):
         return Recipe.objects.filter(
             Q(name__icontains=query)
         )
+
+
+# def recipe_new(request):
+#     if request.method == 'POST':
+#         form = RecipeForm(request.POST)
+#         if form.is_valid():
+#             recipe = form.save(commit=False)
+#             recipe.save()
+#             return redirect('recipes:recipe_detail', pk=recipe.pk)
+#     else:
+#         form = RecipeForm()
+#     return render(request,
+#                   'recipes/recipe/recipe_create.html',
+#                   {'form': form})
+
+
+class CreateRecipeView(CreateView):
+    template_name = 'recipes/recipe/recipe_create.html'
+    form_class = RecipeForm
+    success_url = '/'
