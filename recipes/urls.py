@@ -38,6 +38,6 @@ urlpatterns = [
     path('search/', SearchResultsListView.as_view(), name='search_results'),
     # path('recipe/new/', recipe_new, name='recipe_new'),
     path('recipe/new/', CreateRecipeView.as_view(), name='recipe_new'),
-
+    # path('recipe/new/done/', CreateRecipeView.as_view(), name='recipe_new_done'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

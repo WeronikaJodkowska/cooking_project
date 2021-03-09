@@ -11,5 +11,12 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug']
+    actions = ['make_published']
+
+    list_display = ['name', 'slug', 'status']
     prepopulated_fields = {'slug': ('name',)}
+    # actions = [make_published]
+
+    def make_published(self, request, queryset):
+        queryset.update(status='p')
+    make_published.short_description = "Mark selected stories as published"

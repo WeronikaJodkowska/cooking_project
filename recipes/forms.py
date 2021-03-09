@@ -3,11 +3,12 @@ from django import forms
 from .models import Recipe
 
 
-class RecipeForm(forms.ModelForm):
+class RecipeCreateForm(forms.ModelForm):
 
     class Meta:
         model = Recipe
-        fields = ('name', 'category', 'image', 'directions',)
+        fields = ('name', 'category', 'image', 'directions', 'list_ingredient',)
+        list_ingredient = forms.MultipleChoiceField(required=False)
 
     # category = models.ForeignKey(Category, related_name='recipes', on_delete=models.CASCADE)
     # name = models.CharField(max_length=200, db_index=True)

@@ -1,9 +1,10 @@
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView
+from django.utils.text import slugify
 
 from .models import Category, Recipe
-from .forms import RecipeForm
+from .forms import RecipeCreateForm
 
 
 def recipe_list(request, category_slug=None):
@@ -56,6 +57,12 @@ class CategoryDetailView(DetailView):
     context_object_name = 'category'
     template_name = 'recipes/categories/category_detail.html'
 
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['status'] = self.kwargs.get('p')
+    #     return context
+    # def get_queryset(self):
+    #     return Recipe.objects.filter(status='Published')
     # def get_queryset(self):
     #     return Recipe.objects.filter(category_id=self.kwargs.get('pk'))
 
@@ -63,6 +70,9 @@ class CategoryDetailView(DetailView):
 class RecipeListView(ListView):
     model = Recipe
     template_name = 'recipes/recipe/recipe_list.html'
+
+    def get_queryset(self):
+        return Recipe.objects.filter(status='p')
 
 
 class RecipeDetailView(DetailView):
@@ -107,6 +117,7 @@ class SearchResultsListView(ListView):
 
 
 class CreateRecipeView(CreateView):
+    model = Recipe
+    form_class = RecipeCreateForm
     template_name = 'recipes/recipe/recipe_create.html'
-    form_class = RecipeForm
     success_url = '/'
