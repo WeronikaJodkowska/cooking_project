@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'social_django',
     'ingredients',
     'recipes.apps.RecipesConfig',
-    'cart',
+    'cart.apps.CartConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -150,6 +150,9 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'account.authentication.EmailAuthBackend',
 ]
+
+CART_SESSION_ID = 'cart'
+
 # LOGIN_REDIRECT_URL = "dashboard"
 # LOGOUT_REDIRECT_URL = "dashboard"
 #

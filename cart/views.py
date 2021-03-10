@@ -1,5 +1,9 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
+
+from recipes.models import Recipe
 
 from .models import *
 from .forms import *
@@ -42,3 +46,37 @@ def deleteTask(request, pk):
 
     context = {'item': item}
     return render(request, 'cart/delete.html', context)
+
+
+# @login_required
+# def cart_list(request):
+#     cart = Recipe.objects.filter(cart=request.user)
+#     return render(request,
+#                   'account/cart.html',
+#                   {'cart': cart})
+#
+#
+# @login_required
+# def add_to_cart(request, id):
+#     recipe = get_object_or_404(Recipe, id=id)
+#     if recipe.cart.filter(id=request.user.id).only('name', 'list_ingredient').exists():
+#         recipe.cart.remove(request.user)
+#     else:
+#         recipe.cart.add(request.user).only('name', 'list_ingredient')
+#     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+# class CartDetail(DetailView):
+#     model = Cart
+#     template_name = 'Cart'
+#
+#
+# class CartList(ListView):
+#     model = Cart
+#     context_object_name = 'cart'
+#     template_name = 'cart/cart_list.html'
+#
+#
+# class CreateCart(CreateView):
+#     model = Cart
+#     template_name = 'cart/cart_create.html'

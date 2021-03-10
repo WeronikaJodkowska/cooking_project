@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+{% for recipe in cart %}
+{#    {{ recipe.get_absolute_url }}#}
+    {{ recipe.name }}
+    <img src="{{ recipe.image.url }}">
+    <div id="favourite-section">
+        <a href="{% url 'account:add_to_cart' recipe.id %}" class="btn btn-outline-primary">
+            Удалить из корзины
+        </a>
+    </div>
+{% endfor %}
+{% endblock %}
