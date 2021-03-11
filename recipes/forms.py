@@ -10,6 +10,7 @@ class RecipeCreateForm(forms.ModelForm):
         fields = ('name', 'category', 'image', 'directions', 'list_ingredient',)
         list_ingredient = forms.MultipleChoiceField(required=False)
 
+
     # category = models.ForeignKey(Category, related_name='recipes', on_delete=models.CASCADE)
     # name = models.CharField(max_length=200, db_index=True)
     # slug = models.SlugField(max_length=200, db_index=True)

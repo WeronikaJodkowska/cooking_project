@@ -57,10 +57,10 @@ def cart_list(request):
 @login_required
 def add_to_cart(request, id):
     recipe = get_object_or_404(Recipe, id=id)
-    if recipe.cart.filter(id=request.user.id).only('name', 'list_ingredient').exists():
+    if recipe.cart.filter(id=request.user.id).exists():
         recipe.cart.remove(request.user)
     else:
-        recipe.cart.add(request.user).only('name', 'list_ingredient')
+        recipe.cart.add(request.user)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 

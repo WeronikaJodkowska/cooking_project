@@ -121,3 +121,7 @@ class CreateRecipeView(CreateView):
     form_class = RecipeCreateForm
     template_name = 'recipes/recipe/recipe_create.html'
     success_url = '/'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(CreateRecipeView, self).form_valid(form)
