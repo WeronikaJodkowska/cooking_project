@@ -15,14 +15,15 @@ class Task(models.Model):
         return self.title
 
 
-# class Cart(models.Model):
-#     # recipe_name = models.ForeignKey(Recipe.name, related_name='recipe_name', blank=True, default=None,
-#     #                                 on_delete=models.CASCADE)
-#     # recipe_ingredients = models.ForeignKey(Recipe.list_ingredient, blank=True, default=None,
-#     #                                        on_delete=models.CASCADE)
-#     recipe = models.ManyToManyField(Recipe, null=True, blank=True)
-#     user = models.ForeignKey(User, blank=True, default=None, on_delete=models.CASCADE)
-#     created_at = models.DateTimeField(default=datetime.now)
+class Cart(models.Model):
+    # recipe_name = models.ForeignKey(Recipe.name, related_name='recipe_name', blank=True, default=None,
+    #                                 on_delete=models.CASCADE)
+    # recipe_ingredients = models.ForeignKey(Recipe.list_ingredient, blank=True, default=None,
+    #                                        on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, related_name='cart_recipe', null=True, blank=True, default=None, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, blank=True, related_name='cart_user', null=True, default=None, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default=datetime.now)
+    complete = models.BooleanField(default=False)
 
 #
 # class CartItem(models.Model):
