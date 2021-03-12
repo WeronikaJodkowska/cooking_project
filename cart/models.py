@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 from recipes.models import Recipe
 
@@ -20,11 +21,19 @@ class Cart(models.Model):
     #                                 on_delete=models.CASCADE)
     # recipe_ingredients = models.ForeignKey(Recipe.list_ingredient, blank=True, default=None,
     #                                        on_delete=models.CASCADE)
-    recipe = models.ForeignKey(Recipe, related_name='cart_recipe', null=True, blank=True, default=None, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, blank=True, related_name='cart_user', null=True, default=None, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, related_name='cart_recipe', null=True, blank=True, default=None,
+                               on_delete=models.CASCADE)
+    user = models.ForeignKey(User, blank=True, related_name='cart_user', null=True, default=None,
+                             on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=datetime.now)
     complete = models.BooleanField(default=False)
 
+    def __str__(self):
+        return str(self.id)
+
+    # def get_absolute_url(self):
+    #     return reverse('cart:cart_new',
+    #                    args=[self.id])
 #
 # class CartItem(models.Model):
 #     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
