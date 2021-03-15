@@ -12,11 +12,12 @@
         <a href="{% url 'account:favourite_recipe_add' recipe.id %}" class="btn btn-outline-primary">Add to Favourites</a>
         <br>
 {#        <a href="{% url 'account:add_to_cart' recipe.id %}" class="btn btn-outline-primary">Add to Cart</a>#}
-        <a href="{% url 'cart:cart_add' %}" class="btn btn-outline-primary">Add to Cart</a>
-        <form action="{% url 'cart:cart_add' %}" method="post">
-            {% csrf_token %}
-            <input type="submit" value="Add to cart" />
-        </form>
+        <a href="{% url 'cart:add_to_cart' recipe.id %}" class="btn btn-outline-primary">Add to Cart</a>
+{#        <form action="{% url 'cart:cart_add' %}" method="post">#}
+{#            {% csrf_token %}#}
+{#            {{ form.as_p }}#}
+{#            <input type="submit" value="Add to cart" />#}
+{#        </form>#}
 
         <h2>{{ recipe.category }}</h2>
 

@@ -16,4 +16,4 @@ class CartForm(forms.ModelForm):
 
     class Meta:
         model = Cart
-        fields = '__all__'
+        fields = ['recipe', 'complete']
