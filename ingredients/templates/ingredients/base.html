@@ -15,10 +15,10 @@
     <span class="user">
         {% if request.user.is_authenticated %}
 {#            Hello {{ request.user.first_name }},#}
-            Hello, <a href="{% url 'dashboard' %}">{{ request.user.first_name }}</a>,
-            <a href="{% url 'logout' %}">Logout</a>
+            Hello, <a href="{% url 'account:dashboard' %}">{{ request.user.first_name }}</a>,
+            <a href="{% url 'account:logout' %}">Logout</a>
         {% else %}
-            <a href="{% url 'login' %}">Log-in</a>
+            <a href="{% url 'account:login' %}">Log-in</a>
         {% endif %}
     </span>
 </div>

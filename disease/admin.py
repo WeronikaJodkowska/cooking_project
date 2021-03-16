@@ -1,3 +1,28 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import *
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug']
+    prepopulated_fields = {'slug': ('name',)}
+
+
+@admin.register(Disease)
+class DiseaseAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug', 'category']
+    prepopulated_fields = {'slug': ('name',)}
+
+
+@admin.register(BlackList)
+class BlackListAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user']
+
+
+    # fields = ('get_ingredients_by_disease', 'id', 'user', 'disease', 'self_ingredients')
+
+    # def get_ingredients_by_disease(self, obj):
+    #     return "\n".join([p.list_ingredient for p in obj.Disease.all()])
+
+
