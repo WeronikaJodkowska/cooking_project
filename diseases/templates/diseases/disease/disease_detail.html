@@ -7,25 +7,17 @@
 
 {% block content %}
     <div class="recipe-detail">
-        <img src="{{ recipe.image.url }}">
-        <h1>{{ recipe.name }}</h1>
-        <a href="{% url 'account:favourite_recipe_add' recipe.id %}" class="btn btn-outline-primary">Add to Favourites</a>
+{#        <img src="{{ disease.image.url }}">#}
+        <h1>{{ disease.name }}</h1>
         <br>
-{#        <a href="{% url 'account:add_to_cart' recipe.id %}" class="btn btn-outline-primary">Add to Cart</a>#}
-        <a href="{% url 'cart:add_to_cart' recipe.id %}" class="btn btn-outline-primary">Add to Cart</a>
-{#        <form action="{% url 'cart:cart_add' %}" method="post">#}
-{#            {% csrf_token %}#}
-{#            {{ form.as_p }}#}
-{#            <input type="submit" value="Add to cart" />#}
-{#        </form>#}
 
-        <h2>{{ recipe.category }}</h2>
+        <h1>{{ disease.category.name }}</h1>
 
-        <h1>Ингредиенты</h1>
-        {% for ingredient in recipe.list_ingredient.all %}
+        <h1>Запрещенные ингредиенты</h1>
+        {% for ingredient in disease.list_ingredient.all %}
 			<ul><li>{{ ingredient.name }}</li></ul>
         {% endfor %}
+        <a href="{% url 'diseases:disease_new' %}" class="btn btn-outline-primary">Add to Blacklist</a>
 
-        {{ recipe.directions|linebreaks }}
     </div>
 {% endblock %}

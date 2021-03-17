@@ -10,17 +10,26 @@
 {#        <span class="logo">Cooking project</span>#}
         <a href="/" class="logo">Ингредиенты</a>
         <a href="/recipes" class="logo">Рецепты</a>
-        <a href="{% url 'account:favourite_recipe_list' %}" class="logo">Любимые рецепты</a>
-        <a href="{% url 'account:favourite_ingredient_list' %}" class="logo">Любимые ингредиенты</a>
-        <a href="{% url 'cart:cart_list' %}" class="logo">Корзина</a>
-        <a href="{% url 'recipes:recipe_new' %}" class="top-menu">Добавить рецепт</a>
-        <a href="{% url '' %}" class="top-menu">Болезни</a>
-
+        <a href="{% url 'diseases:category_list' %}" class="logo">Болезни</a>
         {% if request.user.is_authenticated %}
             <ul class="menu">
             <li {% if section == "ingredient_list" %}class="selected"{% endif %}>
             <a href="{% url 'ingredients:ingredient_list' %}">Ингредиенты</a>
             </li>
+            <li>
+                <a href="{% url 'account:favourite_recipe_list' %}" class="top-menu">Любимые рецепты</a>
+            </li>
+            <li>
+                <a href="{% url 'account:favourite_ingredient_list' %}" class="top-menu">Любимые ингредиенты</a>
+            </li>
+            <li>
+                <a href="{% url 'cart:cart_list' %}" class="top-menu">Корзина</a>
+            </li>
+            <br>
+            <li>
+                <a href="{% url 'recipes:recipe_new' %}" class="top-menu">Добавить рецепт</a>
+            </li>
+
             </ul>
         {% endif %}
     <span class="user">

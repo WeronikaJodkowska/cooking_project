@@ -4,11 +4,11 @@
 {% block content %}
     {% for category in category_list %}
         <div class="item">
-            <a href="{% url 'recipes:category_detail' category.id %}">
-                <img src="{{ category.image.url }}">
-            </a>
+{#            <a href="{% url 'diseases:category_detail' category.id %}">#}
+{#                <img src="{{ category.image.url }}">#}
+{#            </a>#}
             <br>
-            <a href="{% url 'recipes:category_detail' category.id %}">{{ category.name }}</a>
+            <a href="{% url 'diseases:category_detail' category.id %}">{{ category.name }}</a>
         </div>
     {% endfor %}
 {% endblock %}

@@ -19,8 +19,8 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    # def get_absolute_url(self):
-    #     return reverse('recipes:recipe_list_by_category', args=[self.slug])
+    def get_absolute_url(self):
+        return reverse('diseases:category_list', args=[self.slug])
 
 
 class Disease(models.Model):

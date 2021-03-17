@@ -1,0 +1,21 @@
+{% extends 'recipes/base.html' %}
+
+{% block content %}
+    <h2>New blacklist</h2>
+    <form method="post">
+{#        enctype="multipart/form-data">#}
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+{#    <a href="{% url 'diseases:disease_new' %}" class="logo">Добавить в черный список</a>#}
+
+{#    <div>#}
+{#    {% for disease in blacklist.diseases.all %}#}
+{#        Name: {{ disease.name }}<br/>#}
+{#        Ingredients: <br/>{% for ingredient in disease.disease_ingredients.all %}{{ ingredient }}<br/>{% endfor %}#}
+{#    {% endfor %}#}
+{#    </div>#}
+
+{% endblock %}
