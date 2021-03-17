@@ -19,7 +19,6 @@ class DiseaseAdmin(admin.ModelAdmin):
 class BlackListAdmin(admin.ModelAdmin):
     list_display = ['id', 'user']
 
-
     # fields = ('get_ingredients_by_disease', 'id', 'user', 'disease', 'self_ingredients')
 
     # def get_ingredients_by_disease(self, obj):

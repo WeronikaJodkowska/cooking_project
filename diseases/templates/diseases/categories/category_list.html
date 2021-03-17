@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+    {% for category in category_list %}
+        <div class="item">
+            <a href="{% url 'recipes:category_detail' category.id %}">
+                <img src="{{ category.image.url }}">
+            </a>
+            <br>
+            <a href="{% url 'recipes:category_detail' category.id %}">{{ category.name }}</a>
+        </div>
+    {% endfor %}
+{% endblock %}

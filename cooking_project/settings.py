@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'ingredients',
     'recipes.apps.RecipesConfig',
     'cart.apps.CartConfig',
-    'disease.apps.DiseaseConfig',
+    'diseases.apps.DiseaseConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
