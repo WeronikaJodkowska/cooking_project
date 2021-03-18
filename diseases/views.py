@@ -59,7 +59,7 @@ class CreateBlacklist(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         # messages.success(self.request, 'form is valid')
         form.instance.user = self.request.user
-        form.instance.disease = self.kwargs['Disease.id']
+        # form.instance.disease = self.kwargs['Disease.id']
         form.save()
         return super(CreateBlacklist, self).form_valid(form)
 
@@ -101,22 +101,28 @@ def black_list(request):
                   {'blacklist': blacklist})
 
 
+# @login_required
+# def add_to_blacklist(request, id):
+#     # disease = get_object_or_404(Disease, id=id)
+#     disease = Disease.objects.get(id=id)
+#
+#     user = get_object_or_404(User, id=request.user.id)
+#     if not BlackList.objects.all().filter(disease=disease).exists():
+#
+#         blacklist = BlackList(user=user)
+#         blacklist.save()
+#         # blacklist.disease.set(disease)
+#
+#     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
 @login_required
 def add_to_blacklist(request, id):
-    # disease = get_object_or_404(Disease, id=id)
-    disease = Disease.objects.get(id=id)
-
+    disease = get_object_or_404(Disease, id=id)
     user = get_object_or_404(User, id=request.user.id)
-    if not BlackList.objects.all().filter(disease=disease).exists():
 
-        blacklist = BlackList(user=user)
-        blacklist.save()
-        # blacklist.disease.set(disease)
-
+    # if not BlackList.objects.all().filter(disease=disease).exists():
+    cart = BlackList(user=user)
+    cart.save()
+    cart.disease.add(disease)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
-
-#
-# @login_required
-# def delete_from_blacklist(request, id):
-#     Cart.objects.filter(id=id).delete()
-#     return HttpResponseRedirect('/cart/cart')

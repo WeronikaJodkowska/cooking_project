@@ -7,7 +7,7 @@ class BlackListCreateForm(forms.ModelForm):
 
     class Meta:
         model = BlackList
-        fields = ('disease', 'self_ingredients')
+        fields = ('self_ingredients',)
         self_ingredients = forms.MultipleChoiceField(required=False)
     #
     # user = models.ForeignKey(User, blank=True, related_name='blacklist_user',

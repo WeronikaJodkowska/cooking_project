@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="recipe-detail">
+    <div class="disease-detail">
 {#        <img src="{{ disease.image.url }}">#}
         <h1>{{ disease.name }}</h1>
         <br>
@@ -17,7 +17,16 @@
         {% for ingredient in disease.list_ingredient.all %}
 			<ul><li>{{ ingredient.name }}</li></ul>
         {% endfor %}
-        <a href="{% url 'diseases:disease_new' %}" class="btn btn-outline-primary">Add to Blacklist</a>
-
+        {{ form.as_p }}
+{#        <a href="{% url 'diseases:disease_new' %}" class="btn btn-outline-primary">Add to Blacklist</a>#}
+        <a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="btn btn-outline-primary">Add to Blacklist</a>
+{#        <h2>New blacklist</h2>#}
+{#    <form method="post">#}
+{#        enctype="multipart/form-data">#}
+{#    {% csrf_token %}#}
+{#    {{ form.as_p }}#}
+{##}
+{#        <a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="btn btn-outline-primary">Add to Blacklist</a>#}
+{#    </form>#}
     </div>
 {% endblock %}

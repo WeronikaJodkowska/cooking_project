@@ -14,8 +14,8 @@ urlpatterns = [
     path('category/<int:pk>', CategoryDetailView.as_view(), name='category_detail'),
     path('disease/', DiseaseListView.as_view(), name='disease_list'),
     path('disease/<int:pk>', DiseaseDetailView.as_view(), name='disease_detail'),
-    path('blacklist/new', CreateBlacklist.as_view(), name='disease_new'),
-    # path('blacklist/<int:id>/', views.add_to_blacklist, name='add_to_blacklist'),
+    # path('blacklist/new', CreateBlacklist.as_view(), name='disease_new'),
+    path('blacklist/<int:id>/', views.add_to_blacklist, name='add_to_blacklist'),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
