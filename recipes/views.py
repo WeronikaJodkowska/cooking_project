@@ -1,5 +1,7 @@
+from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 from django.utils.text import slugify
 
@@ -36,6 +38,7 @@ class CategoryListView(ListView):
 
     # def get_queryset(self):
     #     return Recipe.objects.filter(category_id=self.kwargs.get('pk'))
+
 
 # class RecipeByCategoryListView(ListView):
 #     model = Category
@@ -121,7 +124,23 @@ class CreateRecipeView(CreateView):
     form_class = RecipeCreateForm
     template_name = 'recipes/recipe/recipe_create.html'
     success_url = '/'
+    success_message = 'Ваш рецепт на рассмотрении.'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        success_message = self.get_success_message(form.cleaned_data)
+        if success_message:
+            messages.success(self.request, success_message)
+        # if form.is_valid():
+        #     messages.success('Profile updated successfully')
+        # else:
+        #     messages.error('Error updating your profile')
         return super(CreateRecipeView, self).form_valid(form)
+
+    def get_success_message(self, cleaned_data):
+        return self.success_message % cleaned_data
+
+
+class SuccessDetailView(DetailView):
+    model = Recipe
+    template_name = 'recipes/recipe/recipe_created.html'

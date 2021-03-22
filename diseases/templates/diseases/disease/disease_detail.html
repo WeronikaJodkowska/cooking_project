@@ -18,9 +18,9 @@
 			<ul><li>{{ ingredient.name }}</li></ul>
         {% endfor %}
 
-        {{ form.as_p }}
-        <a href="{% url 'diseases:blacklist_new' %}" class="btn btn-outline-primary">Add to Blacklist</a>
-{#        <a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="btn btn-outline-primary">Add to Blacklist</a>#}
+{#        {{ form.as_p }}#}
+{#        <a href="{% url 'diseases:blacklist_new' %}" class="btn btn-outline-primary">Add to Blacklist</a>#}
+        <a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="btn btn-outline-primary">Add to Blacklist</a>
 {#        <h2>New blacklist</h2>#}
 {#    <form method="post">#}
 {#        enctype="multipart/form-data">#}

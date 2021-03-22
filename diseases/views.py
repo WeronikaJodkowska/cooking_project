@@ -77,9 +77,9 @@ def add_to_blacklist(request, id):
     user = get_object_or_404(User, id=request.user.id)
 
     # if not BlackList.objects.all().filter(disease=disease).exists():
-    cart = BlackList(user=user)
+    cart = BlackList(user=user, disease=disease)
     cart.save()
-    cart.disease.add(disease)
+    # cart.disease.add(disease)
     # self_ingredients = super(DiseaseDetailView, self).get_context_data(**kwargs)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
