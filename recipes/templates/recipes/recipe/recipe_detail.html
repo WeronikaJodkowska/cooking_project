@@ -22,9 +22,22 @@
         <h2>{{ recipe.category }}</h2>
 
         <h1>Ингредиенты</h1>
+
         {% for ingredient in recipe.list_ingredient.all %}
-			<ul><li>{{ ingredient.name }}</li></ul>
+            {% if ingredient in blacklist.disease.list_ingredient.all %}
+                <strike><ul><li>{{ ingredient.name }}</li></ul></strike>
+            {% else %}
+                <ul><li>{{ ingredient.name }}</li></ul>
+            {% endif %}
         {% endfor %}
+
+
+    {% for blacklist in blacklist %}
+    <h1>{{ blacklist.disease }}</h1>
+        {% for ingredient in blacklist.disease.list_ingredient.all %}
+            <ul><li>{{ ingredient.name }}</li></ul>
+        {% endfor %}
+    {% endfor %}
 
         {{ recipe.directions|linebreaks }}
     </div>

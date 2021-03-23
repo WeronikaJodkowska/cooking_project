@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Черный список{% endblock %}
+
+{% block content %}
+{% for blacklist in blacklist %}
+{#    {{ recipe.get_absolute_url }}#}
+    <h1>{{ blacklist.disease }}</h1>
+
+{#    <img src="{{ recipe.image.url }}">#}
+    {% for ingredient in blacklist.disease.list_ingredient.all %}
+        <ul><li>{{ ingredient.name }}</li></ul>
+    {% endfor %}
+{% endfor %}
+{% endblock %}

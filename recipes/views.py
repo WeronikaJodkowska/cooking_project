@@ -8,6 +8,7 @@ from django.utils.text import slugify
 from .models import Category, Recipe
 from .forms import RecipeCreateForm
 
+from diseases.models import BlackList
 
 # def recipe_list(request, category_slug=None):
 #     category = None
@@ -86,11 +87,18 @@ class RecipeDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['category_id'] = self.kwargs.get('pk')
+        context['blacklist'] = BlackList.objects.filter(user=self.request.user)
         # context['list_ingredient'] = self.kwargs.get('pk')
         return context
 
     # def get_queryset(self):
-    #     return Recipe.objects.prefetch_related('list_ingredient')
+    #     return Recipe.objects.filter(category_id=self.kwargs.get('pk'))
+    #
+
+    # blacklist = BlackList.objects.filter(user=request.user)
+    # def get_queryset(self):
+    #     return self.model.objects.filter(friend_of=self.request.user.profile)
+    #
 
 
 class SearchResultsListView(ListView):

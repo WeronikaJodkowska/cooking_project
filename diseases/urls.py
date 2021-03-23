@@ -15,7 +15,9 @@ urlpatterns = [
     path('category/<int:pk>', CategoryDetailView.as_view(), name='category_detail'),
     path('disease/', DiseaseListView.as_view(), name='disease_list'),
     path('disease/<int:pk>', DiseaseDetailView.as_view(), name='disease_detail'),
-    path('blacklist/new', CreateBlacklist.as_view(), name='blacklist_new'),
+    path('blacklist/', views.black_list, name='black_list'),
+
+    # path('blacklist/new', CreateBlacklist.as_view(), name='blacklist_new'),
     # path('blacklist/new', PostBlacklist.as_view(), name='blacklist_new'),
     path('blacklist/<int:id>/', views.add_to_blacklist, name='add_to_blacklist'),
 

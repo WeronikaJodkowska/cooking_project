@@ -11,7 +11,7 @@ from django.views.generic.edit import FormMixin, SingleObjectMixin
 from django.views import View
 
 from .models import Category, Disease, BlackList
-from .forms import BlackListCreateForm
+# from .forms import BlackListCreateForm
 
 
 class CategoryListView(ListView):
@@ -33,10 +33,10 @@ class DiseaseListView(ListView):
     #     return Disease.objects.filter(status='p')
 
 
-class DiseaseDetailView(FormMixin, DetailView):
+class DiseaseDetailView(DetailView):
     model = Disease
     context_object_name = 'disease'
-    form_class = BlackListCreateForm
+    # form_class = BlackListCreateForm
     template_name = 'diseases/disease/disease_detail.html'
 
     def get_context_data(self, **kwargs):
@@ -86,7 +86,7 @@ def add_to_blacklist(request, id):
 
 class CreateBlacklist(LoginRequiredMixin, CreateView, SingleObjectMixin):
     model = BlackList
-    form_class = BlackListCreateForm
+    # form_class = BlackListCreateForm
     template_name = 'diseases/disease/disease_detail.html'
     success_url = "/diseases"
     #

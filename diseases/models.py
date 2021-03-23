@@ -54,7 +54,7 @@ class BlackList(models.Model):
     user = models.ForeignKey(User, blank=True, related_name='blacklist_user',
                              null=True, default=None, on_delete=models.CASCADE)
     # disease = models.ManyToManyField(Disease, related_name='blacklist_disease', blank=True, default=None)
-    self_ingredients = models.ManyToManyField(Ingredient, related_name='blacklist_ingredients', blank=True, null=True, default=None)
+    # self_ingredients = models.ManyToManyField(Ingredient, related_name='blacklist_ingredients', blank=True, null=True, default=None)
     disease = models.ForeignKey(Disease, related_name='blacklist_disease', blank=True, null=True, default=None, on_delete=models.CASCADE)
     # self_ingredients = models.ForeignKey(Ingredient, related_name='blacklist_ingredients', blank=True, null=True, default=None, on_delete=models.CASCADE)
 
