@@ -8,7 +8,10 @@ from django.utils.text import slugify
 from .models import Category, Recipe
 from .forms import RecipeCreateForm
 
-from diseases.models import BlackList
+from diseases.models import BlackList, Disease
+
+from ingredients.models import Ingredient
+
 
 # def recipe_list(request, category_slug=None):
 #     category = None
@@ -88,6 +91,10 @@ class RecipeDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['category_id'] = self.kwargs.get('pk')
         context['blacklist'] = BlackList.objects.filter(user=self.request.user)
+        # context['blacklist_disease'] = BlackList.disease.objects.filter(user=self.request.user)
+        # disease = models.ForeignKey(Disease, related_name='blacklist_disease', blank=True, null=True, default=None,
+        #                             on_delete=models.CASCADE)
+
         # context['list_ingredient'] = self.kwargs.get('pk')
         return context
 
@@ -108,10 +115,26 @@ class SearchResultsListView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('q')
+        keywords = Ingredient.objects.values('name')
         return Recipe.objects.filter(
-            Q(name__icontains=query)
-        )
+            # Q(name__icontains=query)
+            Q(list_ingredient__name__icontains=query)
+            # Q(list_ingredient__name__in=[keywords])
+        ).values_list(keywords)
 
+    # .filter(status='p')
+    # pk__in = [1, 4, 7]
+
+
+# current_user = request.user
+# keywords=  ['funny', 'old', 'black_humor']
+# qs = [Q(title__icontains=keyword)|Q(author__icontains=keyword)|Q(tags__icontains=keyword) for keyword in keywords]
+#
+# query = qs.pop() #get the first element
+#
+# for q in qs:
+#     query |= q
+# filtered_user_meme = Meme.objects.filter(query, user=current_user)
 
 # def recipe_new(request):
 #     if request.method == 'POST':

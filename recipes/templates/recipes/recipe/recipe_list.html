@@ -41,7 +41,6 @@
         <input name="q" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
     </form>
 
-
     {% for recipe in recipe_list %}
         <div class="item">
             <a href="{% url 'recipes:recipe_detail' recipe.id %}">

@@ -24,7 +24,7 @@
         <h1>Ингредиенты</h1>
 
         {% for ingredient in recipe.list_ingredient.all %}
-            {% if ingredient in blacklist.disease.list_ingredient.all %}
+            {% if blacklist.disease.list_ingredient.all %}
                 <strike><ul><li>{{ ingredient.name }}</li></ul></strike>
             {% else %}
                 <ul><li>{{ ingredient.name }}</li></ul>
