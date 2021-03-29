@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.postgres.search import SearchQuery, SearchRank
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -11,6 +12,19 @@ from .forms import RecipeCreateForm
 from diseases.models import BlackList, Disease
 
 from ingredients.models import Ingredient
+
+
+def filter_text(self, queryset, name, value):
+    """Full-text search."""
+    query = SearchQuery(value, config="simple")
+    return (
+        queryset.filter(**{name: query})
+            # This assumes that field is already a TextSearch vector and thus
+            # doesn't need to be transformed. To achieve that F function is
+            # required.
+            # .annotate(rank=SearchRank(F(name), query)).order_by("-rank")
+        .filter(status='p')
+    )
 
 
 # def recipe_list(request, category_slug=None):
@@ -119,12 +133,16 @@ class SearchResultsListView(ListView):
         return Recipe.objects.filter(
             # Q(name__icontains=query)
             Q(list_ingredient__name__icontains=query)
-            # Q(list_ingredient__name__in=[keywords])
-        ).values_list(keywords)
+            # Q(list_ingredient__name__in=keywords)
+            # SearchQuery(query)
+        ).filter(status='p')
+            # .values_list(keywords)
 
+    # (Q(member=p1) | Q(member=p2))
     # .filter(status='p')
     # pk__in = [1, 4, 7]
-
+# followers = UserFollowing.objects.filter(...).values('user')
+# plants = Plant.objects.filter(owner__in = followers)
 
 # current_user = request.user
 # keywords=  ['funny', 'old', 'black_humor']
