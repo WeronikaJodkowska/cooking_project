@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.postgres.search import SearchQuery, SearchRank
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -128,15 +128,36 @@ class SearchResultsListView(ListView):
     template_name = 'recipes/recipe/search_results.html'
 
     def get_queryset(self):
-        query = self.request.GET.get('q')
-        keywords = Ingredient.objects.values('name')
-        return Recipe.objects.filter(
+        queryset = super(SearchResultsListView, self).get_queryset()
+        q = self.request.GET.get('q')
+        q_lst = q.split(",")
+        return queryset.filter(
             # Q(name__icontains=query)
-            Q(list_ingredient__name__icontains=query)
+            Q(list_ingredient__name__in=q_lst)
             # Q(list_ingredient__name__in=keywords)
             # SearchQuery(query)
         ).filter(status='p')
-            # .values_list(keywords)
+            # .annotate(rank=search_rank).order_by('-rank').values_list('name', 'rank')
+
+# class SearchResultsListView(ListView):
+#     model = Recipe
+#     context_object_name = 'recipe_list'
+#     template_name = 'recipes/recipe/search_results.html'
+#
+#     def get_queryset(self):
+#         query = self.request.GET.get('q')
+#         keywords = Ingredient.objects.values('name')
+#         return Recipe.objects.filter(
+#             # Q(name__icontains=query)
+#             Q(list_ingredient__contains=query)
+#             # Q(list_ingredient__name__in=keywords)
+#             # SearchQuery(query)
+#         ).filter(status='p')
+#             # .values_list(keywords)
+
+
+
+
 
     # (Q(member=p1) | Q(member=p2))
     # .filter(status='p')
