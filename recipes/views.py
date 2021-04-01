@@ -129,15 +129,32 @@ class SearchResultsListView(ListView):
 
     def get_queryset(self):
         queryset = super(SearchResultsListView, self).get_queryset()
+        # q = self.request.GET.get('q')
         q = self.request.GET.get('q')
-        q_lst = q.split(",")
-        return queryset.filter(
-            # Q(name__icontains=query)
-            Q(list_ingredient__name__in=q_lst)
-            # Q(list_ingredient__name__in=keywords)
-            # SearchQuery(query)
-        ).filter(status='p')
+        q = q.split(",")
+        # if not q:
+        #     return []
+        query = Q(list_ingredient__name=q[0]) | Q(list_ingredient__name=q[1])
+        return Recipe.objects.filter(query)
+            # .distinct()
+
+        # q_lst = q.split(",")
+        # return queryset.filter(
+        #     # Q(name__icontains=query)
+        #     Q(list_ingredient__name__in=q_lst[0]) | Q(list_ingredient__name__in=q_lst[1])
+        #     # & Q(list_ingredient__name=q_lst[1])
+        #     # Q(list_ingredient__name__in=keywords)
+        #     # SearchQuery(query)
+        # ).filter(status='p')
+
+        # (Q(name__startswith="John") | Q(name__startswith="Paul")
+        # Model.object.filter(Q(color=color[0]) & & Q(color=color[1]))
             # .annotate(rank=search_rank).order_by('-rank').values_list('name', 'rank')
+
+# id_list = self.request.GET.getlist("id")
+#         if not id_list:
+#             return []
+#         return Boat.objects.filter(id__in=id_list)
 
 # class SearchResultsListView(ListView):
 #     model = Recipe
