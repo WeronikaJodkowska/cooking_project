@@ -23,7 +23,7 @@ def filter_text(self, queryset, name, value):
             # doesn't need to be transformed. To achieve that F function is
             # required.
             # .annotate(rank=SearchRank(F(name), query)).order_by("-rank")
-        .filter(status='p')
+            .filter(status='p')
     )
 
 
@@ -128,28 +128,43 @@ class SearchResultsListView(ListView):
     template_name = 'recipes/recipe/search_results.html'
 
     def get_queryset(self):
-        queryset = super(SearchResultsListView, self).get_queryset()
-        # q = self.request.GET.get('q')
         q = self.request.GET.get('q')
         q = q.split(",")
-        # if not q:
-        #     return []
+
         query = Q(list_ingredient__name=q[0]) | Q(list_ingredient__name=q[1])
+        print(q)
+        print(query)
         return Recipe.objects.filter(query)
-            # .distinct()
 
-        # q_lst = q.split(",")
-        # return queryset.filter(
-        #     # Q(name__icontains=query)
-        #     Q(list_ingredient__name__in=q_lst[0]) | Q(list_ingredient__name__in=q_lst[1])
-        #     # & Q(list_ingredient__name=q_lst[1])
-        #     # Q(list_ingredient__name__in=keywords)
-        #     # SearchQuery(query)
-        # ).filter(status='p')
 
-        # (Q(name__startswith="John") | Q(name__startswith="Paul")
-        # Model.object.filter(Q(color=color[0]) & & Q(color=color[1]))
-            # .annotate(rank=search_rank).order_by('-rank').values_list('name', 'rank')
+# class SearchResultsListView(ListView):
+#     model = Recipe
+#     context_object_name = 'recipe_list'
+#     template_name = 'recipes/recipe/search_results.html'
+#
+#     def get_queryset(self):
+#         queryset = super(SearchResultsListView, self).get_queryset()
+#         # q = self.request.GET.get('q')
+#         q = self.request.GET.get('q')
+#         q = q.split(",")
+#         # if not q:
+#         #     return []
+#         query = Q(list_ingredient__name=q[0]) | Q(list_ingredient__name=q[1])
+#         return Recipe.objects.filter(query)
+#             # .distinct()
+
+# q_lst = q.split(",")
+# return queryset.filter(
+#     # Q(name__icontains=query)
+#     Q(list_ingredient__name__in=q_lst[0]) | Q(list_ingredient__name__in=q_lst[1])
+#     # & Q(list_ingredient__name=q_lst[1])
+#     # Q(list_ingredient__name__in=keywords)
+#     # SearchQuery(query)
+# ).filter(status='p')
+
+# (Q(name__startswith="John") | Q(name__startswith="Paul")
+# Model.object.filter(Q(color=color[0]) & & Q(color=color[1]))
+# .annotate(rank=search_rank).order_by('-rank').values_list('name', 'rank')
 
 # id_list = self.request.GET.getlist("id")
 #         if not id_list:
@@ -173,12 +188,9 @@ class SearchResultsListView(ListView):
 #             # .values_list(keywords)
 
 
-
-
-
-    # (Q(member=p1) | Q(member=p2))
-    # .filter(status='p')
-    # pk__in = [1, 4, 7]
+# (Q(member=p1) | Q(member=p2))
+# .filter(status='p')
+# pk__in = [1, 4, 7]
 # followers = UserFollowing.objects.filter(...).values('user')
 # plants = Plant.objects.filter(owner__in = followers)
 
