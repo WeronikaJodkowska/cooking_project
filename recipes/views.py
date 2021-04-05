@@ -130,12 +130,9 @@ class SearchResultsListView(ListView):
     def get_queryset(self):
         q = self.request.GET.get('q')
         q = q.split(",")
-
-        query = Q(list_ingredient__name=q[0]) | Q(list_ingredient__name=q[1])
-        print(q)
-        print(query)
-        return Recipe.objects.filter(query)
-
+        # for i in range(len(q)):
+        #     print(q[i])
+        return Recipe.objects.filter(Q(list_ingredient__name__in=q)).prefetch_related().distinct()
 
 # class SearchResultsListView(ListView):
 #     model = Recipe
