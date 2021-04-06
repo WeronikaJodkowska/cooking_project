@@ -106,7 +106,7 @@ class RecipeDetailView(DetailView):
         # context['category_id'] = self.kwargs.get('pk')
         context['list_ingredient'] = self.kwargs.get('pk')
         context['blacklist'] = BlackList.objects.filter(user=self.request.user)
-        ingr_in_disease = BlackList.objects.filter(zones__in=[zone1, zone2, zone3])
+        # ingr_in_disease = BlackList.objects.filter(zones__in=[zone1, zone2, zone3])
         return context
 
     # def get_queryset(self):
