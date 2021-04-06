@@ -103,23 +103,56 @@ class RecipeDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['category_id'] = self.kwargs.get('pk')
+        # context['category_id'] = self.kwargs.get('pk')
+        context['list_ingredient'] = self.kwargs.get('pk')
         context['blacklist'] = BlackList.objects.filter(user=self.request.user)
-        # context['blacklist_disease'] = BlackList.disease.objects.filter(user=self.request.user)
-        # disease = models.ForeignKey(Disease, related_name='blacklist_disease', blank=True, null=True, default=None,
-        #                             on_delete=models.CASCADE)
-
-        # context['list_ingredient'] = self.kwargs.get('pk')
+        ingr_in_disease = BlackList.objects.filter(zones__in=[zone1, zone2, zone3])
         return context
 
     # def get_queryset(self):
-    #     return Recipe.objects.filter(category_id=self.kwargs.get('pk'))
+    #     blacklist = BlackList.objects.filter(user=self.request.user)
+    #     return blacklist
+
+    # def get_queryset(self, request):
+    #     user_grps = request.user.groups.all()
+    #     cat_lst = Category.objects.filter(organizers_group__in=user_grps)
     #
+    #     return queryset = super(TaskAdmin, self).get_queryset(request).filter(
+    #         categories__in=cat_lst
+    #     )
+
+
+# class RecipeDetailView(DetailView):
+#     model = Recipe
+#     context_object_name = 'recipe'
+#     template_name = 'recipes/recipe/recipe_detail.html'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['category_id'] = self.kwargs.get('pk')
+#         context['list_ingredient'] = self.kwargs.get('pk')
+#         context['blacklist'] = BlackList.objects.filter(user=self.request.user)
+#
+#         # context['blacklist_disease'] = BlackList.disease.objects.filter(user=self.request.user)
+#         # disease = models.ForeignKey(Disease, related_name='blacklist_disease', blank=True, null=True, default=None,
+#         #                             on_delete=models.CASCADE)
+#
+#         # context['list_ingredient'] = self.kwargs.get('pk')
+#         return context
+
+    # def get_queryset(self):
+    #     recipe = Recipe.objects.filter(category_id=self.kwargs.get('pk'))
+    #     # disease = get_object_or_404(Disease, id=id)
+    #
+    #     # recipe_ingr = Recipe.objects.filter(list_ingredient__name__icontains=self.request.recipe)
+    #     # sitesubnet = Subnets.objects.filter(sitesubnets__site_id=site_id)
+    #     # common_subnets = list(set(devicesubnet) & set(sitesubnet))
+    #     return recipe
+
 
     # blacklist = BlackList.objects.filter(user=request.user)
     # def get_queryset(self):
     #     return self.model.objects.filter(friend_of=self.request.user.profile)
-    #
 
 
 class SearchResultsListView(ListView):

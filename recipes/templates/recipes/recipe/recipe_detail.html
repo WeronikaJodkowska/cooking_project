@@ -24,14 +24,14 @@
         <h1>Ингредиенты</h1>
 
         {% for ingredient in recipe.list_ingredient.all %}
-            {% if blacklist.disease.list_ingredient.all %}
+            {% if recipe.ingredient in blacklist.disease.list_ingredient.all %}
                 <strike><ul><li>{{ ingredient.name }}</li></ul></strike>
             {% else %}
                 <ul><li>{{ ingredient.name }}</li></ul>
             {% endif %}
         {% endfor %}
 
-
+<h1>Ваши болезни</h1>
     {% for blacklist in blacklist %}
     <h1>{{ blacklist.disease }}</h1>
         {% for ingredient in blacklist.disease.list_ingredient.all %}
