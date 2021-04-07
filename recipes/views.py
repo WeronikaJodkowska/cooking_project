@@ -101,25 +101,55 @@ class RecipeDetailView(DetailView):
     context_object_name = 'recipe'
     template_name = 'recipes/recipe/recipe_detail.html'
 
+    # def get_queryset(self, **kwargs):
+    #     global i_1, i_2, i_3
+    #     recipes = Recipe.objects.filter(pk=self.kwargs.get('pk'))
+    #     print(recipes)
+    #     diseases = Disease.objects.filter(blacklist_disease__user=self.request.user)
+    #     print(diseases)
+    #     for recipe in recipes:
+    #         i_1 = recipe.list_ingredient.all()
+    #         print(i_1)
+    #     for disease in diseases:
+    #         i_2 = disease.list_ingredient.all()
+    #         print("2: ", i_2)
+    #         i_3 = i_2.intersection(i_1)
+    #         print(i_3)
+    #     return recipes
+
     def get_context_data(self, **kwargs):
+        global i_1, i_2, i_3
         context = super().get_context_data(**kwargs)
-        # context['category_id'] = self.kwargs.get('pk')
         context['list_ingredient'] = self.kwargs.get('pk')
         context['blacklist'] = BlackList.objects.filter(user=self.request.user)
-        # ingr_in_disease = BlackList.objects.filter(zones__in=[zone1, zone2, zone3])
+        context['diseases'] = Disease.objects.filter(blacklist_disease__user=self.request.user)
+        recipes = Recipe.objects.filter(pk=self.kwargs.get('pk'))
+        diseases = Disease.objects.filter(blacklist_disease__user=self.request.user)
+        for recipe in recipes:
+            i_1 = recipe.list_ingredient.all()
+            print(i_1)
+        for recipe in recipes:
+            i_1 = recipe.list_ingredient.all()
+            print(i_1)
+        for disease in diseases:
+            i_2 = disease.list_ingredient.all()
+            print("2: ", i_2)
+            i_3 = i_2.intersection(i_1)
+            print("3: ", i_3)
+        for i in i_3:
+            context['intersection'] = i
+        print(context['intersection'])
+        context['r_ingredients'] = i_1
+        context['d_ingredients'] = i_2
+
         return context
 
-    # def get_queryset(self):
-    #     blacklist = BlackList.objects.filter(user=self.request.user)
-    #     return blacklist
-
-    # def get_queryset(self, request):
-    #     user_grps = request.user.groups.all()
-    #     cat_lst = Category.objects.filter(organizers_group__in=user_grps)
     #
-    #     return queryset = super(TaskAdmin, self).get_queryset(request).filter(
-    #         categories__in=cat_lst
-    #     )
+    # def get_queryset(self):
+    #     results = Recipe.objects.all()
+    #     for staff in results:
+    #         print(staff.list_ingredient.all())
+    #         return staff
 
 
 # class RecipeDetailView(DetailView):
@@ -167,86 +197,6 @@ class SearchResultsListView(ListView):
         #     print(q[i])
         return Recipe.objects.filter(Q(list_ingredient__name__in=q)).prefetch_related().distinct()
 
-# class SearchResultsListView(ListView):
-#     model = Recipe
-#     context_object_name = 'recipe_list'
-#     template_name = 'recipes/recipe/search_results.html'
-#
-#     def get_queryset(self):
-#         queryset = super(SearchResultsListView, self).get_queryset()
-#         # q = self.request.GET.get('q')
-#         q = self.request.GET.get('q')
-#         q = q.split(",")
-#         # if not q:
-#         #     return []
-#         query = Q(list_ingredient__name=q[0]) | Q(list_ingredient__name=q[1])
-#         return Recipe.objects.filter(query)
-#             # .distinct()
-
-# q_lst = q.split(",")
-# return queryset.filter(
-#     # Q(name__icontains=query)
-#     Q(list_ingredient__name__in=q_lst[0]) | Q(list_ingredient__name__in=q_lst[1])
-#     # & Q(list_ingredient__name=q_lst[1])
-#     # Q(list_ingredient__name__in=keywords)
-#     # SearchQuery(query)
-# ).filter(status='p')
-
-# (Q(name__startswith="John") | Q(name__startswith="Paul")
-# Model.object.filter(Q(color=color[0]) & & Q(color=color[1]))
-# .annotate(rank=search_rank).order_by('-rank').values_list('name', 'rank')
-
-# id_list = self.request.GET.getlist("id")
-#         if not id_list:
-#             return []
-#         return Boat.objects.filter(id__in=id_list)
-
-# class SearchResultsListView(ListView):
-#     model = Recipe
-#     context_object_name = 'recipe_list'
-#     template_name = 'recipes/recipe/search_results.html'
-#
-#     def get_queryset(self):
-#         query = self.request.GET.get('q')
-#         keywords = Ingredient.objects.values('name')
-#         return Recipe.objects.filter(
-#             # Q(name__icontains=query)
-#             Q(list_ingredient__contains=query)
-#             # Q(list_ingredient__name__in=keywords)
-#             # SearchQuery(query)
-#         ).filter(status='p')
-#             # .values_list(keywords)
-
-
-# (Q(member=p1) | Q(member=p2))
-# .filter(status='p')
-# pk__in = [1, 4, 7]
-# followers = UserFollowing.objects.filter(...).values('user')
-# plants = Plant.objects.filter(owner__in = followers)
-
-# current_user = request.user
-# keywords=  ['funny', 'old', 'black_humor']
-# qs = [Q(title__icontains=keyword)|Q(author__icontains=keyword)|Q(tags__icontains=keyword) for keyword in keywords]
-#
-# query = qs.pop() #get the first element
-#
-# for q in qs:
-#     query |= q
-# filtered_user_meme = Meme.objects.filter(query, user=current_user)
-
-# def recipe_new(request):
-#     if request.method == 'POST':
-#         form = RecipeForm(request.POST)
-#         if form.is_valid():
-#             recipe = form.save(commit=False)
-#             recipe.save()
-#             return redirect('recipes:recipe_detail', pk=recipe.pk)
-#     else:
-#         form = RecipeForm()
-#     return render(request,
-#                   'recipes/recipe/recipe_create.html',
-#                   {'form': form})
-
 
 class CreateRecipeView(CreateView):
     model = Recipe
@@ -260,10 +210,6 @@ class CreateRecipeView(CreateView):
         success_message = self.get_success_message(form.cleaned_data)
         if success_message:
             messages.success(self.request, success_message)
-        # if form.is_valid():
-        #     messages.success('Profile updated successfully')
-        # else:
-        #     messages.error('Error updating your profile')
         return super(CreateRecipeView, self).form_valid(form)
 
     def get_success_message(self, cleaned_data):

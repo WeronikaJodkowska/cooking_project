@@ -38,7 +38,7 @@ class Recipe(models.Model):
     directions = models.TextField(default=None)
     image = models.ImageField(upload_to='recipes/%Y/%m/%d')
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
-    list_ingredient = models.ManyToManyField(Ingredient, blank=True)
+    list_ingredient = models.ManyToManyField(Ingredient, blank=True, related_name='recipe_list_ingredient')
     # users = models.ManyToManyField('auth.User', null=True, blank=True)
     # list_ingredient = models.TextField(default=None)
     cart = models.ManyToManyField(User, related_name='cart', default=None, blank=True)
