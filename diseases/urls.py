@@ -20,6 +20,6 @@ urlpatterns = [
     # path('blacklist/new', CreateBlacklist.as_view(), name='blacklist_new'),
     # path('blacklist/new', PostBlacklist.as_view(), name='blacklist_new'),
     path('blacklist/<int:id>/', views.add_to_blacklist, name='add_to_blacklist'),
-
+    path('blacklist/delete/<int:id>/', views.delete_from_blacklist, name='delete_from_blacklist'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

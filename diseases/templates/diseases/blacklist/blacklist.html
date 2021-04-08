@@ -11,5 +11,11 @@
     {% for ingredient in blacklist.disease.list_ingredient.all %}
         <ul><li>{{ ingredient.name }}</li></ul>
     {% endfor %}
+
+    <div id="favourite-section">
+        <a href="{% url 'diseases:delete_from_blacklist' blacklist.id %}" class="btn btn-outline-primary">
+            Удалить из черного списка
+        </a>
+    </div>
 {% endfor %}
 {% endblock %}

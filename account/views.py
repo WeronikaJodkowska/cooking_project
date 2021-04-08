@@ -26,6 +26,21 @@ def favourite_recipe_add(request, id):
     else:
         recipe.favourites.add(request.user)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+# @login_required
+# def add_to_cart(request, id):
+#     recipe = get_object_or_404(Recipe, id=id)
+#     user = get_object_or_404(User, id=request.user.id)
+#     # if Cart.objects.all().filter(id=request.user.id).exists():
+#     #     cart = Cart(recipe=recipe, user=user)
+#     #     cart.delete()
+#     # else:
+#     if not Cart.objects.all().filter(recipe=recipe).exists():
+#         cart = Cart(recipe=recipe, user=user)
+#         cart.save()
+#     else:
+#         print("exists")
+#     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
 
 
 @login_required

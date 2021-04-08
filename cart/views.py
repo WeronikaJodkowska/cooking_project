@@ -64,6 +64,8 @@ def add_to_cart(request, id):
     if not Cart.objects.all().filter(recipe=recipe).exists():
         cart = Cart(recipe=recipe, user=user)
         cart.save()
+    else:
+        print("exists")
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 

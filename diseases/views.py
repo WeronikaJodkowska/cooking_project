@@ -111,3 +111,9 @@ def black_list(request):
     return render(request,
                   'diseases/blacklist/blacklist.html',
                   {'blacklist': blacklist})
+
+
+@login_required
+def delete_from_blacklist(request, id):
+    BlackList.objects.filter(id=id).delete()
+    return HttpResponseRedirect('/diseases/blacklist')
