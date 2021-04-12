@@ -46,10 +46,10 @@
 {#    {% endfor %}#}
 
     <h1>Совпадающие</h1>
-{##}
-{#        {% for i in intersection %}#}
-{#            {{ i }}#}
-{#        {% endfor %}#}
-{{ intersection }}
+
+        {% for i in intersection %}
+            {{ i }}
+        {% endfor %}
+
     </div>
 {% endblock %}

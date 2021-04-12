@@ -118,27 +118,27 @@ class RecipeDetailView(DetailView):
     #     return recipes
 
     def get_context_data(self, **kwargs):
-        global i_1, i_2, i_3
+        global i_1, i_2, i_3, i_4
         context = super().get_context_data(**kwargs)
         context['list_ingredient'] = self.kwargs.get('pk')
         context['blacklist'] = BlackList.objects.filter(user=self.request.user)
         context['diseases'] = Disease.objects.filter(blacklist_disease__user=self.request.user)
         recipes = Recipe.objects.filter(pk=self.kwargs.get('pk'))
         diseases = Disease.objects.filter(blacklist_disease__user=self.request.user)
+
         for recipe in recipes:
             i_1 = recipe.list_ingredient.all()
-            print(i_1)
-        for recipe in recipes:
-            i_1 = recipe.list_ingredient.all()
-            print(i_1)
+            print("1. recipe_ingredients: ", i_1)
         for disease in diseases:
             i_2 = disease.list_ingredient.all()
-            print("2: ", i_2)
-            i_3 = i_2.intersection(i_1)
-            print("3: ", i_3)
-        for i in i_3:
-            context['intersection'] = i
-        print(context['intersection'])
+            print("2. disease_ingredients: ", i_2)
+            i_3 = list(set(i_1) & set(i_2))
+            # i_3 = i_2.intersection(i_1)
+            print("Совпадающие: ", i_3)
+            context['intersection'] = i_3
+            i_4 = context['intersection']
+            print(i_4[0])
+
         context['r_ingredients'] = i_1
         context['d_ingredients'] = i_2
 
