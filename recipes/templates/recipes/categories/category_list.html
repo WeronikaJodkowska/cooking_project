@@ -2,13 +2,36 @@
 {% block title %}Categories{% endblock %}
 
 {% block content %}
-    {% for category in category_list %}
-        <div class="item">
-            <a href="{% url 'recipes:category_detail' category.id %}">
-                <img src="{{ category.image.url }}">
-            </a>
-            <br>
-            <a href="{% url 'recipes:category_detail' category.id %}">{{ category.name }}</a>
+    <div id="page-title" class="padding-tb-30px gradient-white">
+		<div class="container text-left">
+			<ol class="breadcrumb opacity-5">
+				<li><a href="#">Home</a></li>
+				<li class="active">Categories</li>
+			</ol>
+			<h1 class="font-weight-300">Recipe categories</h1>
+		</div>
+	</div>
+
+        <div class="container margin-bottom-100px">
+            <div class="row">
+
+                {% for category in category_list %}
+                    <!-- item -->
+                <div class="col-lg-6 margin-bottom-30px">
+                    <div class="background-white thum-hover box-shadow hvr-float full-width">
+{#                    <div class="item">#}
+                        <div class="float-md-left margin-right-30px thum-xs">
+                            <a href="{% url 'recipes:category_detail' category.id %}">
+                                <img src="{{ category.image.url }}">
+                            </a>
+                        </div>
+                        <div class="padding-25px">
+                            <h3><a href="{% url 'recipes:category_detail' category.id %}" class="d-block text-dark text-capitalize text-medium margin-tb-15px">{{ category.name }}</a></h3>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-    {% endfor %}
 {% endblock %}
