@@ -137,7 +137,7 @@ class RecipeDetailView(DetailView):
             print("Совпадающие: ", i_3)
             context['intersection'] = i_3
             i_4 = context['intersection']
-            print(i_4[0])
+            print(i_4)
 
         context['r_ingredients'] = i_1
         context['d_ingredients'] = i_2
