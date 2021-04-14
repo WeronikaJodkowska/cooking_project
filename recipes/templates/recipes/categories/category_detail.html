@@ -1,15 +1,36 @@
-{% extends "base.html" %}
+{% extends "recipes/base.html" %}
 
 {% block content %}
-    <h1>{{ category.name }}</h1>
-    {% for recipe in category.recipes.all %}
-        {% if recipe.status  == 'p' %}
-         <div class="item">
-         <a href="{% url 'recipes:recipe_detail' recipe.id %}">
-             <img src="{{ recipe.image.url }}">
-         </a>
-            <a href="{% url 'recipes:recipe_detail' recipe.id %}">{{ recipe.name }}</a>
-         </div>
-        {% endif %}
-    {% endfor %}
+    <div id="page-title" class="padding-tb-30px gradient-white">
+		<div class="container text-left">
+			<ol class="breadcrumb opacity-5">
+				<li><a href="/">Home</a></li>
+				<li class="active">Recipes</li>
+			</ol>
+			<h1 class="font-weight-300">{{ category.name }}</h1>
+		</div>
+	</div>
+    <div class="container margin-bottom-100px">
+        <div class="row">
+            {% for recipe in category.recipes.all %}
+                {% if recipe.status  == 'p' %}
+{#         <div class="item">#}
+                    <div class="col-lg-6 margin-bottom-30px">
+                        <div class="background-white thum-hover box-shadow hvr-float full-width">
+                            <div class="float-md-left margin-right-30px thum-xs">
+                                <a href="{% url 'recipes:recipe_detail' recipe.id %}">
+                                    <img src="{{ recipe.image.url }}">
+                                </a>
+                            </div>
+                            <div class="padding-25px">
+                                <a class="d-block text-dark text-capitalize text-medium margin-tb-15px" href="{% url 'recipes:recipe_detail' recipe.id %}">{{ recipe.name }}</a>
+                                <hr>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
