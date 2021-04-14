@@ -24,19 +24,30 @@
         <h1>Ингредиенты</h1>
 
         {% for ingredient in recipe.list_ingredient.all %}
-            {% if recipe.ingredient in intersection %}
+{#            {% for item in same %}#}
+            {% if ingredient == same.item.0 %}
                 <strike><ul><li>{{ ingredient.name }}</li></ul></strike>
             {% else %}
                 <ul><li>{{ ingredient.name }}</li></ul>
             {% endif %}
+{#                {% endfor %}#}
         {% endfor %}
 
 <h1>Ваши болезни</h1>
     {% for blacklist in blacklist %}
     <h1>{{ blacklist.disease }}</h1>
+
         {% for ingredient in blacklist.disease.list_ingredient.all %}
-            <ul><li>{{ ingredient.name }}</li></ul>
+            {% for item in same %}
+            {% for j in item %}
+{#            {% if ingredient in same.items %}#}
+                {% if ingredient == j %}
+                    <ul><li>{{ ingredient.name }}</li></ul>
+{#            {% endif %}#}
+                {% endif %}
+                {% endfor %}
         {% endfor %}
+            {% endfor %}
     {% endfor %}
 
         {{ recipe.directions|linebreaks }}
@@ -47,9 +58,19 @@
 
     <h1>Совпадающие</h1>
 
-        {% for i in intersection %}
-            {{ i }}
+        {% for item in same %}
+            {% for j in item %}
+                {{ j }}
+            {% endfor %}
         {% endfor %}
 
+{#    {% for item in same %}#}
+{#{{ item.0 }}#}
+{#    {% endfor %}#}
+<br>
+    {{ same.all }}
+    {% for i in same.list %}
+    {{ i.0 }}
+    {% endfor %}
     </div>
 {% endblock %}

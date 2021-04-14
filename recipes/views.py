@@ -125,22 +125,37 @@ class RecipeDetailView(DetailView):
         context['diseases'] = Disease.objects.filter(blacklist_disease__user=self.request.user)
         recipes = Recipe.objects.filter(pk=self.kwargs.get('pk'))
         diseases = Disease.objects.filter(blacklist_disease__user=self.request.user)
-
-        for recipe in recipes:
-            i_1 = recipe.list_ingredient.all()
-            print("1. recipe_ingredients: ", i_1)
+        # i_3 = i_2.intersection(i_1)
+        # for recipe in recipes:
+        #     i_1 = recipe.list_ingredient.all()
+        #     print("1. recipe_ingredients: ", i_1)
+        #     for disease in diseases:
+        #         i_2 = disease.list_ingredient.all()
+        #         print("2. disease_ingredients: ", i_2)
+        #         i_3 = list(set(i_1) & set(i_2))
+        #         list_same = [i_3[0]]
+        #         print("Совпадающие: ", i_3)
+        #         print(type(list_same))
+        #         print(list_same)
+        #         context['intersection'] = i_3
+        #         i_4 = context['intersection']
+        #         print(i_4)
+        differences = []
         for disease in diseases:
-            i_2 = disease.list_ingredient.all()
-            print("2. disease_ingredients: ", i_2)
-            i_3 = list(set(i_1) & set(i_2))
-            # i_3 = i_2.intersection(i_1)
-            print("Совпадающие: ", i_3)
-            context['intersection'] = i_3
-            i_4 = context['intersection']
-            print(i_4)
+            disease_ingr = disease.list_ingredient.all()
+            print("disease_ingr:", disease_ingr)
+            for recipe in recipes:
+                recipe_ingr = recipe.list_ingredient.all()
+                print("recipe_ingr:", recipe_ingr)
+                same = list(set(disease_ingr) & set(recipe_ingr))
+                print(same)
+                differences.append(same)
 
-        context['r_ingredients'] = i_1
-        context['d_ingredients'] = i_2
+        for i in differences:
+            print(i)
+        context['same'] = differences
+        # context['r_ingredients'] = i_1
+        # context['d_ingredients'] = i_2
 
         return context
 

@@ -75,10 +75,14 @@ class PostBlacklist(SingleObjectMixin, View):
 def add_to_blacklist(request, id):
     disease = get_object_or_404(Disease, id=id)
     user = get_object_or_404(User, id=request.user.id)
+    success_message = 'Disease added to the blacklist.'
 
-    # if not BlackList.objects.all().filter(disease=disease).exists():
-    cart = BlackList(user=user, disease=disease)
-    cart.save()
+    if not BlackList.objects.all().filter(disease=disease).exists():
+        blacklist = BlackList(user=user, disease=disease)
+        blacklist.save()
+        # messages.success(request, "Successfully added")
+    # else:
+        # messages.error(request, 'Already exists')
     # cart.disease.add(disease)
     # self_ingredients = super(DiseaseDetailView, self).get_context_data(**kwargs)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
