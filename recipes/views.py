@@ -141,6 +141,7 @@ class RecipeDetailView(DetailView):
         #         i_4 = context['intersection']
         #         print(i_4)
         differences = []
+        res_diseases = []
         for disease in diseases:
             disease_ingr = disease.list_ingredient.all()
             print("disease_ingr:", disease_ingr)
@@ -149,11 +150,20 @@ class RecipeDetailView(DetailView):
                 print("recipe_ingr:", recipe_ingr)
                 same = list(set(disease_ingr) & set(recipe_ingr))
                 print(same)
+                # if
                 differences.append(same)
+                # print(differences)
+                for i in differences:
+                    print("diff ", i)
 
-        for i in differences:
-            print(i)
-        context['same'] = differences
+                #         res_diseases.append(disease)
+                # print(res_diseases)
+
+        result = list(filter(None, differences))
+        print(result)
+        # for i in differences:
+        #     print(i)
+        context['same'] = result
         # context['r_ingredients'] = i_1
         # context['d_ingredients'] = i_2
 

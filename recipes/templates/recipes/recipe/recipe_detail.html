@@ -1,6 +1,5 @@
 {% extends "recipes/base.html" %}
 {% load static %}
-
 {% block title %}
     {{ recipe.name }}
 {% endblock %}
@@ -33,15 +32,34 @@
 {#                {% endfor %}#}
         {% endfor %}
 
-<h1>Ваши болезни</h1>
+<h1>Будьте осторожны, следующие ингрединенты входят в список запрещенных: </h1>
+{#    {% for blacklist in blacklist %}#}
+{#    <h1>{{ blacklist.disease }}</h1>#}
+{##}
+{#        {% for ingredient in blacklist.disease.list_ingredient.all %}#}
+{#            {% for item in same %}#}
+{#            {% for j in item %}#}
+{#            {% if ingredient in same.items %}#}
+{#                {% if ingredient == j %}#}
+{#                    <ul><li>{{ ingredient.name }}</li></ul>#}
+{#            {% endif %}#}
+{#                {% endif %}#}
+{#                {% endfor %}#}
+{#        {% endfor %}#}
+{#            {% endfor %}#}
+{#    {% endfor %}#}
+
     {% for blacklist in blacklist %}
-    <h1>{{ blacklist.disease }}</h1>
+{#        {{ blacklist.disease.list_ingredient.values.0.name }}#}
+
 
         {% for ingredient in blacklist.disease.list_ingredient.all %}
             {% for item in same %}
             {% for j in item %}
+
 {#            {% if ingredient in same.items %}#}
                 {% if ingredient == j %}
+                    <h1>{{ blacklist.disease }}</h1>
                     <ul><li>{{ ingredient.name }}</li></ul>
 {#            {% endif %}#}
                 {% endif %}
@@ -58,19 +76,31 @@
 
     <h1>Совпадающие</h1>
 
-        {% for item in same %}
-            {% for j in item %}
-                {{ j }}
-            {% endfor %}
-        {% endfor %}
+
+{##}
+{#        {% for blacklist in blacklist %}#}
+{#            {% for item in same %}#}
+{#                {% for j in item %}#}
+{#                    {{ blacklist.disease.name }}#}
+{#                    {% if blacklist.disease.name in j %}#}
+{#            {% for ingredient in blacklist.disease.list_ingredient.all %}#}
+{#                    {{ blacklist.disease.name }}:<br>#}
+{#                    {% for ingredient in blacklist.disease.list_ingredient.all %}#}
+{#                        {{ ingredient }}<br>#}
+{#                    {% endfor %}#}
+{#                    {% endif %}#}
+{#                {% endfor %}#}
+{#            {% endfor %}#}
+{#        {% endfor %}#}
 
 {#    {% for item in same %}#}
 {#{{ item.0 }}#}
-{#    {% endfor %}#}
-<br>
-    {{ same.all }}
-    {% for i in same.list %}
-    {{ i.0 }}
+
+    {% for x in same %}
+        {% for y in x %}
+            {{ y }}
+        {% endfor %}
     {% endfor %}
     </div>
+
 {% endblock %}
