@@ -24,10 +24,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
     path('social-auth/', include('social_django.urls', namespace='social')),
-    path('recipes/', include('recipes.urls', namespace='recipes')),
+    path('', include('recipes.urls', namespace='recipes')),
     path('diseases/', include('diseases.urls', namespace='diseases')),
     path('cart/', include('cart.urls')),
-    path('', include('ingredients.urls', namespace='ingredients')),
+    path('ingredients/', include('ingredients.urls', namespace='ingredients')),
 
     # path('', include('recipes.urls', namespace='recipes')),
 ]
