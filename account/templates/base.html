@@ -125,10 +125,10 @@
 					<div class="row justify-content-center margin-tb-60px">
 						<div class="col-lg-8">
 							<div class="listing-search">
-								<form class="row no-gutters">
+								<form class="row no-gutters" action="{% url 'recipes:search_results' %}" method="get">
 									<div class="col-md-4">
 										<div class="keywords">
-											<input class="listing-form first" type="text" placeholder="Keywords..." value="">
+                            <input name="q" class="listing-form first" type="text" placeholder="Keywords..." aria-label="Search">
 										</div>
 									</div>
 									<div class="col-md-4">
@@ -147,7 +147,7 @@
 										</div>
 									</div>
 									<div class="col-md-4">
-										<a class="listing-bottom background-second-color box-shadow" href="#">Search Now</a>
+										<a class="listing-bottom background-second-color box-shadow" href="{% url 'recipes:search_results' %}">Search Now</a>
 									</div>
 								</form>
 							</div>
