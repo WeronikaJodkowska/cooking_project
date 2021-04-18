@@ -216,11 +216,17 @@ class SearchResultsListView(ListView):
     template_name = 'recipes/recipe/search_results.html'
 
     def get_queryset(self):
+        result = super(SearchResultsListView, self).get_queryset()
         q = self.request.GET.get('q')
         q = q.split(",")
         # for i in range(len(q)):
         #     print(q[i])
-        return Recipe.objects.filter(Q(list_ingredient__name__in=q)).prefetch_related().distinct()
+        if q:
+            postresult = Recipe.objects.filter(Q(list_ingredient__name__in=q)).prefetch_related().distinct()
+            result = postresult
+        else:
+            result = None
+        return result
 
 
 class CreateRecipeView(CreateView):

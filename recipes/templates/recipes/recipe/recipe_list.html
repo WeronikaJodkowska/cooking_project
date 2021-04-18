@@ -33,7 +33,7 @@
 {#{% endblock %}#}
 
 {% extends "base.html" %}
-{% block title %}Рецепты{% endblock %}
+{% block title %}Recipes{% endblock %}
 
 {% block content %}
 <div id="page-title" class="padding-tb-30px gradient-white">
@@ -45,22 +45,22 @@
 {#			<h1 class="font-weight-300">{{ category.name }}</h1>#}
 		</div>
 	</div>
-    <div class="container">
-		<div class="margin-bottom-60px">
-			<div class="listing-search box-shadow">
-                <div class="col-md-4">
-                    <div class="keywords">
-                        <form class="row no-gutters" action="{% url 'recipes:search_results' %}" method="get">
-
+{#    <div class="container">#}
+{#		<div class="margin-bottom-60px">#}
+{#			<div class="listing-search box-shadow">#}
+{#                <div class="col-md-4">#}
+{#                    <div class="keywords">#}
+{#                        <form class="row no-gutters" action="{% url 'recipes:search_results' %}" method="get">#}
+{##}
 {#    <form class="form-inline mt-2 mt-md-0" action="{% url 'recipes:search_results' %}" method="get">#}
 {#        <input name="q" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">#}
-                            <input name="q" class="listing-form first" type="text" placeholder="Keywords..." aria-label="Search">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{#                            <input name="q" class="listing-form first" type="text" placeholder="Keywords..." aria-label="Search">#}
+{#                        </form>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
     <div class="container margin-bottom-100px">
         <div class="row">
             {% for recipe in recipe_list %}
