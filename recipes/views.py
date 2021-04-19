@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 from django.utils.text import slugify
-
+from django.core.paginator import Paginator
 from .models import Category, Recipe
 from .forms import RecipeCreateForm
 
@@ -76,6 +76,7 @@ class CategoryListView(ListView):
 class CategoryDetailView(DetailView):
     model = Category
     context_object_name = 'category'
+    # paginate_by = 2
     template_name = 'recipes/categories/category_detail.html'
 
     # def get_context_data(self, **kwargs):
@@ -91,6 +92,7 @@ class CategoryDetailView(DetailView):
 class RecipeListView(ListView):
     model = Recipe
     template_name = 'recipes/recipe/recipe_list.html'
+    paginate_by = 10
 
     def get_queryset(self):
         return Recipe.objects.filter(status='p')
