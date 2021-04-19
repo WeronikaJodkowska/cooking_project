@@ -9,7 +9,7 @@
     <img src="{{ recipe.image.url }}">
     <div id="favourite-section">
         <a href="{% url 'account:favourite_recipe_add' recipe.id %}" class="btn btn-outline-primary">
-            Удалить из любимых
+            Delete from favorites
         </a>
     </div>
 {% endfor %}
