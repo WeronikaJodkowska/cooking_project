@@ -1,16 +1,47 @@
-{% extends "base.html" %}
+{% extends "recipes/base.html" %}
 
-{% block title %}Favourites{% endblock %}
+{% block title %}Favorites{% endblock %}
 
 {% block content %}
-{% for recipe in new %}
-{#    {{ recipe.get_absolute_url }}#}
-    {{ recipe.name }}
-    <img src="{{ recipe.image.url }}">
-    <div id="favourite-section">
-        <a href="{% url 'account:favourite_recipe_add' recipe.id %}" class="btn btn-outline-primary">
-            Delete from favorites
-        </a>
+    <div id="page-title" class="padding-tb-30px gradient-white">
+        <div class="container text-left">
+            <ol class="breadcrumb opacity-5">
+                <li><a href="/">Home</a></li>
+                <li class="active">Favorites</li>
+            </ol>
+{#			<h1 class="font-weight-300">{{ category.name }}</h1>#}
+        </div>
     </div>
+    <div class="container margin-bottom-100px">
+        <div class="row">
+            {% for recipe in new %}
+<div class="col-lg-6 margin-bottom-30px">
+                    <div class="background-white thum-hover box-shadow hvr-float full-width">
+                        <div class="float-md-left margin-right-30px thum-xs">
+                            <a href="{% url 'recipes:recipe_detail' recipe.id %}">
+                                <img src="{{ recipe.image.url }}">
+                            </a>
+                        </div>
+                        <div class="padding-25px">
+                            <a class="d-block text-dark text-capitalize text-medium margin-tb-15px" href="{% url 'recipes:recipe_detail' recipe.id %}">
+                                {{ recipe.name }}
+                            </a>
+                                                    {% if request.user.is_authenticated  %}
+                                <div class="col-4 text-left"><a href="{% url 'account:favourite_recipe_add' recipe.id %}" class="text-red"><i class="far fa-heart"></i> Delete</a></div>
+                        {% endif %}
+                            <hr>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+{#    {{ recipe.name }}#}
+{#    <img src="{{ recipe.image.url }}">#}
+{#    <div id="favourite-section">#}
+{#        <a href="{% url 'account:favourite_recipe_add' recipe.id %}" class="btn btn-outline-primary">#}
+{#            Delete from favorites#}
+{#        </a>#}
+{#    </div>#}
 {% endfor %}
+        </div>
+    </div>
 {% endblock %}

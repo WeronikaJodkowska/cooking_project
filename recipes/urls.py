@@ -31,9 +31,9 @@ urlpatterns = [
     #      name='recipe_detail'),
     path('account/', include('account.urls')),
 
-    path('', CategoryListView.as_view(), name='category_list'),
+    path('recipes/', CategoryListView.as_view(), name='category_list'),
     path('category/<int:pk>', CategoryDetailView.as_view(), name='category_detail'),
-    path('recipes/', RecipeListView.as_view(), name='recipe_list'),
+    path('', RecipeListView.as_view(), name='recipe_list'),
     path('recipes/<int:pk>', RecipeDetailView.as_view(), name='recipe_detail'),
     path('search/', SearchResultsListView.as_view(), name='search_results'),
     # path('recipe/new/', recipe_new, name='recipe_new'),
