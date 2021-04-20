@@ -1,10 +1,65 @@
 {% extends 'recipes/base.html' %}
 
 {% block content %}
-    <h2>New recipe</h2>
-    <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
+    	<div id="page-title" class="padding-tb-30px gradient-white">
+		<div class="container">
+			<ol class="breadcrumb opacity-5">
+				<li><a href="/">Home</a></li>
+				<li><a href="#">Add Recipe</a></li>
+			</ol>
+			<h1 class="font-weight-300">Add Recipe</h1>
+		</div>
+	</div>
+{#    <h2>New recipe</h2>#}
+    <div class="container">
+		<div class="margin-tb-45px full-width">
+			<h4 class="padding-lr-30px padding-tb-20px background-white box-shadow border-radius-10"><i class="far fa-list-alt margin-right-10px text-main-color"></i>Basic Informations</h4>
+			<div class="padding-30px padding-bottom-30px background-white border-radius-10">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group margin-bottom-20px">
+						<label><i class="far fa-list-alt margin-right-10px"></i> Recipe Title</label>
+                        {{ form.name }}
+                    </div>
+                    <div class="form-group margin-bottom-20px">
+						<div class="row">
+							<div class="col-md-6">
+								<label><i class="far fa-folder-open margin-right-10px"></i>Category</label>
+{#								<select class="form-control form-control-sm">#}
+                                    {{ form.category }}
+{#                                </select>#}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group margin-bottom-20px">
+                        <div class="row">
+							<div class="col-md-6">
+                                {{ form.list_ingredient }}
+                            </div>
+                        </div>
+                    </div>
+{#                    {{ form.as_p }}#}
     <button type="submit" class="save btn btn-default">Save</button>
     </form>
+            </div>
+        </div>
+    		<div class="margin-bottom-45px full-width">
+			<h4 class="padding-lr-30px padding-tb-20px background-white box-shadow border-radius-10"><i class="far fa-list-alt margin-right-10px text-main-color"></i>Description</h4>
+			<div class="padding-30px padding-bottom-30px background-white border-radius-10">
+				<div class="margin-bottom-20px">
+					<textarea class="form-control" placeholder="Html Tag Enabled" id="exampleTextarea" rows="8">
+                        {{ form.directions }}
+</textarea>
+				</div>
+				<div class="row">
+                    <div class="col-md-6 margin-bottom-20px">
+						<label><i class="far fa-images margin-right-10px"></i> Image URL</label>
+                        {{ form.image }}
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+    </div>
 {% endblock %}

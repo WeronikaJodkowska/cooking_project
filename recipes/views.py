@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 from django.utils.text import slugify
 from django.core.paginator import Paginator
+from django.core.exceptions import ObjectDoesNotExist
+
 from .models import Category, Recipe
 from .forms import RecipeCreateForm
 
@@ -95,7 +97,11 @@ class RecipeListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Recipe.objects.filter(status='p')
+        try:
+            entry = Recipe.objects.filter(status='p')
+        except ObjectDoesNotExist:
+            print("Either the Recipe or entry doesn't exist.")
+        return entry
 
 
 class RecipeDetailView(DetailView):
