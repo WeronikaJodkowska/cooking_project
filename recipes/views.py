@@ -7,6 +7,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.utils.text import slugify
 from django.core.paginator import Paginator
 from django.core.exceptions import ObjectDoesNotExist
+from more_itertools import unique_everseen
 
 from .models import Category, Recipe
 from .forms import RecipeCreateForm
@@ -157,8 +158,10 @@ class RecipeDetailView(DetailView):
         #         context['intersection'] = i_3
         #         i_4 = context['intersection']
         #         print(i_4)
-            differences = []
+            same_ingredients = []
             res_diseases = []
+            dis_ingr = {}
+            res_dis_ingr = []
             for disease in diseases:
                 disease_ingr = disease.list_ingredient.all()
                 print("disease_ingr:", disease_ingr)
@@ -166,25 +169,44 @@ class RecipeDetailView(DetailView):
                     recipe_ingr = recipe.list_ingredient.all()
                     print("recipe_ingr:", recipe_ingr)
                     same = list(set(disease_ingr) & set(recipe_ingr))
-                    print(same)
-                # if
-                    differences.append(same)
-                # print(differences)
-                    for i in differences:
-                        print("diff ", i)
+                    print("same ", same)
+                    same_ingredients.append(same)
+                    print("same_ingredients ", same_ingredients)
+                    dis_ingr = {disease: same}
+                    print("dis_ingr ", dis_ingr)
+                    res_dis_ingr.append(dis_ingr)
+                    print("res_dis_ingr ", res_dis_ingr)
+                    for i in same_ingredients:
+                        for j in i:
+                            # print(str(j))
+                            res_diseases.append(str(j))
+                            print("res_diseases ", res_diseases)
 
-                #         res_diseases.append(disease)
-                # print(res_diseases)
-
-            result = list(filter(None, differences))
-            print(result)
-        # for i in differences:
-        #     print(i)
+            print(same_ingredients)
+            result = list(unique_everseen(res_diseases))
+            print("res_disease: ", result)
+            print("res_dis_ingr: ", res_dis_ingr)
+            # for i in res_dis_ingr:
+            #     print("keys ", i.keys())
+            #     for j in i:
+            #         print("j ", j)
+            #         print("values ", i.values())
+            #         for k in i.values():
+            #             if len(k) == 0:
+            #                 print("0")
+            #             else:
+            #                 print("k ", k)
+            #             for g in k:
+            #                 print(g)
             context['same'] = result
+            context['disease_ingredient'] = res_dis_ingr
+        return context
+            #         res_diseases.append(disease)
+                # print(res_diseases)
+            # result = list(filter(None, same_ingredients))
+            # print(result)
         # context['r_ingredients'] = i_1
         # context['d_ingredients'] = i_2
-
-        return context
 
     #
     # def get_queryset(self):
