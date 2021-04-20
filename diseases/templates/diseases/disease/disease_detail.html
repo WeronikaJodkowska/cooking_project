@@ -1,26 +1,58 @@
 {% extends "recipes/base.html" %}
 {% load static %}
 
-{% block title %}
-    {{ recipe.name }}
-{% endblock %}
+{% block title %}{{ disease.name }}{% endblock %}
 
 {% block content %}
-    <div class="disease-detail">
+    <div id="page-title" class="padding-tb-30px gradient-white">
+		<div class="container text-left">
+			<ol class="breadcrumb opacity-5">
+				<li><a href="/">Home</a></li>
+				<li class="active">Disease</li>
+			</ol>
+			<h1 class="font-weight-300">{{ disease.name }}</h1>
+		</div>
+	</div>
+
+    <div class="container">
+		<div class="row">
+            <div class="col-lg-8">
+                <div class="margin-bottom-40px card border-0 box-shadow">
+                    <div class="padding-lr-30px padding-tb-20px">
+                    <h4>Disease category: </h4>
+                        <h4><a class="active" href="{% url 'diseases:category_detail' disease.category.id %}">{{ disease.category.name }}</a></h4>
+                        <hr>
+                        <h3>Prohibited Ingredients:</h3>
+                        <br>
+                        {% for ingredient in disease.list_ingredient.all %}
+                            <ul><li>{{ ingredient.name }}</li></ul>
+                        {% endfor %}
+                        <hr>
+                        {% if request.user.is_authenticated  %}
+                            <div class="row no-gutters">
+                                <div class="col-4 text-left"><a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="text-red"><i class="fa fa-ban"></i> Add to Blacklist</a></div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{#<div class="disease-detail">#}
 {#        <img src="{{ disease.image.url }}">#}
-        <h1>{{ disease.name }}</h1>
-        <br>
-
-        <h1>{{ disease.category.name }}</h1>
-
-        <h1>Запрещенные ингредиенты</h1>
-        {% for ingredient in disease.list_ingredient.all %}
-			<ul><li>{{ ingredient.name }}</li></ul>
-        {% endfor %}
-
+{#        <h1>{{ disease.category.name }}</h1>#}
+{##}
+{#        <h1>Запрещенные ингредиенты</h1>#}
+{#        {% for ingredient in disease.list_ingredient.all %}#}
+{#			<ul><li>{{ ingredient.name }}</li></ul>#}
+{#        {% endfor %}#}
+{##}
 {#        {{ form.as_p }}#}
 {#        <a href="{% url 'diseases:blacklist_new' %}" class="btn btn-outline-primary">Add to Blacklist</a>#}
-        <a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="btn btn-outline-primary">Add to Blacklist</a>
+{#        <a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="btn btn-outline-primary">Add to Blacklist</a>#}
 {#        <h2>New blacklist</h2>#}
 {#    <form method="post">#}
 {#        enctype="multipart/form-data">#}
@@ -30,4 +62,3 @@
 {#        <a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="btn btn-outline-primary">Add to Blacklist</a>#}
 {#    </form>#}
 {#    </div>#}
-{% endblock %}

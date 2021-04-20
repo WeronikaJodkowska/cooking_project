@@ -1,21 +1,39 @@
-{% extends "base.html" %}
+{% extends "diseases/base.html" %}
 
-{% block title %}Черный список{% endblock %}
+{% block title %}Blacklist{% endblock %}
 
 {% block content %}
-{% for blacklist in blacklist %}
-{#    {{ recipe.get_absolute_url }}#}
-    <h1>{{ blacklist.disease }}</h1>
+    <div id="page-title" class="padding-tb-30px gradient-white">
+		<div class="container text-left">
+			<ol class="breadcrumb opacity-5">
+				<li><a href="/">Home</a></li>
+				<li class="active">Blacklist</li>
+			</ol>
+		</div>
+	</div>
 
-{#    <img src="{{ recipe.image.url }}">#}
-    {% for ingredient in blacklist.disease.list_ingredient.all %}
-        <ul><li>{{ ingredient.name }}</li></ul>
-    {% endfor %}
-
-    <div id="favourite-section">
-        <a href="{% url 'diseases:delete_from_blacklist' blacklist.id %}" class="btn btn-outline-primary">
-            Удалить из черного списка
-        </a>
+    <div class="container margin-bottom-100px">
+		<div class="row">
+            {% for blacklist in blacklist %}
+                <div class="col-lg-6 margin-bottom-30px">
+                    <div class="background-white thum-hover box-shadow hvr-float full-width">
+                        <div class="padding-lr-30px padding-tb-20px">
+                            <h5 class="margin-bottom-20px margin-top-10px">{{ blacklist.disease }}</h5>
+                            <hr>
+                            <h3>Prohibited ingredients</h3>
+                                {% for ingredient in blacklist.disease.list_ingredient.all %}
+                                    <ul><li>{{ ingredient.name }}</li></ul>
+                                {% endfor %}
+                                <hr>
+                            {% if request.user.is_authenticated  %}
+                                <div class="row no-gutters">
+                                    <div class="col-4 text-left"><a href="{% url 'diseases:delete_from_blacklist' blacklist.id %}" class="text-red"><i class="fa fa-ban"></i> Delete from Blacklist</a></div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
-{% endfor %}
 {% endblock %}
