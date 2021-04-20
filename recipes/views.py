@@ -104,6 +104,12 @@ class RecipeListView(ListView):
         return entry
 
 
+class RecipeDetailNotLoggedView(DetailView):
+    model = Recipe
+    context_object_name = 'recipe'
+    template_name = 'recipes/recipe/recipe_detail.html'
+
+
 class RecipeDetailView(DetailView):
     model = Recipe
     context_object_name = 'recipe'
@@ -126,13 +132,16 @@ class RecipeDetailView(DetailView):
     #     return recipes
 
     def get_context_data(self, **kwargs):
-        global i_1, i_2, i_3, i_4
         context = super().get_context_data(**kwargs)
         context['list_ingredient'] = self.kwargs.get('pk')
-        context['blacklist'] = BlackList.objects.filter(user=self.request.user)
-        context['diseases'] = Disease.objects.filter(blacklist_disease__user=self.request.user)
-        recipes = Recipe.objects.filter(pk=self.kwargs.get('pk'))
-        diseases = Disease.objects.filter(blacklist_disease__user=self.request.user)
+        if self.request.user.is_authenticated:
+            global i_1, i_2, i_3, i_4
+            context = super().get_context_data(**kwargs)
+            # context['list_ingredient'] = self.kwargs.get('pk')
+            context['blacklist'] = BlackList.objects.filter(user=self.request.user)
+            context['diseases'] = Disease.objects.filter(blacklist_disease__user=self.request.user)
+            recipes = Recipe.objects.filter(pk=self.kwargs.get('pk'))
+            diseases = Disease.objects.filter(blacklist_disease__user=self.request.user)
         # i_3 = i_2.intersection(i_1)
         # for recipe in recipes:
         #     i_1 = recipe.list_ingredient.all()
@@ -148,30 +157,30 @@ class RecipeDetailView(DetailView):
         #         context['intersection'] = i_3
         #         i_4 = context['intersection']
         #         print(i_4)
-        differences = []
-        res_diseases = []
-        for disease in diseases:
-            disease_ingr = disease.list_ingredient.all()
-            print("disease_ingr:", disease_ingr)
-            for recipe in recipes:
-                recipe_ingr = recipe.list_ingredient.all()
-                print("recipe_ingr:", recipe_ingr)
-                same = list(set(disease_ingr) & set(recipe_ingr))
-                print(same)
+            differences = []
+            res_diseases = []
+            for disease in diseases:
+                disease_ingr = disease.list_ingredient.all()
+                print("disease_ingr:", disease_ingr)
+                for recipe in recipes:
+                    recipe_ingr = recipe.list_ingredient.all()
+                    print("recipe_ingr:", recipe_ingr)
+                    same = list(set(disease_ingr) & set(recipe_ingr))
+                    print(same)
                 # if
-                differences.append(same)
+                    differences.append(same)
                 # print(differences)
-                for i in differences:
-                    print("diff ", i)
+                    for i in differences:
+                        print("diff ", i)
 
                 #         res_diseases.append(disease)
                 # print(res_diseases)
 
-        result = list(filter(None, differences))
-        print(result)
+            result = list(filter(None, differences))
+            print(result)
         # for i in differences:
         #     print(i)
-        context['same'] = result
+            context['same'] = result
         # context['r_ingredients'] = i_1
         # context['d_ingredients'] = i_2
 
@@ -258,3 +267,15 @@ class CreateRecipeView(CreateView):
 class SuccessDetailView(DetailView):
     model = Recipe
     template_name = 'recipes/recipe/recipe_created.html'
+
+#
+# def dispatch_by_user(RecipeDetailView, RecipeDetailNotLoggedView):
+#     def get_view(request, **kwargs):
+#         if is_logged_in__user(request.user):
+#             return RecipeDetailView(request, **kwargs)
+#         else:
+#             return RecipeDetailNotLoggedView(request, **kwargs)
+#
+#
+# def is_logged_in__user(user):
+#     return user.is_active
