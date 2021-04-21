@@ -67,7 +67,7 @@
 							<a href="{% url 'recipes:recipe_new' %}" class="text-white ba-2 box-shadow float-right padding-lr-23px padding-tb-15px text-extra-large"><i class="fas fa-plus"></i></a>
                             <span class="user text-white">
                                 {% if request.user.is_authenticated %}
-                                    Hello, <a href="{% url 'account:dashboard' %}">{{ request.user.first_name }}</a>
+                                    Hello, {{ request.user.first_name }}
                                     <a href="{% url 'account:logout' %}">Logout</a>
                                 {% else %}
                                     <a href="{% url 'account:login' %}" class="text-white ba-1 box-shadow float-right padding-lr-23px padding-tb-15px text-extra-large"><i class="far fa-user"></i></a>

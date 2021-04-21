@@ -27,7 +27,7 @@ urlpatterns = [
     path('social-auth/', include('social_django.urls', namespace='social')),
     path('', include('recipes.urls', namespace='recipes')),
     path('diseases/', include('diseases.urls', namespace='diseases')),
-    path('cart/', include('cart.urls')),
+    # path('cart/', include('cart.urls')),
     path('ingredients/', include('ingredients.urls', namespace='ingredients')),
 
     # path('', include('recipes.urls', namespace='recipes')),

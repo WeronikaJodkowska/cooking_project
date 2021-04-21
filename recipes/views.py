@@ -1,3 +1,4 @@
+import re
 from django.contrib import messages
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.db.models import Q
@@ -96,6 +97,12 @@ class RecipeListView(ListView):
     model = Recipe
     template_name = 'recipes/recipe/recipe_list.html'
     paginate_by = 10
+    #
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     alpha_recipes = Recipe.objects.order_by("name")
+    #     context['alpha_recipes'] = alpha_recipes
+    #     print(alpha_recipes)
 
     def get_queryset(self):
         try:
@@ -105,10 +112,10 @@ class RecipeListView(ListView):
         return entry
 
 
-class RecipeDetailNotLoggedView(DetailView):
-    model = Recipe
-    context_object_name = 'recipe'
-    template_name = 'recipes/recipe/recipe_detail.html'
+# class RecipeDetailNotLoggedView(DetailView):
+#     model = Recipe
+#     context_object_name = 'recipe'
+#     template_name = 'recipes/recipe/recipe_detail.html'
 
 
 class RecipeDetailView(DetailView):
@@ -257,7 +264,7 @@ class SearchResultsListView(ListView):
     def get_queryset(self):
         result = super(SearchResultsListView, self).get_queryset()
         q = self.request.GET.get('q')
-        q = q.split(",")
+        q = re.split(' |;|; |, |,|\*|\n', q)
         # for i in range(len(q)):
         #     print(q[i])
         if q:

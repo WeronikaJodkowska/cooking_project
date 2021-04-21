@@ -33,11 +33,10 @@
 </head>
 
 <body>
-	<header class="background-main-color">
+<header class="background-main-color">
 		<div class="container">
 			<div class="header-output">
 				<div class="header-in">
-
 					<div class="row">
 						<div class="col-lg-2 col-md-12">
 							<a id="logo" href="/" class="d-inline-block margin-tb-5px"><img src="{% static 'img/logo-small.png' %}" alt=""></a>
@@ -45,51 +44,29 @@
 						</div>
 						<div class="col-lg-8 col-md-12 position-inherit">
 							<ul id="menu-main" class="white-link dropdown-dark text-lg-center nav-menu link-padding-tb-17px">
-								<li class="has-dropdown"><a href="#">Home</a>
-									<ul class="sub-menu text-left">
-										<li><a href="index.html">Home 1</a></li>
-										<li><a href="index-2.html">Home 2</a></li>
-										<li><a href="index-3.html">Home 3</a></li>
-									</ul>
+								<li class="has-dropdown"><a href="/">Home</a>
 								</li>
 								<li class="has-dropdown"><a href="#">Recipes</a>
 									<ul class="sub-menu text-left">
-										<li><a href="recipes-grid-layout.html">Recipes - Grid Layout </a></li>
-										<li><a href="recipes-list-layout.html">Recipes - List Layout</a></li>
-										<li><a href="authors-layout-1.html">Authors - Layout (1)</a></li>
-										<li><a href="authors-layout-2.html">Authors - Layout (2)</a></li>
-										<li><a href="single-recipe.html">Single Recipe</a></li>
+										<li><a href="{% url 'recipes:category_list' %}">Recipes</a></li>
+										<li><a href="{% url 'account:favourite_recipe_list' %}">Favorite Recipes</a></li>
+										<li><a href="{% url 'recipes:recipe_new' %}">Add recipe</a></li>
 									</ul>
 								</li>
-								<li class="has-dropdown"><a href="#">Blog</a>
+								<li class="has-dropdown"><a href="#">Diseases</a>
 									<ul class="sub-menu text-left">
-										<li><a href="blog-grid.html">Blog Grid </a></li>
-										<li><a href="blog-list.html">Blog List</a></li>
-										<li><a href="blog-classic.html">Blog Classic</a></li>
-										<li><a href="blog-single.html">Blog Single</a></li>
+										<li><a href="{% url 'diseases:category_list' %}">Diseases</a></li>
+										<li><a href="{% url 'diseases:black_list' %}">Black List</a></li>
 									</ul>
 								</li>
-								<li class="has-dropdown"><a href="#">Pages</a>
-									<ul class="sub-menu text-left">
-										<li><a href="page-about.html">About Us </a></li>
-										<li><a href="add-recipe.html">Add Recipe</a></li>
-										<li><a href="page-login.html">Login Page</a></li>
-										<li><a href="page-sign-up.html">Sign up</a></li>
-										<li><a href="search-page.html">Search  Page</a></li>
-										<li><a href="page-contact-us.html">Contact Us</a></li>
-										<li><a href="page-404.html">Pages 404</a></li>
-									</ul>
-								</li>
-								<li><a href="page-contact-us.html">Contact Us</a></li>
 							</ul>
 						</div>
-						<div class="col-lg-2 col-md-12 d-none d-lg-block">
+                        <div class="col-lg-2 col-md-12 d-none d-lg-block">
 							<hr class="margin-bottom-0px d-block d-sm-none">
 							<a href="{% url 'recipes:recipe_new' %}" class="text-white ba-2 box-shadow float-right padding-lr-23px padding-tb-15px text-extra-large"><i class="fas fa-plus"></i></a>
-                            <span class="user">
+                            <span class="user text-white">
                                 {% if request.user.is_authenticated %}
-{#                                    <a href="{% url 'account:logout' %}" class="text-white ba-1 box-shadow float-right padding-lr-23px padding-tb-15px text-extra-large"><i class="far fa-user"></i></a>#}
-                                    Hello, <a href="{% url 'account:dashboard' %}">{{ request.user.first_name }}</a>,
+                                    Hello, {{ request.user.first_name }}
                                     <a href="{% url 'account:logout' %}">Logout</a>
                                 {% else %}
                                     <a href="{% url 'account:login' %}" class="text-white ba-1 box-shadow float-right padding-lr-23px padding-tb-15px text-extra-large"><i class="far fa-user"></i></a>
@@ -101,8 +78,7 @@
 				</div>
 			</div>
 		</div>
-	</header>
-	<!-- // Header  -->
+	</header>	<!-- // Header  -->
 
 {% block content %}
 
@@ -128,8 +104,10 @@
                     <a href="{% url 'account:password_reset' %}" class="forgot">Forgot my Password</a>
                     <p><input type="submit" class="btn btn-md btn-primary full-width" value="Login"></p>
                     <div class="or"></div>
-					<a href="#" class="btn btn-md bg-facebook full-width btn-icon-left"><i class="fab fa-facebook margin-right-8px" aria-hidden="true"></i> Login with Facebook</a>
-					<a href="#" class="btn btn-md bg-twitter full-width btn-icon-left"><i class="fab fa-twitter margin-right-8px" aria-hidden="true"></i> Login with Twitter</a>
+{#					<a href="#" class="btn btn-md bg-facebook full-width btn-icon-left"><i class="fab fa-facebook margin-right-8px" aria-hidden="true"></i> Login with Facebook</a>#}
+{#					<a href="#" class="btn btn-md bg-twitter full-width btn-icon-left"><i class="fab fa-twitter margin-right-8px" aria-hidden="true"></i> Login with Twitter</a>#}
+                    <a href="{% url "social:begin" "google-oauth2" %}" class="google btn btn-md full-width btn-icon-left"><i class="fab fa-google-plus margin-right-8px" aria-hidden="true"></i> Login with Google</a>
+
 					<p>Don't you have an account? <a href="{% url 'account:register' %}">Register Now!</a> </p>
                 </form>
 			</div>
@@ -163,48 +141,66 @@
 {#{% endblock %}#}
 {% endblock %}
 
-        <footer class="padding-top-100px padding-bottom-70px background-dark">
+     <footer class="padding-top-100px padding-bottom-70px background-dark">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4 col-md-4 sm-mb-30px">
-					<div class="logo margin-bottom-10px"><img src="{% static 'img/logo-1.png' %}" alt=""></div>
-					<div class="text-grey-2  font-weight-300">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy .</div>
+                    <div class="logo margin-bottom-10px"><img src="{% static 'img/logo-small.png' %}" alt="">&emsp;<h class="text-white "><font size="+2">Specipe</font></h></div>
+					<div class="text-grey-2  font-weight-300">“If you keep good food in your fridge, you will eat good food.” – Errick McAdams
+                    </div>
+                    <div class="text-grey-2  font-weight-300">Our goal is to speed up and simplify the cooking process and help you stay healthy by eating delicious food.</div>
 					<ul class="list-inline text-left margin-tb-20px margin-lr-0px text-white">
 						<li class="list-inline-item"><a class="facebook" href="#"><i class="fab fa-facebook-f"></i></a></li>
-						<li class="list-inline-item"><a class="youtube" href="#"><i class="fab fa-youtube"></i></a></li>
 						<li class="list-inline-item"><a class="linkedin" href="#"><i class="fab fa-linkedin"></i></a></li>
 						<li class="list-inline-item"><a class="google" href="#"><i class="fab fa-google-plus"></i></a></li>
 						<li class="list-inline-item"><a class="twitter" href="#"><i class="fab fa-twitter"></i></a></li>
-						<li class="list-inline-item"><a class="rss" href="#"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
 					</ul>
 					<!-- // Social -->
 				</div>
 
 				<div class="col-lg-4  col-md-4 sm-mb-30px">
+                    <ul class="footer-menu-2 row margin-0px padding-0px list-unstyled">
+
+	                    <li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
+						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
+						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
+                        <li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
+					</ul>
+                    <ul class="footer-menu-2 row margin-0px padding-0px list-unstyled">
+	                    <li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
+						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
+						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
+                        <li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
+					</ul>
+
 					<ul class="footer-menu-2 row margin-0px padding-0px list-unstyled">
-						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2">Home</a></li>
-						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2">Featured</a></li>
-						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2">Feedback</a></li>
-						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2">Ask a Question</a></li>
-						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2">Team</a></li>
-						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2">Maintenance</a></li>
-						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2">Get a Quote</a></li>
-						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2">Contact Us</a></li>
+						<li class="col-6  padding-tb-5px"><a href="/" class="text-grey-2">Home</a></li>
+						<li class="col-6  padding-tb-5px"><a href="{% url 'recipes:category_list' %}" class="text-grey-2">Recipes</a></li>
+						<li class="col-6  padding-tb-5px"><a href="{% url 'account:favourite_recipe_list' %}" class="text-grey-2">Favorite recipes</a></li>
+                        <li class="col-6  padding-tb-5px"><a href="{% url 'recipes:recipe_new' %}" class="text-grey-2">Add recipe</a></li>
+
 					</ul>
 				</div>
 
 				<div class="col-lg-4  col-md-4 sm-mb-30px">
-					<ul class="footer-menu-2 row margin-0px padding-0px list-unstyled">
-						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2">Home</a></li>
-						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2">Featured</a></li>
-						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2">Feedback</a></li>
-						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2">Ask a Question</a></li>
-						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2">Team</a></li>
-						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2">Maintenance</a></li>
-						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2">Get a Quote</a></li>
-						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2">Contact Us</a></li>
+                    <ul class="footer-menu-2 row margin-0px padding-0px list-unstyled">
+	                    <li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
+						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
+						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
+                        <li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
 					</ul>
+                    <ul class="footer-menu-2 row margin-0px padding-0px list-unstyled">
+	                    <li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
+						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
+						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
+                        <li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
+					</ul>
+					<ul class="footer-menu-2 row margin-0px padding-0px list-unstyled">
+                        <li class="col-6  padding-tb-5px"><a href="{% url 'diseases:category_list' %}" class="text-grey-2">Diseases</a></li>
+						<li class="col-6  padding-tb-5px"><a href="{% url 'diseases:black_list' %}" class="text-grey-2">Blacklist</a></li>
+                	</ul>
 				</div>
+
 
 			</div>
 		</div>
@@ -215,17 +211,15 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="text-white margin-tb-15px text-center text-lg-left">
-						Cook Note | @2021 All copy rights reserved
+						Specipe | @2021 All copy rights reserved
 					</div>
 				</div>
 				<div class="col-md-6">
 					<ul class="list-inline text-lg-right text-center margin-lr-0px margin-tb-15px text-white">
 						<li class="list-inline-item margin-lr-8px"><a class="facebook" href="#"><i class="fab fa-facebook-f"></i></a></li>
-						<li class="list-inline-item margin-lr-8px"><a class="facebook" href="#"><i class="fab fa-youtube"></i></a></li>
 						<li class="list-inline-item margin-lr-8px"><a class="facebook" href="#"><i class="fab fa-linkedin"></i></a></li>
 						<li class="list-inline-item margin-lr-8px"><a class="facebook" href="#"><i class="fab fa-google-plus"></i></a></li>
 						<li class="list-inline-item margin-lr-8px"><a class="facebook" href="#"><i class="fab fa-twitter"></i></a></li>
-						<li class="list-inline-item margin-lr-8px"><a class="rss" href="#"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
 					</ul>
 				</div>
 			</div>

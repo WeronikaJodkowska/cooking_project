@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'social_django',
     'ingredients',
     'recipes.apps.RecipesConfig',
-    'cart.apps.CartConfig',
+    # 'cart.apps.CartConfig',
     'diseases.apps.DiseasesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -99,18 +99,21 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    # },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    # },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    # },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    # },
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 9,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
 ]
 
 
@@ -153,7 +156,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'account.authentication.EmailAuthBackend',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.google.GoogleOAuth2',
+
 ]
+
+# PASSWORD_HASHERS = [
+#     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+#     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+#     'django.contrib.auth.hashers.Argon2PasswordHasher',
+#     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+# ]
+
+# ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
 
 CART_SESSION_ID = 'cart'
 
@@ -173,3 +189,6 @@ CART_SESSION_ID = 'cart'
 #
 # SOCIAL_AUTH_GITHUB_KEY = os.environ.get("078bf4a5e4e953fb897b")
 # SOCIAL_AUTH_GITHUB_SECRET = os.environ.get("99bcc5dcef95476eb36c6926fc0921acb2be2293 ")
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '949817039508-njf30qd88akl8ubj76nthpib1fgq0tgp.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '1cJ5AVJQBNG0OA-ocTiPjYwH'

@@ -98,7 +98,9 @@
                             <span class="user text-white">
                                 {% if request.user.is_authenticated %}
 {#                                    <a href="{% url 'account:logout' %}" class="text-white ba-1 box-shadow float-right padding-lr-23px padding-tb-15px text-extra-large"><i class="far fa-user"></i></a>#}
-                                    Hello, <a href="{% url 'account:dashboard' %}">{{ request.user.first_name }}</a>
+{#                                    Hello, <a href="{% url 'account:dashboard' %}">{{ request.user.first_name }}</a>#}
+                                    Hello, {{ request.user.first_name }}
+
                                     <a href="{% url 'account:logout' %}">Logout</a>
                                 {% else %}
                                     <a href="{% url 'account:login' %}" class="text-white ba-1 box-shadow float-right padding-lr-23px padding-tb-15px text-extra-large"><i class="far fa-user"></i></a>
@@ -126,26 +128,29 @@
 						<div class="col-lg-8">
 							<div class="listing-search">
 								<form class="row no-gutters" action="{% url 'recipes:search_results' %}" method="get">
-									<div class="col-md-4">
+									<div class="col-md-8">
 										<div class="keywords">
                                             <input name="q" class="listing-form first" type="text" placeholder="Keywords..." aria-label="Search">
 										</div>
 									</div>
-									<div class="col-md-4">
-										<div class="categories dropdown">
-											<a class="listing-form d-block text-nowrap" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Categories</a>
-											<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-												<button class="dropdown-item text-up-small" type="button">Fish</button>
-												<button class="dropdown-item text-up-small" type="button">Cocktails</button>
-												<button class="dropdown-item text-up-small" type="button">Salads</button>
-												<button class="dropdown-item text-up-small" type="button">Asian</button>
-												<button class="dropdown-item text-up-small" type="button">Fish</button>
-												<button class="dropdown-item text-up-small" type="button">Cocktails</button>
-												<button class="dropdown-item text-up-small" type="button">Salads</button>
-												<button class="dropdown-item text-up-small" type="button">Asian</button>
-											</div>
-										</div>
-									</div>
+{#									<div class="col-md-4">#}
+{#										<div class="categories dropdown">#}
+{#											<a class="listing-form d-block text-nowrap" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Categories</a>#}
+{#											<div class="dropdown-menu" aria-labelledby="dropdownMenu2">#}
+{#                {% for category in category_list %}#}
+{#                                                    {{ category }}#}
+{#                                                {% endfor %}#}
+{#												<button class="dropdown-item text-up-small" type="button">Fish</button>#}
+{#												<button class="dropdown-item text-up-small" type="button">Cocktails</button>#}
+{#												<button class="dropdown-item text-up-small" type="button">Salads</button>#}
+{#												<button class="dropdown-item text-up-small" type="button">Asian</button>#}
+{#												<button class="dropdown-item text-up-small" type="button">Fish</button>#}
+{#												<button class="dropdown-item text-up-small" type="button">Cocktails</button>#}
+{#												<button class="dropdown-item text-up-small" type="button">Salads</button>#}
+{#												<button class="dropdown-item text-up-small" type="button">Asian</button>#}
+{#											</div>#}
+{#										</div>#}
+{#									</div>#}
 									<div class="col-md-4">
                                         <button class="listing-bottom background-second-color box-shadow" type="submit">Submit</button>
 {#										<a class="listing-bottom background-second-color box-shadow" href="{% url 'recipes:search_results' %}">Search Now</a>#}

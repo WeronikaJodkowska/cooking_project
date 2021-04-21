@@ -27,6 +27,8 @@ urlpatterns = [
     # path('', ingredients_views.ingredient_list, name='ingredient_list'),
     path('', include('django.contrib.auth.urls')),
     path('register/', views.register, name='register'),
+    path('activate/<uidb64>/<token>/', views.activate, name='activate'),
+
     path('edit/', views.edit, name='edit'),
     path('favrecipe/<int:id>/', views.favourite_recipe_add, name='favourite_recipe_add'),
     path('favrecipes/', views.favourite_recipe_list, name='favourite_recipe_list'),
