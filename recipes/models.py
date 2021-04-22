@@ -41,7 +41,7 @@ class Recipe(models.Model):
     list_ingredient = models.ManyToManyField(Ingredient, blank=True, related_name='recipe_list_ingredient')
     # users = models.ManyToManyField('auth.User', null=True, blank=True)
     # list_ingredient = models.TextField(default=None)
-    cart = models.ManyToManyField(User, related_name='cart', default=None, blank=True)
+    # cart = models.ManyToManyField(User, related_name='cart', default=None, blank=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='d')
     user = models.ForeignKey(User, blank=True, null=True, default=None, on_delete=models.CASCADE)
 
