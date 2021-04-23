@@ -12,7 +12,7 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     actions = ['make_published']
-
+    autocomplete_fields = ['list_ingredient', 'favourites']
     list_display = ['name', 'slug', 'status']
     prepopulated_fields = {'slug': ('name',)}
     # actions = [make_published]
