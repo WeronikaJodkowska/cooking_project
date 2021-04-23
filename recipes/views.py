@@ -1,21 +1,16 @@
 import re
+from dal import autocomplete
 from django.contrib import messages
-from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
-from django.db.models import Q
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
-from django.utils.text import slugify
-from django.core.paginator import Paginator
+from django.contrib.postgres.search import SearchQuery
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
+from django.views.generic import ListView, DetailView, CreateView
 from more_itertools import unique_everseen
 
-from .models import Category, Recipe
-from .forms import RecipeCreateForm
-
 from diseases.models import BlackList, Disease
-
 from ingredients.models import Ingredient
+from .forms import RecipeCreateForm
+from .models import Category, Recipe
 
 
 def filter_text(self, queryset, name, value):
@@ -31,50 +26,9 @@ def filter_text(self, queryset, name, value):
     )
 
 
-# def recipe_list(request, category_slug=None):
-#     category = None
-#     categories = Category.objects.all()
-#     recipes = Recipe.objects.all()
-#     if category_slug:
-#         category = get_object_or_404(Category, slug=category_slug)
-#         recipes = recipes.filter(category=category)
-#     return render(request,
-#                   'recipes/recipe/recipe_list.html',
-#                   {'category': category,
-#                    'categories': categories,
-#                    'recipes': recipes})
-#
-#
-# def recipe_detail(request, id, slug):
-#     recipe = get_object_or_404(Recipe,
-#                                id=id,
-#                                slug=slug)
-#     return render(request,
-#                   'recipes/recipe/recipe_detail.html',
-#                   {'recipe': recipe})
-
-
 class CategoryListView(ListView):
     model = Category
     template_name = 'recipes/categories/category_list.html'
-
-    # def get_queryset(self):
-    #     return Recipe.objects.filter(category_id=self.kwargs.get('pk'))
-
-
-# class RecipeByCategoryListView(ListView):
-#     model = Category
-#     template_name = 'recipes/recipe/recipe_by_category.html'
-#     context_object_name = 'category'
-#
-#     def get_queryset(self):
-#         self.category = get_object_or_404(Category, name=self.kwargs['category'])
-#         return Recipe.objects.filter(category=self.category)
-#
-#     def get_context_data(self, **kwargs):
-#         context = super(RecipeByCategoryListView, self).get_context_data(**kwargs)
-#         context['category'] = self.category
-#         return context
 
 
 class CategoryDetailView(DetailView):
@@ -83,26 +37,11 @@ class CategoryDetailView(DetailView):
     # paginate_by = 2
     template_name = 'recipes/categories/category_detail.html'
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['status'] = self.kwargs.get('p')
-    #     return context
-    # def get_queryset(self):
-    #     return Recipe.objects.filter(status='Published')
-    # def get_queryset(self):
-    #     return Recipe.objects.filter(category_id=self.kwargs.get('pk'))
-
 
 class RecipeListView(ListView):
     model = Recipe
     template_name = 'recipes/recipe/recipe_list.html'
     paginate_by = 10
-    #
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     alpha_recipes = Recipe.objects.order_by("name")
-    #     context['alpha_recipes'] = alpha_recipes
-    #     print(alpha_recipes)
 
     def get_queryset(self):
         try:
@@ -112,32 +51,10 @@ class RecipeListView(ListView):
         return entry
 
 
-# class RecipeDetailNotLoggedView(DetailView):
-#     model = Recipe
-#     context_object_name = 'recipe'
-#     template_name = 'recipes/recipe/recipe_detail.html'
-
-
 class RecipeDetailView(DetailView):
     model = Recipe
     context_object_name = 'recipe'
     template_name = 'recipes/recipe/recipe_detail.html'
-
-    # def get_queryset(self, **kwargs):
-    #     global i_1, i_2, i_3
-    #     recipes = Recipe.objects.filter(pk=self.kwargs.get('pk'))
-    #     print(recipes)
-    #     diseases = Disease.objects.filter(blacklist_disease__user=self.request.user)
-    #     print(diseases)
-    #     for recipe in recipes:
-    #         i_1 = recipe.list_ingredient.all()
-    #         print(i_1)
-    #     for disease in diseases:
-    #         i_2 = disease.list_ingredient.all()
-    #         print("2: ", i_2)
-    #         i_3 = i_2.intersection(i_1)
-    #         print(i_3)
-    #     return recipes
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -145,26 +62,11 @@ class RecipeDetailView(DetailView):
         if self.request.user.is_authenticated:
             global i_1, i_2, i_3, i_4
             context = super().get_context_data(**kwargs)
-            # context['list_ingredient'] = self.kwargs.get('pk')
             context['blacklist'] = BlackList.objects.filter(user=self.request.user)
             context['diseases'] = Disease.objects.filter(blacklist_disease__user=self.request.user)
             recipes = Recipe.objects.filter(pk=self.kwargs.get('pk'))
             diseases = Disease.objects.filter(blacklist_disease__user=self.request.user)
-        # i_3 = i_2.intersection(i_1)
-        # for recipe in recipes:
-        #     i_1 = recipe.list_ingredient.all()
-        #     print("1. recipe_ingredients: ", i_1)
-        #     for disease in diseases:
-        #         i_2 = disease.list_ingredient.all()
-        #         print("2. disease_ingredients: ", i_2)
-        #         i_3 = list(set(i_1) & set(i_2))
-        #         list_same = [i_3[0]]
-        #         print("Совпадающие: ", i_3)
-        #         print(type(list_same))
-        #         print(list_same)
-        #         context['intersection'] = i_3
-        #         i_4 = context['intersection']
-        #         print(i_4)
+
             same_ingredients = []
             res_diseases = []
             dis_ingr = {}
@@ -185,7 +87,6 @@ class RecipeDetailView(DetailView):
                     print("res_dis_ingr ", res_dis_ingr)
                     for i in same_ingredients:
                         for j in i:
-                            # print(str(j))
                             res_diseases.append(str(j))
                             print("res_diseases ", res_diseases)
 
@@ -208,52 +109,6 @@ class RecipeDetailView(DetailView):
             context['same'] = result
             context['disease_ingredient'] = res_dis_ingr
         return context
-            #         res_diseases.append(disease)
-                # print(res_diseases)
-            # result = list(filter(None, same_ingredients))
-            # print(result)
-        # context['r_ingredients'] = i_1
-        # context['d_ingredients'] = i_2
-
-    #
-    # def get_queryset(self):
-    #     results = Recipe.objects.all()
-    #     for staff in results:
-    #         print(staff.list_ingredient.all())
-    #         return staff
-
-
-# class RecipeDetailView(DetailView):
-#     model = Recipe
-#     context_object_name = 'recipe'
-#     template_name = 'recipes/recipe/recipe_detail.html'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['category_id'] = self.kwargs.get('pk')
-#         context['list_ingredient'] = self.kwargs.get('pk')
-#         context['blacklist'] = BlackList.objects.filter(user=self.request.user)
-#
-#         # context['blacklist_disease'] = BlackList.disease.objects.filter(user=self.request.user)
-#         # disease = models.ForeignKey(Disease, related_name='blacklist_disease', blank=True, null=True, default=None,
-#         #                             on_delete=models.CASCADE)
-#
-#         # context['list_ingredient'] = self.kwargs.get('pk')
-#         return context
-
-    # def get_queryset(self):
-    #     recipe = Recipe.objects.filter(category_id=self.kwargs.get('pk'))
-    #     # disease = get_object_or_404(Disease, id=id)
-    #
-    #     # recipe_ingr = Recipe.objects.filter(list_ingredient__name__icontains=self.request.recipe)
-    #     # sitesubnet = Subnets.objects.filter(sitesubnets__site_id=site_id)
-    #     # common_subnets = list(set(devicesubnet) & set(sitesubnet))
-    #     return recipe
-
-
-    # blacklist = BlackList.objects.filter(user=request.user)
-    # def get_queryset(self):
-    #     return self.model.objects.filter(friend_of=self.request.user.profile)
 
 
 class SearchResultsListView(ListView):
@@ -297,14 +152,12 @@ class SuccessDetailView(DetailView):
     model = Recipe
     template_name = 'recipes/recipe/recipe_created.html'
 
-#
-# def dispatch_by_user(RecipeDetailView, RecipeDetailNotLoggedView):
-#     def get_view(request, **kwargs):
-#         if is_logged_in__user(request.user):
-#             return RecipeDetailView(request, **kwargs)
-#         else:
-#             return RecipeDetailNotLoggedView(request, **kwargs)
-#
-#
-# def is_logged_in__user(user):
-#     return user.is_active
+
+class IngredientAutoComplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = Ingredient.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+
+        return qs

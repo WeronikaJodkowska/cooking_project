@@ -1,5 +1,5 @@
 import os
-
+from dal import autocomplete
 from django import forms
 from django.forms import ImageField
 
@@ -12,13 +12,20 @@ class MyCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
     queryset = Category.objects.all()
 
 
-class RecipeCreateForm(forms.ModelForm):
+class RecipeCreateForm(autocomplete.FutureModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control form-control-sm"}))
     category = forms.ModelChoiceField(queryset=Category.objects.all(),
                                       widget=forms.Select(attrs={"class": "form-control form-control-sm"}))
     # , widget=MyCheckboxSelectMultiple)
-    list_ingredient = forms.ModelMultipleChoiceField(queryset=Ingredient.objects.all(),
-                                                     widget=forms.CheckboxSelectMultiple)
+    # list_ingredient = forms.ModelMultipleChoiceField(queryset=Ingredient.objects.all(),
+    #                                                  widget=forms.CheckboxSelectMultiple)
+    # list_ingredient = autocomplete.QuerySetSequenceSelect2Multiple(
+    #     queryset=Ingredient.objects.all(),
+    #     required=False,
+    #     widget=autocomplete.QuerySetSequenceSelect2Multiple(
+    #         'recipes:ingredient_autocomplete'),
+    # )
+
     image = forms.ImageField(error_messages={'invalid': "Image files only"},
                              widget=forms.FileInput)
     # (attrs={"class": "form-control form-control-sm"}))
@@ -30,6 +37,9 @@ class RecipeCreateForm(forms.ModelForm):
     class Meta:
         model = Recipe
         fields = ('name', 'category', 'list_ingredient', 'image', 'directions',)
+        widgets = {
+            'list_ingredient': autocomplete.ModelSelect2Multiple(url='recipes:ingredient_autocomplete')
+        }
         # list_ingredient = forms.MultipleChoiceField(required=False)
 
     # category = models.ForeignKey(Category, related_name='recipes', on_delete=models.CASCADE)

@@ -6,6 +6,7 @@ cryptography==3.4.4
 defusedxml==0.7.0rc2
 Django==3.1.6
 django-allauth==0.44.0
+django-autocomplete-light==3.8.2
 django-extensions==3.1.1
 idna==2.10
 more-itertools==8.7.0

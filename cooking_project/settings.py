@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # 'users',
+    'dal',
+    'dal_select2',
     'account.apps.AccountConfig',
     'social_django',
     'ingredients',
