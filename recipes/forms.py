@@ -29,14 +29,14 @@ class RecipeCreateForm(autocomplete.FutureModelForm):
     image = forms.ImageField(error_messages={'invalid': "Image files only"},
                              widget=forms.FileInput)
     # (attrs={"class": "form-control form-control-sm"}))
-    directions = forms.Textarea()
+    # directions = forms.Textarea()
 
     # list_ingredient = forms.ModelMultipleChoiceField(queryset=Ingredient.objects.all(),
     #                                                  widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = Recipe
-        fields = ('name', 'category', 'list_ingredient', 'image', 'directions',)
+        fields = ('name', 'category', 'list_ingredient', 'image',)
         widgets = {
             'list_ingredient': autocomplete.ModelSelect2Multiple(url='recipes:ingredient_autocomplete')
         }

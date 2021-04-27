@@ -35,7 +35,7 @@ class Recipe(models.Model):
                                  on_delete=models.CASCADE)
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
-    directions = models.TextField(default=None)
+    # directions = models.ForeignKey(Direction, related_name='directions', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='recipes/%Y/%m/%d')
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
     list_ingredient = models.ManyToManyField(Ingredient, blank=True, related_name='recipe_list_ingredient')
@@ -59,3 +59,9 @@ class Recipe(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Recipe, self).save(*args, **kwargs)
+
+
+class Direction(models.Model):
+    text = models.TextField(blank=True, verbose_name='direction|text')
+    image = models.ImageField(blank=True, upload_to='directions/%Y/%m/%d')
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
