@@ -14,12 +14,13 @@
 			<h1 class="font-weight-300">{{ recipe.name }}</h1>
 		</div>
 	</div>
-{#    <div class="recipe-detail">#}
     <div class="container">
 		<div class="row">
             <div class="col-lg-8">
                 <div class="margin-bottom-40px card border-0 box-shadow">
-                    <div class="card-img-top"><img src="{{ recipe.image.url }}"></div>
+                    <div class="card-img-top">
+                        <img src="{{ recipe.image.url }}">
+                    </div>
                     <div class="padding-lr-30px padding-tb-20px">
                         <h5 class="margin-bottom-20px margin-top-10px">{{ recipe.name }}</h5>
                         <h4><a class="active" href="{% url 'recipes:category_detail' recipe.category.id %}">{{ recipe.category }}</a></h4>
@@ -36,7 +37,9 @@
                             </ul>
                         {% endfor %}
                         <h3>Method</h3>
-                        {{ recipe.directions|linebreaks }}
+                    {% for d in directions %}
+                    {{ d.text }}<br>
+                    {% endfor %}
                         <hr>
                         {% if request.user.is_authenticated  %}
                             <div class="row no-gutters">
@@ -49,12 +52,8 @@
                     <div class="margin-bottom-40px box-shadow">
                         <div class="padding-30px background-white">
                             <h3>Be careful, the following ingredients are on the prohibited list: </h3>
-{#{{ same }}#}
                             {% for i in disease_ingredient %}
-{#                                {% for j in i %}#}
-{#                                <ul><li>{{ i.keys }}</li></ul>#}
                                 {% for j in i %}
-{#                                    <ul><li>jjj{{ j }}</li></ul>#}
                                     {% for k in i.values %}
                                         {% for g in k %}
                                             <ul><li>{{ g }} ({{ j }})</li></ul>
@@ -62,18 +61,6 @@
                                     {% endfor %}
                                 {% endfor %}
                             {% endfor %}
-{#                            {% for blacklist in blacklist %}#}
-{#                                {% for ingredient in blacklist.disease.list_ingredient.all %}#}
-{#                                    {% for item in same %}#}
-{#                                        {% for j in item %}#}
-{#                                            {% if ingredient == j %}#}
-{#                                                <h1>{{ blacklist.disease }}</h1>#}
-{#                                                <ul><li>{{ ingredient.name }}</li></ul>#}
-{#                                            {% endif %}#}
-{#                                        {% endfor %}#}
-{#                                    {% endfor %}#}
-{#                                {% endfor %}#}
-{#                            {% endfor %}#}
                         </div>
                     </div>
                 {% endif %}
@@ -81,103 +68,3 @@
         </div>
     </div>
 {% endblock %}
-{#        <a href="{% url 'account:add_to_cart' recipe.id %}" class="btn btn-outline-primary">Add to Cart</a>#}
-{#        <a href="{% url 'cart:add_to_cart' recipe.id %}" class="btn btn-outline-primary">Add to Cart</a>#}
-{#        <form action="{% url 'cart:cart_add' %}" method="post">#}
-{#            {% csrf_token %}#}
-{#            {{ form.as_p }}#}
-{#            <input type="submit" value="Add to cart" />#}
-{#        </form>#}
-
-{#        {% for ingredient in recipe.list_ingredient.all %}#}
-{#            {% for item in same %}#}
-{#            {% if ingredient == same.item.0 %}#}
-{#                <strike><ul><li>{{ ingredient.name }}</li></ul></strike>#}
-{#            {% else %}#}
-{#                <ul><li>{{ ingredient.name }}</li></ul>#}
-{#            {% endif %}#}
-{#                {% endfor %}#}
-{#        {% endfor %}#}
-
-
-
-
-
-
-
-{#{% if request.user.is_authenticated  %}#}
-{#<h1>Будьте осторожны, следующие ингрединенты входят в список запрещенных: </h1>#}
-{#    {% for blacklist in blacklist %}#}
-{#    <h1>{{ blacklist.disease }}</h1>#}
-{##}
-{#        {% for ingredient in blacklist.disease.list_ingredient.all %}#}
-{#            {% for item in same %}#}
-{#            {% for j in item %}#}
-{#            {% if ingredient in same.items %}#}
-{#                {% if ingredient == j %}#}
-{#                    <ul><li>{{ ingredient.name }}</li></ul>#}
-{#            {% endif %}#}
-{#                {% endif %}#}
-{#                {% endfor %}#}
-{#        {% endfor %}#}
-{#            {% endfor %}#}
-{#    {% endfor %}#}
-{##}
-{#    {% for blacklist in blacklist %}#}
-{#        {{ blacklist.disease.list_ingredient.values.0.name }}#}
-{##}
-{##}
-{#        {% for ingredient in blacklist.disease.list_ingredient.all %}#}
-{#            {% for item in same %}#}
-{#            {% for j in item %}#}
-{##}
-{#            {% if ingredient in same.items %}#}
-{#                {% if ingredient == j %}#}
-{#                    <h1>{{ blacklist.disease }}</h1>#}
-{#                    <ul><li>{{ ingredient.name }}</li></ul>#}
-{#            {% endif %}#}
-{#                {% endif %}#}
-{#                {% endfor %}#}
-{#        {% endfor %}#}
-{#            {% endfor %}#}
-{#    {% endfor %}#}
-{#{% endif %}#}
-
-
-
-
-{##}
-{#    {% for i in r_ingredients.all %}#}
-{#    {{ i }}#}
-{#    {% endfor %}#}
-
-{#    <h1>Совпадающие</h1>#}
-{#<a href="{% url 'account:favourite_recipe_add' recipe.id %}" class="btn btn-outline-primary">Add to Favourites</a>#}
-
-
-{##}
-{#        {% for blacklist in blacklist %}#}
-{#            {% for item in same %}#}
-{#                {% for j in item %}#}
-{#                    {{ blacklist.disease.name }}#}
-{#                    {% if blacklist.disease.name in j %}#}
-{#            {% for ingredient in blacklist.disease.list_ingredient.all %}#}
-{#                    {{ blacklist.disease.name }}:<br>#}
-{#                    {% for ingredient in blacklist.disease.list_ingredient.all %}#}
-{#                        {{ ingredient }}<br>#}
-{#                    {% endfor %}#}
-{#                    {% endif %}#}
-{#                {% endfor %}#}
-{#            {% endfor %}#}
-{#        {% endfor %}#}
-
-{#    {% for item in same %}#}
-{#{{ item.0 }}#}
-
-{#    {% for x in same %}#}
-{#        {% for y in x %}#}
-{#            {{ y }}#}
-{#        {% endfor %}#}
-{#    {% endfor %}#}
-{#    </div>#}
-

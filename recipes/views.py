@@ -10,7 +10,7 @@ from more_itertools import unique_everseen
 from diseases.models import BlackList, Disease
 from ingredients.models import Ingredient
 from .forms import RecipeCreateForm
-from .models import Category, Recipe
+from .models import Category, Recipe, Direction
 
 
 def filter_text(self, queryset, name, value):
@@ -59,6 +59,12 @@ class RecipeDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['list_ingredient'] = self.kwargs.get('pk')
+        # context['direction'] = Direction.objects.get()
+        directions = Direction.objects.filter(recipe_id=self.kwargs.get('pk'))
+        print('direction', directions)
+        for d in directions:
+            print(d.text)
+        context['directions'] = Direction.objects.filter(recipe_id=self.kwargs.get('pk'))
         if self.request.user.is_authenticated:
             global i_1, i_2, i_3, i_4
             context = super().get_context_data(**kwargs)
@@ -108,6 +114,7 @@ class RecipeDetailView(DetailView):
             #                 print(g)
             context['same'] = result
             context['disease_ingredient'] = res_dis_ingr
+        print(context['directions'])
         return context
 
 
