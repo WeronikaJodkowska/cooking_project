@@ -39,7 +39,7 @@
                     <hr>
                         <h3>Method</h3>
                         {% for d in directions %}
-                            {{ d.text }}<br>
+                            {{ d.order|add:1 }}. {{ d.text }}<br>
                             {% if d.image.url is not null %}
                                 <img src="{{ d.image.url }}"><br>
                             {% endif %}

@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
-
+from positions.fields import PositionField
 from ingredients.models import Ingredient
 
 
@@ -62,6 +62,12 @@ class Recipe(models.Model):
 
 
 class Direction(models.Model):
+    order = PositionField(blank=True, null=True, unique_for_field='recipe')
     text = models.TextField(blank=True, verbose_name='direction|text')
     image = models.ImageField(blank=True, upload_to='directions/%Y/%m/%d')
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Direction'
+        verbose_name_plural = 'Directions'
+        ordering = ['order', 'id']

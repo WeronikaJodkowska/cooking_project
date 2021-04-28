@@ -31,4 +31,4 @@ class RecipeAdmin(admin.ModelAdmin):
 
 @admin.register(Direction)
 class DirectionAdmin(admin.ModelAdmin):
-    list_display = ['text']
+    list_display = ['order', 'text']
