@@ -59,15 +59,16 @@ class RecipeDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['list_ingredient'] = self.kwargs.get('pk')
-        # context['direction'] = Direction.objects.get()
+        context['directions'] = Direction.objects.filter(recipe_id=self.kwargs.get('pk'))
         directions = Direction.objects.filter(recipe_id=self.kwargs.get('pk'))
         print('direction', directions)
         for d in directions:
             print(d.text)
-        context['directions'] = Direction.objects.filter(recipe_id=self.kwargs.get('pk'))
+
         if self.request.user.is_authenticated:
             global i_1, i_2, i_3, i_4
             context = super().get_context_data(**kwargs)
+            context['directions'] = Direction.objects.filter(recipe_id=self.kwargs.get('pk'))
             context['blacklist'] = BlackList.objects.filter(user=self.request.user)
             context['diseases'] = Disease.objects.filter(blacklist_disease__user=self.request.user)
             recipes = Recipe.objects.filter(pk=self.kwargs.get('pk'))
@@ -114,7 +115,6 @@ class RecipeDetailView(DetailView):
             #                 print(g)
             context['same'] = result
             context['disease_ingredient'] = res_dis_ingr
-        print(context['directions'])
         return context
 
 

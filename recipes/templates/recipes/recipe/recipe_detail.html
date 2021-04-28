@@ -36,10 +36,15 @@
                             {% endif %}
                             </ul>
                         {% endfor %}
+                    <hr>
                         <h3>Method</h3>
-                    {% for d in directions %}
-                    {{ d.text }}<br>
-                    {% endfor %}
+                        {% for d in directions %}
+                            {{ d.text }}<br>
+                            {% if d.image.url is not null %}
+                                <img src="{{ d.image.url }}"><br>
+                            {% endif %}
+                            <br>
+                        {% endfor %}
                         <hr>
                         {% if request.user.is_authenticated  %}
                             <div class="row no-gutters">
