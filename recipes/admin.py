@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django_reverse_admin import ReverseModelAdmin
 
-from .models import Category, Recipe, Direction
+from .models import Category, Recipe, Direction, MeasurementUnits, MeasurementQty
 
 
 @admin.register(Category)
@@ -32,3 +32,13 @@ class RecipeAdmin(admin.ModelAdmin):
 @admin.register(Direction)
 class DirectionAdmin(admin.ModelAdmin):
     list_display = ['order', 'text']
+
+
+@admin.register(MeasurementUnits)
+class MeasurementUnitsAdmin(admin.ModelAdmin):
+    list_display = ['pk', 'name', 'long_name']
+
+
+@admin.register(MeasurementQty)
+class MeasurementQtyAdmin(admin.ModelAdmin):
+    list_display = ['pk', 'qty_amount']

@@ -36,6 +36,8 @@ class Recipe(models.Model):
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
     # directions = models.ForeignKey(Direction, related_name='directions', on_delete=models.CASCADE)
+    preparation_time = models.TextField(max_length=100, blank=True, help_text="Enter time in minutes or hours",
+                                        verbose_name='preparation time')
     image = models.ImageField(upload_to='recipes/%Y/%m/%d')
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
     list_ingredient = models.ManyToManyField(Ingredient, blank=True, related_name='recipe_list_ingredient')
@@ -71,3 +73,20 @@ class Direction(models.Model):
         verbose_name = 'Direction'
         verbose_name_plural = 'Directions'
         ordering = ['order', 'id']
+
+
+class MeasurementUnits(models.Model):
+    name = models.TextField(verbose_name='Measurement Unit')
+    long_name = models.TextField(blank=True, verbose_name='long name')
+
+    class Meta:
+        verbose_name = 'Measurement Unit'
+        verbose_name_plural = 'Measurement Units'
+
+
+class MeasurementQty(models.Model):
+    qty_amount = models.TextField(verbose_name='Qty amount')
+
+    class Meta:
+        verbose_name = 'Measurement qty'
+        verbose_name_plural = 'Measurement qty'
