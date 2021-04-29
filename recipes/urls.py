@@ -17,10 +17,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
 
-# from . import views
 from .views import CategoryListView, CategoryDetailView, RecipeListView, \
-    RecipeDetailView, SearchResultsListView, CreateRecipeView, IngredientAutoComplete
-# from .views import recipe_new
+    RecipeDetailView, SearchResultsListView, CreateRecipeView, \
+    IngredientAutoComplete, RecipeByUserView
 
 app_name = 'recipes'
 
@@ -33,6 +32,7 @@ urlpatterns = [
     path('account/', include('account.urls')),
 
     path('recipes/', CategoryListView.as_view(), name='category_list'),
+    path('recipes_by_user/<int:pk>', RecipeByUserView.as_view(), name='recipes_by_user'),
     path('category/<int:pk>', CategoryDetailView.as_view(), name='category_detail'),
     path('', RecipeListView.as_view(), name='recipe_list'),
     path('recipes/<int:pk>', RecipeDetailView.as_view(), name='recipe_detail'),

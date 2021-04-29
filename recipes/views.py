@@ -168,3 +168,16 @@ class IngredientAutoComplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(name__istartswith=self.q)
 
         return qs
+
+
+class RecipeByUserView(ListView):
+    model = Recipe
+    template_name = 'recipes/recipe/recipe_by_user.html'
+
+    def get_queryset(self):
+        try:
+            entry = Recipe.objects.filter(user=self.kwargs.get('pk'))
+            print('entry ', entry)
+        except ObjectDoesNotExist:
+            print("Either the Recipe or entry doesn't exist.")
+        return entry

@@ -25,10 +25,18 @@
                         <h5 class="margin-bottom-20px margin-top-10px">{{ recipe.name }}</h5>
                         <h4><a class="active" href="{% url 'recipes:category_detail' recipe.category.id %}">{{ recipe.category }}</a></h4>
                         <hr>
-                        <div class="row no-gutters">
-                            <div class="col-4 text-left"><i class="far fa-clock"></i> {{ recipe.preparation_time }}</div>
-                        </div>
-                    <hr>
+                    {% if recipe.preparation_time or recipe.user is not None %}
+                    <div class="row no-gutters">
+                            {% if recipe.preparation_time %}
+                                <div class="col-4 text-left"><i class="far fa-clock"></i> {{ recipe.preparation_time }}</div>
+                            {% endif %}
+                            {% if recipe.user is not None %}
+                                <div>Created by <a href="{% url 'recipes:recipes_by_user' recipe.user.id %}" class="text-red">{{ recipe.user }}</a></div>
+                            {% endif %}
+
+                    </div>
+                        <hr>
+                    {% endif %}
                         <h3>Ingredients</h3>
                         <br>
                         {% for ingredient in recipe.list_ingredient.all %}
