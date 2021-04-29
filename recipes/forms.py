@@ -16,23 +16,9 @@ class RecipeCreateForm(autocomplete.FutureModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control form-control-sm"}))
     category = forms.ModelChoiceField(queryset=Category.objects.all(),
                                       widget=forms.Select(attrs={"class": "form-control form-control-sm"}))
-    # , widget=MyCheckboxSelectMultiple)
-    # list_ingredient = forms.ModelMultipleChoiceField(queryset=Ingredient.objects.all(),
-    #                                                  widget=forms.CheckboxSelectMultiple)
-    # list_ingredient = autocomplete.QuerySetSequenceSelect2Multiple(
-    #     queryset=Ingredient.objects.all(),
-    #     required=False,
-    #     widget=autocomplete.QuerySetSequenceSelect2Multiple(
-    #         'recipes:ingredient_autocomplete'),
-    # )
-
+    preparation_time = forms.CharField(label='Cook time', widget=forms.TextInput(attrs={'placeholder': '1 hr 30 mins'}))
     image = forms.ImageField(error_messages={'invalid': "Image files only"},
                              widget=forms.FileInput)
-    # (attrs={"class": "form-control form-control-sm"}))
-    # directions = forms.Textarea()
-
-    # list_ingredient = forms.ModelMultipleChoiceField(queryset=Ingredient.objects.all(),
-    #                                                  widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = Recipe
@@ -40,7 +26,6 @@ class RecipeCreateForm(autocomplete.FutureModelForm):
         widgets = {
             'list_ingredient': autocomplete.ModelSelect2Multiple(url='recipes:ingredient_autocomplete')
         }
-        # list_ingredient = forms.MultipleChoiceField(required=False)
 
     # category = models.ForeignKey(Category, related_name='recipes', on_delete=models.CASCADE)
     # name = models.CharField(max_length=200, db_index=True)
