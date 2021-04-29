@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.postgres.search import SearchQuery
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView
 from more_itertools import unique_everseen
 
@@ -146,6 +147,13 @@ class CreateRecipeView(CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        recipe = self.kwargs.get('pk')
+        print(recipe)
+        # if not Direction.objects.all().filter(recipe=self.kwargs.get('pk')).exists():
+        #     recipe = get_object_or_404(Recipe, id=id)
+        #     print(self.kwargs.get('pk'))
+        #     form.instance.direction = direction
+
         success_message = self.get_success_message(form.cleaned_data)
         if success_message:
             messages.success(self.request, success_message)

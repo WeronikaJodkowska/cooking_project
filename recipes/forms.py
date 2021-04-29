@@ -2,6 +2,8 @@ import os
 from dal import autocomplete
 from django import forms
 from django.forms import ImageField
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset
 
 from ingredients.models import Ingredient
 from .models import Recipe, Category
@@ -16,9 +18,12 @@ class RecipeCreateForm(autocomplete.FutureModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control form-control-sm"}))
     category = forms.ModelChoiceField(queryset=Category.objects.all(),
                                       widget=forms.Select(attrs={"class": "form-control form-control-sm"}))
-    preparation_time = forms.CharField(label='Cook time', widget=forms.TextInput(attrs={'placeholder': '1 hr 30 mins'}))
+    preparation_time = forms.CharField(label='Cook time',
+                                       widget=forms.TextInput(attrs={"class": "form-control form-control-sm",
+                                                                     'placeholder': '1 hr 30 mins'}))
     image = forms.ImageField(error_messages={'invalid': "Image files only"},
                              widget=forms.FileInput)
+    direction = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control form-control-sm"}))
 
     class Meta:
         model = Recipe
