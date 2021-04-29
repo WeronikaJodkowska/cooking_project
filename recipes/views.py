@@ -177,7 +177,18 @@ class RecipeByUserView(ListView):
     def get_queryset(self):
         try:
             entry = Recipe.objects.filter(user=self.kwargs.get('pk'))
-            print('entry ', entry)
+        except ObjectDoesNotExist:
+            print("Either the Recipe or entry doesn't exist.")
+        return entry
+
+
+class RecipeOwnView(ListView):
+    model = Recipe
+    template_name = 'recipes/recipe/recipe_own.html'
+
+    def get_queryset(self):
+        try:
+            entry = Recipe.objects.filter(user=self.request.user)
         except ObjectDoesNotExist:
             print("Either the Recipe or entry doesn't exist.")
         return entry
