@@ -18,8 +18,8 @@ from django.conf.urls.static import static
 from django.urls import path, include
 
 from .views import CategoryListView, CategoryDetailView, RecipeListView, \
-    RecipeDetailView, SearchResultsListView, CreateRecipeView, \
-    IngredientAutoComplete, RecipeByUserView, RecipeOwnView
+    SearchResultsListView, CreateRecipeView, \
+    IngredientAutoComplete, RecipeByUserView, RecipeOwnView, RecipeDetailView
 
 app_name = 'recipes'
 

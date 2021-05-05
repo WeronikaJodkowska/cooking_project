@@ -11,7 +11,7 @@ from more_itertools import unique_everseen
 from diseases.models import BlackList, Disease
 from ingredients.models import Ingredient
 from .forms import RecipeCreateForm
-from .models import Category, Recipe, Direction
+from .models import Category, Recipe, Direction, RecipeIngredients
 
 
 def filter_text(self, queryset, name, value):
@@ -59,63 +59,67 @@ class RecipeDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['list_ingredient'] = self.kwargs.get('pk')
+        context['list_ingredient'] = RecipeIngredients.objects.filter(recipe_id=self.kwargs.get('pk'))
         context['directions'] = Direction.objects.filter(recipe_id=self.kwargs.get('pk'))
+        ingredients = RecipeIngredients.objects.filter(recipe=self.kwargs.get('pk'))
+        print('ingredients ', ingredients)
+        for i in ingredients:
+            print(i.amount, i.unit.name, i.ingredient.name)
         directions = Direction.objects.filter(recipe_id=self.kwargs.get('pk'))
         print('direction', directions)
         for d in directions:
             print(d.text)
 
-        if self.request.user.is_authenticated:
-            global i_1, i_2, i_3, i_4
-            context = super().get_context_data(**kwargs)
-            context['directions'] = Direction.objects.filter(recipe_id=self.kwargs.get('pk'))
-            context['blacklist'] = BlackList.objects.filter(user=self.request.user)
-            context['diseases'] = Disease.objects.filter(blacklist_disease__user=self.request.user)
-            recipes = Recipe.objects.filter(pk=self.kwargs.get('pk'))
-            diseases = Disease.objects.filter(blacklist_disease__user=self.request.user)
-
-            same_ingredients = []
-            res_diseases = []
-            dis_ingr = {}
-            res_dis_ingr = []
-            for disease in diseases:
-                disease_ingr = disease.list_ingredient.all()
-                print("disease_ingr:", disease_ingr)
-                for recipe in recipes:
-                    recipe_ingr = recipe.list_ingredient.all()
-                    print("recipe_ingr:", recipe_ingr)
-                    same = list(set(disease_ingr) & set(recipe_ingr))
-                    print("same ", same)
-                    same_ingredients.append(same)
-                    print("same_ingredients ", same_ingredients)
-                    dis_ingr = {disease: same}
-                    print("dis_ingr ", dis_ingr)
-                    res_dis_ingr.append(dis_ingr)
-                    print("res_dis_ingr ", res_dis_ingr)
-                    for i in same_ingredients:
-                        for j in i:
-                            res_diseases.append(str(j))
-                            print("res_diseases ", res_diseases)
-
-            print(same_ingredients)
-            result = list(unique_everseen(res_diseases))
-            print("res_disease: ", result)
-            print("res_dis_ingr: ", res_dis_ingr)
-            # for i in res_dis_ingr:
-            #     print("keys ", i.keys())
-            #     for j in i:
-            #         print("j ", j)
-            #         print("values ", i.values())
-            #         for k in i.values():
-            #             if len(k) == 0:
-            #                 print("0")
-            #             else:
-            #                 print("k ", k)
-            #             for g in k:
-            #                 print(g)
-            context['same'] = result
-            context['disease_ingredient'] = res_dis_ingr
+        # if self.request.user.is_authenticated:
+        #     global i_1, i_2, i_3, i_4
+        #     context = super().get_context_data(**kwargs)
+        #     context['directions'] = Direction.objects.filter(recipe_id=self.kwargs.get('pk'))
+        #     context['blacklist'] = BlackList.objects.filter(user=self.request.user)
+        #     context['diseases'] = Disease.objects.filter(blacklist_disease__user=self.request.user)
+        #     recipes = Recipe.objects.filter(pk=self.kwargs.get('pk'))
+        #     diseases = Disease.objects.filter(blacklist_disease__user=self.request.user)
+        #
+        #     same_ingredients = []
+        #     res_diseases = []
+        #     dis_ingr = {}
+        #     res_dis_ingr = []
+        #     for disease in diseases:
+        #         disease_ingr = disease.list_ingredient.all()
+        #         print("disease_ingr:", disease_ingr)
+        #         for recipe in recipes:
+        #             recipe_ingr = recipe.list_ingredient.all()
+        #             print("recipe_ingr:", recipe_ingr)
+        #             same = list(set(disease_ingr) & set(recipe_ingr))
+        #             print("same ", same)
+        #             same_ingredients.append(same)
+        #             print("same_ingredients ", same_ingredients)
+        #             dis_ingr = {disease: same}
+        #             print("dis_ingr ", dis_ingr)
+        #             res_dis_ingr.append(dis_ingr)
+        #             print("res_dis_ingr ", res_dis_ingr)
+        #             for i in same_ingredients:
+        #                 for j in i:
+        #                     res_diseases.append(str(j))
+        #                     print("res_diseases ", res_diseases)
+        #
+        #     print(same_ingredients)
+        #     result = list(unique_everseen(res_diseases))
+        #     print("res_disease: ", result)
+        #     print("res_dis_ingr: ", res_dis_ingr)
+        #     # for i in res_dis_ingr:
+        #     #     print("keys ", i.keys())
+        #     #     for j in i:
+        #     #         print("j ", j)
+        #     #         print("values ", i.values())
+        #     #         for k in i.values():
+        #     #             if len(k) == 0:
+        #     #                 print("0")
+        #     #             else:
+        #     #                 print("k ", k)
+        #     #             for g in k:
+        #     #                 print(g)
+        #     context['same'] = result
+        #     context['disease_ingredient'] = res_dis_ingr
         return context
 
 

@@ -40,7 +40,8 @@ class Recipe(models.Model):
                                         verbose_name='preparation time')
     image = models.ImageField(upload_to='recipes/%Y/%m/%d')
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
-    list_ingredient = models.ManyToManyField(Ingredient, blank=True, related_name='recipe_list_ingredient')
+    # list_ingredient = models.ManyToManyField(Ingredient, blank=True, related_name='recipe_list_ingredient',)
+                                             # through='MeasurementQty', through_fields=('recipe', 'ingredient'))
     # users = models.ManyToManyField('auth.User', null=True, blank=True)
     # list_ingredient = models.TextField(default=None)
     # cart = models.ManyToManyField(User, related_name='cart', default=None, blank=True)
@@ -83,10 +84,16 @@ class MeasurementUnits(models.Model):
         verbose_name = 'Measurement Unit'
         verbose_name_plural = 'Measurement Units'
 
+    def __str__(self):
+        return self.name
 
-class MeasurementQty(models.Model):
-    qty_amount = models.TextField(verbose_name='Qty amount')
+
+class RecipeIngredients(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, blank=True, default=None)
+    amount = models.IntegerField(max_length=100, blank=True, null=True, default=None)
+    unit = models.ForeignKey(MeasurementUnits, on_delete=models.CASCADE, blank=True, null=True, default=None)
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, blank=True, default=None)
 
     class Meta:
-        verbose_name = 'Measurement qty'
-        verbose_name_plural = 'Measurement qty'
+        verbose_name = 'Recipe Ingredients'
+        verbose_name_plural = 'Recipe Ingredients'

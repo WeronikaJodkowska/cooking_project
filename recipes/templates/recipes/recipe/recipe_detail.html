@@ -39,15 +39,20 @@
                     {% endif %}
                         <h3>Ingredients</h3>
                         <br>
-                        {% for ingredient in recipe.list_ingredient.all %}
+                        {% for i in list_ingredient %}
                             <ul>
-                            {% if ingredient.name in same %}
-                                <strike><li>{{ ingredient.name }}</li></strike>
-                            {% else %}
-                                <li>{{ ingredient.name }}</li>
-                            {% endif %}
+                            <li>{{ i.ingredient.name }} {{ i.amount }} {{ i.unit.name }}</li>
                             </ul>
                         {% endfor %}
+{#                        {% for ingredient in recipe.list_ingredient.all %}#}
+{#                            <ul>#}
+{#                            {% if ingredient.name in same %}#}
+{#                                <strike><li>{{ ingredient.name }}</li></strike>#}
+{#                            {% else %}#}
+{#                                <li>{{ ingredient.name }}</li>#}
+{#                            {% endif %}#}
+{#                            </ul>#}
+{#                        {% endfor %}#}
                     <hr>
                         <h3>Method</h3>
                         {% for d in directions %}

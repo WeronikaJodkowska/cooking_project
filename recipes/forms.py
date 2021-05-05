@@ -27,10 +27,10 @@ class RecipeCreateForm(autocomplete.FutureModelForm):
 
     class Meta:
         model = Recipe
-        fields = ('name', 'category', 'list_ingredient', 'image',)
-        widgets = {
-            'list_ingredient': autocomplete.ModelSelect2Multiple(url='recipes:ingredient_autocomplete')
-        }
+        fields = ('name', 'category', 'image',)
+        # widgets = {
+        #     'list_ingredient': autocomplete.ModelSelect2Multiple(url='recipes:ingredient_autocomplete')
+        # }
 
     # category = models.ForeignKey(Category, related_name='recipes', on_delete=models.CASCADE)
     # name = models.CharField(max_length=200, db_index=True)

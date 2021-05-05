@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django_reverse_admin import ReverseModelAdmin
 
-from .models import Category, Recipe, Direction, MeasurementUnits, MeasurementQty
+from .models import Category, Recipe, Direction, \
+    MeasurementUnits, RecipeIngredients
 
 
 @admin.register(Category)
@@ -14,13 +15,17 @@ class ClassInline(admin.TabularInline):
     model = Direction
 
 
+class RecipeIngredientsInline(admin.TabularInline):
+    model = RecipeIngredients
+
+
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     actions = ['make_published']
-    autocomplete_fields = ['list_ingredient', 'favourites']
+    # autocomplete_fields = ['list_ingredient', 'favourites']
     list_display = ['name', 'slug', 'status']
     prepopulated_fields = {'slug': ('name',)}
-    inlines = [ClassInline, ]
+    inlines = [ClassInline, RecipeIngredientsInline]
     # actions = [make_published]
 
     def make_published(self, request, queryset):
@@ -39,6 +44,6 @@ class MeasurementUnitsAdmin(admin.ModelAdmin):
     list_display = ['pk', 'name', 'long_name']
 
 
-@admin.register(MeasurementQty)
-class MeasurementQtyAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'qty_amount']
+@admin.register(RecipeIngredients)
+class RecipeIngredientsAdmin(admin.ModelAdmin):
+    list_display = ['recipe', 'amount', 'unit', 'ingredient']
