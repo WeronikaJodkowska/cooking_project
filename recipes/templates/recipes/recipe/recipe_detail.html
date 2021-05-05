@@ -44,12 +44,12 @@
                             <li>{{ i.ingredient.name }} {{ i.amount }} {{ i.unit.name }}</li>
                             </ul>
                         {% endfor %}
-{#                        {% for ingredient in recipe.list_ingredient.all %}#}
+{#                        {% for i in list_ingredient %}#}
 {#                            <ul>#}
-{#                            {% if ingredient.name in same %}#}
-{#                                <strike><li>{{ ingredient.name }}</li></strike>#}
+{#                            {% if i.ingredient.name in disease_ingredient %}#}
+{#                                <strike><li>{{ i.ingredient.name }} {{ i.amount }} {{ i.unit.name }}</li></strike>#}
 {#                            {% else %}#}
-{#                                <li>{{ ingredient.name }}</li>#}
+{#                                <li>{{ i.ingredient.name }} {{ i.amount }} {{ i.unit.name }}</li>#}
 {#                            {% endif %}#}
 {#                            </ul>#}
 {#                        {% endfor %}#}
@@ -75,13 +75,15 @@
                         <div class="padding-30px background-white">
                             <h3>Be careful, the following ingredients are on the prohibited list: </h3>
                             {% for i in disease_ingredient %}
-                                {% for j in i %}
-                                    {% for k in i.values %}
-                                        {% for g in k %}
-                                            <ul><li>{{ g }} ({{ j }})</li></ul>
-                                        {% endfor %}
-                                    {% endfor %}
-                                {% endfor %}
+                                <ul><li>{{ i }} ({{ diseases }})</li></ul>
+{#                                {% for j in i %}#}
+{#                                    <ul><li>{{ i }} ({{ j }})</li></ul>#}
+{#                                    {% for k in i.values %}#}
+{#                                        {% for g in k %}#}
+{#                                            <ul><li>{{ g }} ({{ j }})</li></ul>#}
+{#                                        {% endfor %}#}
+{#                                    {% endfor %}#}
+{#                                {% endfor %}#}
                             {% endfor %}
                         </div>
                     </div>

@@ -62,14 +62,35 @@ class RecipeDetailView(DetailView):
         context['list_ingredient'] = RecipeIngredients.objects.filter(recipe_id=self.kwargs.get('pk'))
         context['directions'] = Direction.objects.filter(recipe_id=self.kwargs.get('pk'))
         ingredients = RecipeIngredients.objects.filter(recipe=self.kwargs.get('pk'))
-        print('ingredients ', ingredients)
+        # print('ingredients ', ingredients)
+        recipe_ingredients = []
+        disease_ingredients = []
+        same_ingredients = []
+        disease_name = []
         for i in ingredients:
-            print(i.amount, i.unit.name, i.ingredient.name)
-        directions = Direction.objects.filter(recipe_id=self.kwargs.get('pk'))
-        print('direction', directions)
-        for d in directions:
-            print(d.text)
+            recipe_ingredients.append(i.ingredient.name)
+        # print(recipe_ingredients)
 
+        # directions = Direction.objects.filter(recipe_id=self.kwargs.get('pk'))
+        # print('direction', directions)
+        # for d in directions:
+        #     print(d.text)
+        if self.request.user.is_authenticated:
+            context['blacklist'] = BlackList.objects.filter(user=self.request.user)
+            context['diseases'] = Disease.objects.filter(blacklist_disease__user=self.request.user)
+            diseases = Disease.objects.filter(blacklist_disease__user=self.request.user)
+            for disease in diseases:
+                disease_ingr = disease.list_ingredient.all().filter()
+                for i in disease_ingr:
+                    disease_ingredients.append(i.name)
+
+            # print(disease_ingredients)
+            same_ingredients = list(set(recipe_ingredients) & set(disease_ingredients))
+            print(same_ingredients)
+
+            context['disease_ingredient'] = same_ingredients
+            context['disease_name'] = disease_name
+            # print(disease_name)
         # if self.request.user.is_authenticated:
         #     global i_1, i_2, i_3, i_4
         #     context = super().get_context_data(**kwargs)
@@ -120,6 +141,7 @@ class RecipeDetailView(DetailView):
         #     #                 print(g)
         #     context['same'] = result
         #     context['disease_ingredient'] = res_dis_ingr
+        # print(context['disease_ingredient'])
         return context
 
 
