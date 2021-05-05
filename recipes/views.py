@@ -226,3 +226,20 @@ class RecipeOwnView(ListView):
         except ObjectDoesNotExist:
             print("Either the Recipe or entry doesn't exist.")
         return entry
+
+
+class RecipeByTimeView(ListView):
+    model = Recipe
+    template_name = 'recipes/recipe/recipe_by_time.html'
+
+    def get_queryset(self):
+        try:
+            recipe_id = self.kwargs.get('pk')
+            recipe = Recipe.objects.filter(id=recipe_id)
+            time = Recipe.objects.values('preparation_time').filter(id=recipe_id)
+            print(time)
+            entry = Recipe.objects.filter(preparation_time__in=time)
+            print(entry)
+        except ObjectDoesNotExist:
+            print("Either the Recipe or entry doesn't exist.")
+        return entry

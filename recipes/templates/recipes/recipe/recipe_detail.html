@@ -28,7 +28,9 @@
                     {% if recipe.preparation_time or recipe.user is not None %}
                     <div class="row no-gutters">
                             {% if recipe.preparation_time %}
-                                <div class="col-4 text-left"><i class="far fa-clock"></i> {{ recipe.preparation_time }}</div>
+                                <div class="col-4 text-left"><i class="far fa-clock"></i>
+                                    <a class="active" href="{% url 'recipes:recipes_by_time' recipe.id %}">{{ recipe.preparation_time }}</a>
+                                </div>
                             {% endif %}
                             {% if recipe.user is not None %}
                                 <div>Created by <a href="{% url 'recipes:recipes_by_user' recipe.user.id %}" class="text-red">{{ recipe.user }}</a></div>

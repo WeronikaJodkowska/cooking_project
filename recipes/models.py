@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.validators import RegexValidator
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
@@ -36,12 +37,17 @@ class Recipe(models.Model):
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
     # directions = models.ForeignKey(Direction, related_name='directions', on_delete=models.CASCADE)
-    preparation_time = models.TextField(max_length=100, blank=True, help_text="Enter time in minutes or hours",
-                                        verbose_name='preparation time')
+    preparation_time = models.TextField(max_length=10, blank=True, help_text="Enter time in minutes or hours",
+                                        verbose_name='preparation time',
+                                        validators=[
+                                            RegexValidator(
+                                                regex='[1-9][0-9] min'
+                                            )
+                                        ])
     image = models.ImageField(upload_to='recipes/%Y/%m/%d')
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
     # list_ingredient = models.ManyToManyField(Ingredient, blank=True, related_name='recipe_list_ingredient',)
-                                             # through='MeasurementQty', through_fields=('recipe', 'ingredient'))
+    # through='MeasurementQty', through_fields=('recipe', 'ingredient'))
     # users = models.ManyToManyField('auth.User', null=True, blank=True)
     # list_ingredient = models.TextField(default=None)
     # cart = models.ManyToManyField(User, related_name='cart', default=None, blank=True)
