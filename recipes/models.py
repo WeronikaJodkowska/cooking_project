@@ -90,7 +90,7 @@ class MeasurementUnits(models.Model):
 
 class RecipeIngredients(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, blank=True, default=None)
-    amount = models.IntegerField(max_length=100, blank=True, null=True, default=None)
+    amount = models.FloatField(max_length=100, blank=True, null=True, default=None)
     unit = models.ForeignKey(MeasurementUnits, on_delete=models.CASCADE, blank=True, null=True, default=None)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, blank=True, default=None)
 
