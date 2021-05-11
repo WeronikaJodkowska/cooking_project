@@ -262,10 +262,30 @@ class RecipeByTimeView(ListView):
             print(time)
             entry = Recipe.objects.filter(preparation_time__in=time)
             print(entry)
+            unit = RecipeIngredients.objects.filter(unit__name='g')
+            print('unit ', unit)
+            recipe_unit = RecipeIngredients.objects.filter(ingredient__name__istartswith='Мука').filter(
+                unit__name='g').filter(amount='100').values('recipe')
+            print(recipe_unit)
         except ObjectDoesNotExist:
             print("Either the Recipe or entry doesn't exist.")
         return entry
 
+
+class RecipeByMeasurementView(ListView):
+    model = Recipe
+    template_name = 'recipes/recipe/search_results.html'
+
+    def get_queryset(self):
+        result = super(RecipeByMeasurementView, self).get_queryset()
+        q = self.request.GET.get('q')
+        q = re.split(' |;|; |, |,|\*|\n', q)
+        if q:
+            postresult = Recipe.objects.filter(Q(list_ingredient__name__in=q)).prefetch_related().distinct()
+            result = postresult
+        else:
+            result = None
+        return result
 
 # class CreateRecipeView(CreateView):
 #     form_class = RecipeCreateForm
