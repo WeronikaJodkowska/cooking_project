@@ -39,11 +39,12 @@ class Recipe(models.Model):
     # directions = models.ForeignKey(Direction, related_name='directions', on_delete=models.CASCADE)
     preparation_time = models.TextField(max_length=10, blank=True, help_text="Enter time in minutes or hours",
                                         verbose_name='preparation time',
-                                        validators=[
-                                            RegexValidator(
-                                                regex='[1-9][0-9] min'
-                                            )
-                                        ])
+                                        # validators=[
+                                        #     RegexValidator(
+                                        #         regex='[1-9][0-9] min'
+                                        #     )
+                                        # ]
+                                        )
     image = models.ImageField(upload_to='recipes/%Y/%m/%d')
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
     # list_ingredient = models.ManyToManyField(Ingredient, blank=True, related_name='recipe_list_ingredient',)

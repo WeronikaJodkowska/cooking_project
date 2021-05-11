@@ -4,13 +4,16 @@ from django.contrib import messages
 from django.contrib.postgres.search import SearchQuery
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from django.shortcuts import get_object_or_404
+from django.db import transaction
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 from more_itertools import unique_everseen
 
 from diseases.models import BlackList, Disease
 from ingredients.models import Ingredient
-from .forms import RecipeCreateForm
+from .forms import RecipeCreateForm, RecipeDirectionFormSet
 from .models import Category, Recipe, Direction, RecipeIngredients
 
 
@@ -168,13 +171,29 @@ class CreateRecipeView(CreateView):
     model = Recipe
     form_class = RecipeCreateForm
     template_name = 'recipes/recipe/recipe_create.html'
-    success_url = '/'
+    # success_url = '/'
     success_message = 'Ваш рецепт на рассмотрении.'
 
+    def get_context_data(self, **kwargs):
+        context = super(CreateRecipeView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['directions'] = RecipeDirectionFormSet(self.request.POST)
+        else:
+            context['directions'] = RecipeDirectionFormSet()
+        return context
+
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        context = self.get_context_data()
         recipe = self.kwargs.get('pk')
-        print(recipe)
+        directions = context['directions']
+        with transaction.atomic():
+            form.instance.user = self.request.user
+            self.object = form.save()
+            print(self.object)
+            if directions.is_valid():
+                directions.instance = self.object
+                directions.save()
+
         # if not Direction.objects.all().filter(recipe=self.kwargs.get('pk')).exists():
         #     recipe = get_object_or_404(Recipe, id=id)
         #     print(self.kwargs.get('pk'))
@@ -187,6 +206,9 @@ class CreateRecipeView(CreateView):
 
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
+
+    def get_success_url(self):
+        return reverse_lazy('recipes:recipe_detail', kwargs={'pk': self.object.pk})
 
 
 class SuccessDetailView(DetailView):
@@ -243,3 +265,80 @@ class RecipeByTimeView(ListView):
         except ObjectDoesNotExist:
             print("Either the Recipe or entry doesn't exist.")
         return entry
+
+
+# class CreateRecipeView(CreateView):
+#     form_class = RecipeCreateForm
+#     template_name = 'recipes/recipe/recipe_create.html'
+#     model = Recipe
+#     success_url = '/'
+#
+#     def get(self, request, *args, **kwargs):
+#         self.object = None
+#         form_class = self.get_form_class()
+#         form = self.get_form(form_class)
+#         direction_form = DirectionFormSet()
+#         direction_formhelper = DirectionFormHelper()
+#
+#         return self.render_to_response(
+#             self.get_context_data(form=form, direction_form=direction_form))
+#
+#     def post(self, request, *args, **kwargs):
+#         self.object = None
+#         form_class = self.get_form_class()
+#         form = self.get_form(form_class)
+#         direction_form = DirectionFormSet(self.request.POST)
+#
+#         if form.is_valid() and direction_form.is_valid():
+#             return self.form_valid(form, direction_form)
+#
+#         return self.form_invalid(form, direction_form)
+#
+#     def form_valid(self, form, direction_form):
+#         """
+#         Called if all forms are valid. Creates a Author instance along
+#         with associated books and then redirects to a success page.
+#         """
+#         self.object = form.save()
+#         direction_form.instance = self.object
+#         direction_form.save()
+#
+#     def form_invalid(self, form, direction_form):
+#         """
+#         Called if whether a form is invalid. Re-renders the context
+#         data with the data-filled forms and errors.
+#         """
+#         return self.render_to_response(
+#             self.get_context_data(form=form, direction_form=direction_form)
+#         )
+#
+#     def get_context_data(self, **kwargs):
+#         """ Add formset and formhelper to the context_data. """
+#         ctx = super(CreateRecipeView, self).get_context_data(**kwargs)
+#         direction_formhelper = DirectionFormHelper()
+#
+#         if self.request.POST:
+#             ctx['form'] = RecipeCreateForm(self.request.POST)
+#             ctx['direction_form'] = DirectionFormSet(self.request.POST)
+#             ctx['direction_formhelper'] = direction_formhelper
+#         else:
+#             ctx['form'] = RecipeCreateForm()
+#             ctx['direction_form'] = DirectionFormSet()
+#             ctx['direction_formhelper'] = direction_formhelper
+#
+#         return ctx
+
+
+# def create_recipe(request):
+#     RecipeFormSet = inlineformset_factory(Recipe, Direction, fields=('text', 'image'), extra=3)
+#     form = RecipeCreateForm(request.POST or None, request.FILES or None)
+#     formset = RecipeFormSet(request.POST or None, request.FILES or None)
+#
+#     if form.is_valid() and formset.is_valid():
+#         recipe = form.save()
+#         for form in formset.forms:
+#             direction = form.save(commit=False)
+#             direction.recipe = recipe
+#             direction.save()
+#     # return HttpResponseRedirect(reverse('recipes:recipe_new'))
+#     return render(request, 'recipes/recipe/recipe_create.html', {'form': form, 'formset': formset})

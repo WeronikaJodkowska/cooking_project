@@ -1,4 +1,5 @@
 {% extends 'recipes/base.html' %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
     	<div id="page-title" class="padding-tb-30px gradient-white">
@@ -15,9 +16,19 @@
 			<h4 class="padding-lr-30px padding-tb-20px background-white box-shadow border-radius-10"><i class="far fa-list-alt margin-right-10px text-main-color"></i>Basic Informations</h4>
 			<div class="padding-30px padding-bottom-30px background-white border-radius-10">
                 <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-            <button type="submit" class="save btn btn-default">Save</button>
+{#                    {% csrf_token %}#}
+{#                    {{ form.as_p }}#}
+{#                    {{ formset.management_form }}#}
+{#                            {% for form in formset %}#}
+{#                                {{ form }}<br><br>#}
+{#                    {% endfor %}#}
+                    {% crispy form %}
+{#                        {% crispy form %}#}
+{#    {{ direction_form.management_form }}#}
+{#    {{ direction_form.non_form_errors }}#}
+
+{#    {% crispy direction_form direction_formhelper %}#}
+{#            <button type="submit" class="save btn btn-default">Save</button>#}
                 </form>
             </div>
         </div>
