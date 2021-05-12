@@ -198,10 +198,10 @@ class CreateRecipeView(CreateView):
         #     recipe = get_object_or_404(Recipe, id=id)
         #     print(self.kwargs.get('pk'))
         #     form.instance.direction = direction
-
-        success_message = self.get_success_message(form.cleaned_data)
-        if success_message:
-            messages.success(self.request, success_message)
+        messages.success(self.request, 'The recipe has been added, thank you')
+        # success_message = self.get_success_message(form.cleaned_data)
+        # if success_message:
+        #     messages.success(self.request, success_message)
         return super(CreateRecipeView, self).form_valid(form)
 
     def get_success_message(self, cleaned_data):

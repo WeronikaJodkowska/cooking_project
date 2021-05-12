@@ -87,9 +87,14 @@ class RecipeCreateForm(forms.ModelForm):
 
 
 class RecipeDirectionForm(forms.ModelForm):
+
     class Meta:
         model = Direction
-        exclude = ()
+        fields = ['text', 'image']
+
+    @property
+    def image_name(self):
+        return os.path.basename(self.image.path) if self.image else ''
 
 
 class TextArea(object):
@@ -104,6 +109,7 @@ RecipeDirectionFormSet = inlineformset_factory(
     extra=3,
     can_delete=False,
     widgets={
-        'text': forms.TextInput(attrs={"class": "form-control form-control-sm"})
+        'text': forms.TextInput(attrs={"class": "form-control form-control-sm"}),
+        'image': forms.FileInput(attrs={"class": "form-control form-control-sm"}),
     }
 )

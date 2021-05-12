@@ -9,6 +9,7 @@ from .models import Category, Recipe, Direction, \
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
+    search_fields = ['name']
 
 
 class ClassInline(admin.TabularInline):
@@ -27,6 +28,7 @@ class RecipeAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     inlines = [ClassInline, RecipeIngredientsInline]
     # actions = [make_published]
+    autocomplete_fields = ['category']
 
     def make_published(self, request, queryset):
         queryset.update(status='p')
