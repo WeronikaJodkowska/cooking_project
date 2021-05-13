@@ -24,7 +24,7 @@ class RecipeIngredientsInline(admin.TabularInline):
 class RecipeAdmin(admin.ModelAdmin):
     actions = ['make_published']
     # autocomplete_fields = ['list_ingredient', 'favourites']
-    list_display = ['name', 'slug', 'status']
+    list_display = ['id', 'name', 'slug', 'status']
     prepopulated_fields = {'slug': ('name',)}
     inlines = [ClassInline, RecipeIngredientsInline]
     # actions = [make_published]

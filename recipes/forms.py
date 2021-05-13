@@ -5,6 +5,8 @@ from django.forms.models import inlineformset_factory
 from django.forms import ImageField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Fieldset, Div, HTML, ButtonHolder, Submit
+from django_select2.forms import Select2MultipleWidget
+
 from .custom_layout_object import *
 
 from ingredients.models import Ingredient
@@ -20,11 +22,15 @@ class RecipeCreateForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control form-control-sm"}))
     category = forms.ModelChoiceField(queryset=Category.objects.all(),
                                       widget=forms.Select(attrs={"class": "form-control form-control-sm"}))
+
+                                      # widget=autocomplete.ModelSelect2(url='recipes:category_autocomplete'))
     preparation_time = forms.CharField(label='Cook time',
                                        widget=forms.TextInput(attrs={"class": "form-control form-control-sm",
                                                                      'placeholder': '1 hr 30 mins'}))
     image = forms.ImageField(error_messages={'invalid': "Image files only"},
                              widget=forms.FileInput)
+    # queryset = (Category.objects.all())
+    # category = forms.MultipleChoiceField(choices=queryset, widget=Select2MultipleWidget)
 
     # direction = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control form-control-sm"}))
 

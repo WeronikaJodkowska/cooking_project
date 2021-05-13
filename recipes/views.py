@@ -157,11 +157,23 @@ class SearchResultsListView(ListView):
         result = super(SearchResultsListView, self).get_queryset()
         q = self.request.GET.get('q')
         q = re.split(' |;|; |, |,|\*|\n', q)
+        recipe_id = []
         # for i in range(len(q)):
         #     print(q[i])
         if q:
-            postresult = Recipe.objects.filter(Q(list_ingredient__name__in=q)).prefetch_related().distinct()
-            result = postresult
+            recipe_object = RecipeIngredients.objects.filter(Q(ingredient__name__in=q)).prefetch_related().distinct().values_list('recipe', flat=True)
+            print(q)
+            print(recipe_object)
+            # for r in recipe_object:
+            #     recipe_id.append(r)
+            # print(recipe_id[0])
+
+            result = Recipe.objects.filter(pk__in=recipe_object)
+            print(result)
+            # recipe = Recipe.objects.get(pk__in=recipe_id)
+            # print(recipe.name)
+            # postresult = Recipe.objects.filter(Q(list_ingredient__name__in=q)).prefetch_related().distinct()
+        #     result = recipe
         else:
             result = None
         return result
@@ -222,6 +234,16 @@ class IngredientAutoComplete(autocomplete.Select2QuerySetView):
 
         if self.q:
             qs = qs.filter(name__istartswith=self.q)
+
+        return qs
+
+
+class CategoryAutoComplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = Category.objects.all()
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+        print(qs)
 
         return qs
 
