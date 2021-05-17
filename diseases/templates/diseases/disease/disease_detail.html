@@ -29,16 +29,46 @@
                         {% endfor %}
                         <hr>
                         {% if request.user.is_authenticated  %}
-                            <div class="row no-gutters">
-                                <div class="col-4 text-left"><a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="text-red"><i class="fa fa-ban"></i> Add to Blacklist</a></div>
-                            </div>
+                            {% if blacklist.user == request.user %}
+                                <a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="text-red">Add</a>
+{#                            <div class="row no-gutters">#}
+{#                                <div class="col-4 text-left"><a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="text-red"><i class="fa fa-ban"></i> Add to Blacklist</a></div>#}
+{#                            </div>#}
+                            {% else %}
+                                 <a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="text-red">Delete</a>
+
+{#                            <div class="row no-gutters">#}
+{#                                <div class="col-4 text-left"><a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="text-black"><i class="fa fa-ban"></i> Delete from the Blacklist</a></div>#}
+{#                            </div>#}
+{#                        {% endif %}#}
+{#                            {% if blacklist.user == request.user %}#}
+{#{% else %}#}
+{#                            <div class="row no-gutters">#}
+{#                                <div class="col-4 text-left"><a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="text-red"><i class="fas fa-exclamation-circle"></i> Delete from the Blacklist</a></div>#}
+{#                            </div>#}
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 {% endblock %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    $(".fa").click(function() {
+
+     $(this).css("color", "black");
+
+    });
+
+  });
+</script>
+
 
 
 {#<div class="disease-detail">#}

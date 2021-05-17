@@ -63,6 +63,11 @@ class RecipeDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        favorites = get_object_or_404(Recipe, id=self.kwargs['pk'])
+        favorited = False
+        if favorites.favourites.filter(id=self.request.user.id).exists():
+            favorited = True
+        context['recipe_is_favorited'] = favorited
         context['list_ingredient'] = RecipeIngredients.objects.filter(recipe_id=self.kwargs.get('pk'))
         context['directions'] = Direction.objects.filter(recipe_id=self.kwargs.get('pk'))
         ingredients = RecipeIngredients.objects.filter(recipe=self.kwargs.get('pk'))
@@ -241,7 +246,7 @@ class IngredientAutoComplete(autocomplete.Select2QuerySetView):
 
 class CategoryAutoComplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        qs = Category.objects.all()
+        qs = RecipeCategory.objects.all()
         if self.q:
             qs = qs.filter(name__istartswith=self.q)
         print(qs)

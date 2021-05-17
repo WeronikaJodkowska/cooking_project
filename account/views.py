@@ -2,6 +2,7 @@ from django.core import exceptions
 from django import forms
 from django.contrib import auth
 from django.core.exceptions import ValidationError
+from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
@@ -63,6 +64,8 @@ def favourite_recipe_add(request, id):
         recipe.favourites.remove(request.user)
     else:
         recipe.favourites.add(request.user)
+    # return HttpResponseRedirect(reverse('recipes:recipe_detail', args=[str(id)]))
+
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 # @login_required
 # def add_to_cart(request, id):

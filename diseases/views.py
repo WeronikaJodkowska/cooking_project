@@ -78,7 +78,12 @@ def add_to_blacklist(request, id):
     user = get_object_or_404(User, id=request.user.id)
     success_message = 'Disease added to the blacklist.'
 
-    if not BlackList.objects.all().filter(disease=disease).exists():
+    if BlackList.objects.all().filter(disease=disease).filter(user=request.user.id).exists():
+        print("deleted")
+        blacklist = BlackList.objects.get(user=user, disease=disease)
+        blacklist.delete()
+    else:
+        print("created")
         blacklist = BlackList(user=user, disease=disease)
         blacklist.save()
         # messages.success(request, "Successfully added")

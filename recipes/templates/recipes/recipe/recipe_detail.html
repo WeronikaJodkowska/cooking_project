@@ -65,11 +65,24 @@
                             <br>
                         {% endfor %}
                         <hr>
-                        {% if request.user.is_authenticated  %}
-                            <div class="row no-gutters">
-                                <div class="col-4 text-left"><a href="{% url 'account:favourite_recipe_add' recipe.id %}" class="text-red"><i class="far fa-heart"></i> Save</a></div>
-                            </div>
-                        {% endif %}
+{#                        {% if request.user.is_authenticated  %}#}
+{#                            <div class="row no-gutters">#}
+{#                                <div class="col-4 text-left"><a href="{% url 'account:favourite_recipe_add' recipe.id %}" class="text-red"><i class="far fa-heart"></i> Save</a></div>#}
+{#                            </div>#}
+{#                        {% endif %}#}
+                    {% if user.is_authenticated %}
+  <form action="{% url 'account:favourite_recipe_add' recipe.id %}" method="POST">
+	{% csrf_token %}
+
+	{% if recipe_is_favorited %}
+	<button type="submit" name="recipe_id" value="{{recipe.id}}" class="btn btn-info">Unlike</button>
+	{% else %}
+	<button type="submit" name="recipe_id" value="{{recipe.id}}" class="btn btn-info">Like</button>
+	{% endif %}
+  </form>
+{% else %}
+  <a class="btn btn-outline-info" href="{% url 'account:login' %}?next={{request.path}}">Log in to like this article!</a><br>
+{% endif %}
                     </div>
                 </div>
                 {% if request.user.is_authenticated  %}
