@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import *
 
 
-@admin.register(Category)
+@admin.register(DiseaseCategory)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}

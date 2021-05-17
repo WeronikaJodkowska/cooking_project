@@ -14,7 +14,7 @@ from more_itertools import unique_everseen
 from diseases.models import BlackList, Disease
 from ingredients.models import Ingredient
 from .forms import RecipeCreateForm, RecipeDirectionFormSet
-from .models import Category, Recipe, Direction, RecipeIngredients
+from .models import RecipeCategory, Recipe, Direction, RecipeIngredients
 
 
 def filter_text(self, queryset, name, value):
@@ -31,12 +31,13 @@ def filter_text(self, queryset, name, value):
 
 
 class CategoryListView(ListView):
-    model = Category
+    model = RecipeCategory
+    context_object_name = 'category_list'
     template_name = 'recipes/categories/category_list.html'
 
 
 class CategoryDetailView(DetailView):
-    model = Category
+    model = RecipeCategory
     context_object_name = 'category'
     # paginate_by = 2
     template_name = 'recipes/categories/category_detail.html'

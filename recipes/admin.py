@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django_reverse_admin import ReverseModelAdmin
 
-from .models import Category, Recipe, Direction, \
+from .models import RecipeCategory, Recipe, Direction, \
     MeasurementUnits, RecipeIngredients
 
 
-@admin.register(Category)
+@admin.register(RecipeCategory)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug']
     prepopulated_fields = {'slug': ('name',)}
@@ -48,4 +48,4 @@ class MeasurementUnitsAdmin(admin.ModelAdmin):
 
 @admin.register(RecipeIngredients)
 class RecipeIngredientsAdmin(admin.ModelAdmin):
-    list_display = ['recipe', 'amount', 'unit', 'ingredient']
+    list_display = ['id', 'recipe', 'amount', 'unit', 'ingredient']

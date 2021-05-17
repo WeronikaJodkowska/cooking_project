@@ -6,7 +6,7 @@ from django.urls import reverse
 from ingredients.models import Ingredient
 
 
-class Category(models.Model):
+class DiseaseCategory(models.Model):
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(null=True, blank=True, default=None, upload_to='disease_categories/%Y/%m/%d')
@@ -24,7 +24,7 @@ class Category(models.Model):
 
 
 class Disease(models.Model):
-    category = models.ForeignKey(Category, related_name='diseases', on_delete=models.CASCADE)
+    category = models.ForeignKey(DiseaseCategory, related_name='diseases', on_delete=models.CASCADE)
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
 

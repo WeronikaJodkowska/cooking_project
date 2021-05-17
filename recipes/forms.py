@@ -15,12 +15,12 @@ from .models import *
 
 class MyCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
     option_template_name = 'recipes/recipe/checkbox_option.html'
-    queryset = Category.objects.all()
+    queryset = RecipeCategory.objects.all()
 
 
 class RecipeCreateForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control form-control-sm"}))
-    category = forms.ModelChoiceField(queryset=Category.objects.all(),
+    category = forms.ModelChoiceField(queryset=RecipeCategory.objects.all(),
                                       widget=forms.Select(attrs={"class": "form-control form-control-sm"}))
 
                                       # widget=autocomplete.ModelSelect2(url='recipes:category_autocomplete'))

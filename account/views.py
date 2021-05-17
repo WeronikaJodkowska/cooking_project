@@ -25,7 +25,7 @@ UserModel = get_user_model()
 
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile
-from recipes.models import Recipe, Category
+from recipes.models import Recipe, RecipeCategory
 from ingredients.models import Ingredient
 
 
@@ -223,7 +223,7 @@ def edit(request):
 
 
 class CategoryDetailView(DetailView):
-    model = Category
+    model = RecipeCategory
     context_object_name = 'category'
     # paginate_by = 2
     template_name = 'base.html'

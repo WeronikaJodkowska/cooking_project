@@ -10,17 +10,18 @@ from django.utils.text import slugify
 from django.views.generic.edit import FormMixin, SingleObjectMixin
 from django.views import View
 
-from .models import Category, Disease, BlackList
+from .models import DiseaseCategory, Disease, BlackList
 # from .forms import BlackListCreateForm
 
 
 class CategoryListView(ListView):
-    model = Category
+    model = DiseaseCategory
+    context_object_name = 'category_list'
     template_name = 'diseases/categories/category_list.html'
 
 
 class CategoryDetailView(DetailView):
-    model = Category
+    model = DiseaseCategory
     context_object_name = 'category'
     template_name = 'diseases/categories/category_detail.html'
 

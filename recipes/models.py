@@ -7,7 +7,7 @@ from positions.fields import PositionField
 from ingredients.models import Ingredient
 
 
-class Category(models.Model):
+class RecipeCategory(models.Model):
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, unique=True)
     image = models.ImageField(upload_to='categories/%Y/%m/%d')
@@ -31,13 +31,13 @@ class Recipe(models.Model):
         ('w', 'Withdrawn'),
     ]
 
-    category = models.ForeignKey(Category,
+    category = models.ForeignKey(RecipeCategory,
                                  related_name='recipes',
                                  on_delete=models.CASCADE)
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
     # directions = models.ForeignKey(Direction, related_name='directions', on_delete=models.CASCADE)
-    preparation_time = models.TextField(max_length=10, blank=True, help_text="Enter time in minutes or hours",
+    preparation_time = models.CharField(max_length=10, blank=True, help_text="Enter time in minutes or hours",
                                         verbose_name='preparation time',
                                         # validators=[
                                         #     RegexValidator(
@@ -84,8 +84,8 @@ class Direction(models.Model):
 
 
 class MeasurementUnits(models.Model):
-    name = models.TextField(verbose_name='Measurement Unit')
-    long_name = models.TextField(blank=True, verbose_name='long name')
+    name = models.CharField(max_length=20, verbose_name='Measurement Unit')
+    long_name = models.CharField(max_length=20, blank=True, verbose_name='long name')
 
     class Meta:
         verbose_name = 'Measurement Unit'

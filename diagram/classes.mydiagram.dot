@@ -1,0 +1,18 @@
+digraph "classes" {
+charset="utf-8"
+rankdir=BT
+"0" [label="{AccountConfig|name : str\l|}", shape="record"];
+"1" [label="{CategoryDetailView|context_object_name : str\lmodel : Category\ltemplate_name : str\l|}", shape="record"];
+"2" [label="{EmailAuthBackend|\l|authenticate(request, username, password)\lget_user(user_id)\l}", shape="record"];
+"3" [label="{LoginForm|password : CharField\lusername : CharField\l|}", shape="record"];
+"4" [label="{Meta|fields : tuple\lmodel : User\l|}", shape="record"];
+"5" [label="{Meta|fields : tuple\lmodel : User\l|}", shape="record"];
+"6" [label="{Meta|fields : tuple\lmodel\l|}", shape="record"];
+"7" [label="{Migration|dependencies : list\linitial : bool\loperations : list\l|}", shape="record"];
+"8" [label="{Profile|date_of_birth : DateField\lphoto : ImageField\luser : OneToOneField\l|}", shape="record"];
+"9" [label="{ProfileAdmin|list_display : list\l|}", shape="record"];
+"10" [label="{ProfileEditForm|\l|}", shape="record"];
+"11" [label="{UserEditForm|\l|}", shape="record"];
+"12" [label="{UserRegistrationForm|password : CharField\lpassword2 : CharField\l|clean_password2()\l}", shape="record"];
+"8" -> "6" [arrowhead="diamond", arrowtail="none", fontcolor="green", label="model", style="solid"];
+}
