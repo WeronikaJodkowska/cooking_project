@@ -8,12 +8,13 @@ from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse, reverse_lazy
+from django.utils.safestring import mark_safe
 from django.views.generic import ListView, DetailView, CreateView
 from more_itertools import unique_everseen
 
 from diseases.models import BlackList, Disease
 from ingredients.models import Ingredient
-from .forms import RecipeCreateForm, RecipeDirectionFormSet
+from .forms import *
 from .models import RecipeCategory, Recipe, Direction, RecipeIngredients
 
 
@@ -167,7 +168,8 @@ class SearchResultsListView(ListView):
         # for i in range(len(q)):
         #     print(q[i])
         if q:
-            recipe_object = RecipeIngredients.objects.filter(Q(ingredient__name__in=q)).prefetch_related().distinct().values_list('recipe', flat=True)
+            recipe_object = RecipeIngredients.objects.filter(
+                Q(ingredient__name__in=q)).prefetch_related().distinct().values_list('recipe', flat=True)
             print(q)
             print(recipe_object)
             # for r in recipe_object:
@@ -195,15 +197,18 @@ class CreateRecipeView(CreateView):
     def get_context_data(self, **kwargs):
         context = super(CreateRecipeView, self).get_context_data(**kwargs)
         if self.request.POST:
-            context['directions'] = RecipeDirectionFormSet(self.request.POST)
+            context['directions'] = RecipeDirectionFormSet(self.request.POST, self.request.FILES)
+            context['ingredients'] = RecipeIngredientsFormSet(self.request.POST)
         else:
             context['directions'] = RecipeDirectionFormSet()
+            context['ingredients'] = RecipeIngredientsFormSet()
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
         recipe = self.kwargs.get('pk')
         directions = context['directions']
+        ingredients = context['ingredients']
         with transaction.atomic():
             form.instance.user = self.request.user
             self.object = form.save()
@@ -211,12 +216,16 @@ class CreateRecipeView(CreateView):
             if directions.is_valid():
                 directions.instance = self.object
                 directions.save()
-
+            if ingredients.is_valid():
+                ingredients.instance = self.object
+                ingredients.save()
         # if not Direction.objects.all().filter(recipe=self.kwargs.get('pk')).exists():
         #     recipe = get_object_or_404(Recipe, id=id)
         #     print(self.kwargs.get('pk'))
         #     form.instance.direction = direction
-        messages.success(self.request, 'The recipe has been added, thank you')
+        messages.success(self.request, mark_safe("Your recipe has been successfully added and is being verified by the "
+                                                 "administrator. <br/>Once it is checked, it can be found in your "
+                                                 "profile in My recipes. Thank you!"))
         # success_message = self.get_success_message(form.cleaned_data)
         # if success_message:
         #     messages.success(self.request, success_message)
@@ -272,7 +281,7 @@ class RecipeOwnView(ListView):
 
     def get_queryset(self):
         try:
-            entry = Recipe.objects.filter(user=self.request.user)
+            entry = Recipe.objects.filter(user=self.request.user, status='p')
         except ObjectDoesNotExist:
             print("Either the Recipe or entry doesn't exist.")
         return entry

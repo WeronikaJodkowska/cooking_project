@@ -12,6 +12,17 @@
 				<li class="active">Recipe</li>
 			</ol>
 			<h1 class="font-weight-300">{{ recipe.name }}</h1>
+            {% if request.user.is_authenticated %}
+                {% if messages %}
+{#<ul class="messages">#}
+    {% for message in messages %}
+{#    <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> #}
+        <h4 class="font-weight-300">{{ message }}</h4>
+{#    </li>#}
+    {% endfor %}
+{#</ul>#}
+{% endif %}
+            {% endif %}
 		</div>
 	</div>
     <div class="container">
@@ -22,7 +33,7 @@
                         <img src="{{ recipe.image.url }}">
                     </div>
                     <div class="padding-lr-30px padding-tb-20px">
-                        <h5 class="margin-bottom-20px margin-top-10px">{{ recipe.name }}</h5>
+{#                        <h5 class="margin-bottom-20px margin-top-10px">{{ recipe.name }}</h5>#}
                         <h4><a class="active" href="{% url 'recipes:category_detail' recipe.category.id %}">{{ recipe.category }}</a></h4>
                         <hr>
                     {% if recipe.preparation_time or recipe.user is not None %}

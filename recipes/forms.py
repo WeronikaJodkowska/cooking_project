@@ -56,6 +56,9 @@ class RecipeCreateForm(forms.ModelForm):
                 Field('preparation_time'),
                 Field('image'),
                 HTML("<br>"),
+                Fieldset('Add ingredients',
+                         Formset('ingredients')),
+                HTML("<br>"),
                 Fieldset('Add directions',
                          Formset('directions')),
                 HTML("<br>"),
@@ -107,15 +110,36 @@ class TextArea(object):
     pass
 
 
+class RecipeIngredientsForm(forms.ModelForm):
+
+    class Meta:
+        model = RecipeIngredients
+        exclude = ()
+
+
 RecipeDirectionFormSet = inlineformset_factory(
     Recipe,
     Direction,
     form=RecipeDirectionForm,
     fields=('text', 'image',),
     extra=3,
-    can_delete=False,
+    can_delete=True,
     widgets={
         'text': forms.TextInput(attrs={"class": "form-control form-control-sm"}),
         'image': forms.FileInput(attrs={"class": "form-control form-control-sm"}),
+    }
+)
+
+RecipeIngredientsFormSet = inlineformset_factory(
+    Recipe,
+    RecipeIngredients,
+    form=RecipeIngredientsForm,
+    fields='__all__',
+    extra=3,
+    can_delete=True,
+    widgets={
+        'amount': forms.TextInput(attrs={"class": "form-control form-control-sm"}),
+        'unit': forms.Select(attrs={"class": "form-control form-control-sm"}),
+        'ingredient': forms.Select(attrs={"class": "form-control form-control-sm"}),
     }
 )
