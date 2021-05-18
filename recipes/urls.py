@@ -41,8 +41,8 @@ urlpatterns = [
     path('recipes/<int:pk>', RecipeDetailView.as_view(), name='recipe_detail'),
     path('search/', SearchResultsListView.as_view(), name='search_results'),
     # path('recipe/new/', create_recipe, name='recipe_new'),
-    path('category_autocomplete/', CategoryAutoComplete.as_view(), name='category_autocomplete'),
     path('recipe/new/', CreateRecipeView.as_view(), name='recipe_new'),
+    path('category-autocomplete/', CategoryAutoComplete.as_view(), name='category-autocomplete'),
     path('ingredient_autocomplete/', IngredientAutoComplete.as_view(), name='ingredient_autocomplete'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

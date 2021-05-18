@@ -67,6 +67,8 @@ def favourite_recipe_add(request, id):
     # return HttpResponseRedirect(reverse('account:favourite_recipe_list'))
 
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
 # @login_required
 # def add_to_cart(request, id):
 #     recipe = get_object_or_404(Recipe, id=id)
@@ -81,7 +83,6 @@ def favourite_recipe_add(request, id):
 #     else:
 #         print("exists")
 #     return HttpResponseRedirect(request.META['HTTP_REFERER'])
-
 
 
 @login_required
@@ -223,6 +224,15 @@ def edit(request):
                   'account/edit.html',
                   {'user_form': user_form,
                    'profile_form': profile_form})
+
+#
+# def posts_list(request):
+#     queryset = RecipeCategory.objects.all()
+#     context = {
+#         "category_list": queryset,
+#     }
+#     print(context)
+#     return render(request, "base.html", context)
 
 
 class CategoryDetailView(DetailView):

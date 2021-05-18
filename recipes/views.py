@@ -1,19 +1,18 @@
 import re
+
 from dal import autocomplete
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.postgres.search import SearchQuery
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
 from django.db import transaction
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse, reverse_lazy
+from django.db.models import Q
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
 from django.views.generic import ListView, DetailView, CreateView
-from more_itertools import unique_everseen
 
 from diseases.models import BlackList, Disease
-from ingredients.models import Ingredient
 from .forms import *
 from .models import RecipeCategory, Recipe, Direction, RecipeIngredients
 
@@ -56,14 +55,32 @@ class RecipeListView(ListView):
             print("Either the Recipe or entry doesn't exist.")
         return entry
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_list'] = RecipeCategory.objects.all()
+        return context
+
+
+class CategoryAutoComplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        qs = RecipeCategory.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+        return qs
+
 
 class RecipeDetailView(DetailView):
     model = Recipe
     context_object_name = 'recipe'
     template_name = 'recipes/recipe/recipe_detail.html'
 
+    qs = RecipeCategory.objects.values_list('name', flat=True)
+    print(qs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['category_list'] = RecipeCategory.objects.all()
         favorites = get_object_or_404(Recipe, id=self.kwargs['pk'])
         favorited = False
         if favorites.favourites.filter(id=self.request.user.id).exists():
@@ -187,7 +204,7 @@ class SearchResultsListView(ListView):
         return result
 
 
-class CreateRecipeView(CreateView):
+class CreateRecipeView(LoginRequiredMixin, CreateView):
     model = Recipe
     form_class = RecipeCreateForm
     template_name = 'recipes/recipe/recipe_create.html'
@@ -231,6 +248,8 @@ class CreateRecipeView(CreateView):
         #     messages.success(self.request, success_message)
         return super(CreateRecipeView, self).form_valid(form)
 
+
+    # def get_form(self, form_class=None):
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
 
@@ -249,16 +268,6 @@ class IngredientAutoComplete(autocomplete.Select2QuerySetView):
 
         if self.q:
             qs = qs.filter(name__istartswith=self.q)
-
-        return qs
-
-
-class CategoryAutoComplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        qs = RecipeCategory.objects.all()
-        if self.q:
-            qs = qs.filter(name__istartswith=self.q)
-        print(qs)
 
         return qs
 

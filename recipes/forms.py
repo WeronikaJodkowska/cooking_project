@@ -6,6 +6,8 @@ from django.forms import ImageField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Fieldset, Div, HTML, ButtonHolder, Submit
 from django_select2.forms import Select2MultipleWidget
+from easy_select2 import Select2
+from searchableselect.widgets import MultiValueDict
 
 from .custom_layout_object import *
 
@@ -20,15 +22,17 @@ class MyCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
 
 class RecipeCreateForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control form-control-sm"}))
-    category = forms.ModelChoiceField(queryset=RecipeCategory.objects.all(),
-                                      widget=forms.Select(attrs={"class": "form-control form-control-sm"}))
-
-                                      # widget=autocomplete.ModelSelect2(url='recipes:category_autocomplete'))
+    # category = forms.ModelChoiceField(queryset=RecipeCategory.objects.all(),
+    #                                   widget=autocomplete.ModelSelect2(url='recipes:category-autocomplete'))
+    #                                                                    # attrs={"class": "form-control form-control-sm"}))
+    category = forms.ModelChoiceField(queryset=RecipeCategory.objects.all(), widget=Select2(attrs={"class": "form-control form-control-sm"}))
+    # widget=autocomplete.ModelSelect2(url='recipes:category_autocomplete'))
     preparation_time = forms.CharField(label='Cook time',
                                        widget=forms.TextInput(attrs={"class": "form-control form-control-sm",
                                                                      'placeholder': '1 hr 30 mins'}))
     image = forms.ImageField(error_messages={'invalid': "Image files only"},
-                             widget=forms.FileInput)
+                             widget=forms.FileInput(attrs={"class": "form-control form-control-sm"}))
+
     # queryset = (Category.objects.all())
     # category = forms.MultipleChoiceField(choices=queryset, widget=Select2MultipleWidget)
 
@@ -36,14 +40,18 @@ class RecipeCreateForm(forms.ModelForm):
 
     class Meta:
         model = Recipe
+        fields = '__all__'
         exclude = ['slug', 'favourites', 'status', 'user']
         # fields = ('name', 'category', 'image',)
         # widgets = {
-        #     'list_ingredient': autocomplete.ModelSelect2Multiple(url='recipes:ingredient_autocomplete')
+        #     'category': autocomplete.ModelSelect2(url='recipes:category-autocomplete',
+        #                                                  attrs={"class": "form-control form-control-sm"})
         # }
 
     def __init__(self, *args, **kwargs):
         super(RecipeCreateForm, self).__init__(*args, **kwargs)
+        self.fields["category"].label = "Category"
+
         self.helper = FormHelper()
         self.helper.form_tag = True
         self.helper.form_class = 'form-horizontal'
@@ -66,16 +74,6 @@ class RecipeCreateForm(forms.ModelForm):
             )
         )
 
-    # category = models.ForeignKey(Category, related_name='recipes', on_delete=models.CASCADE)
-    # name = models.CharField(max_length=200, db_index=True)
-    # slug = models.SlugField(max_length=200, db_index=True)
-    # directions = models.TextField(default=None)
-    # image = models.ImageField(upload_to='recipes/%Y/%m/%d')
-    # favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
-    # list_ingredient = models.ManyToManyField(Ingredient)
-    # # users = models.ManyToManyField('auth.User', null=True, blank=True)
-    # cart = models.ManyToManyField(User, related_name='cart', default=None, blank=True)
-
     @property
     def image_name(self):
         return os.path.basename(self.image.path) if self.image else ''
@@ -96,7 +94,6 @@ class RecipeCreateForm(forms.ModelForm):
 
 
 class RecipeDirectionForm(forms.ModelForm):
-
     class Meta:
         model = Direction
         fields = ['text', 'image']
@@ -111,7 +108,6 @@ class TextArea(object):
 
 
 class RecipeIngredientsForm(forms.ModelForm):
-
     class Meta:
         model = RecipeIngredients
         exclude = ()

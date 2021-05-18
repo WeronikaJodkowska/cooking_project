@@ -16,15 +16,14 @@
 			<h4 class="padding-lr-30px padding-tb-20px background-white box-shadow border-radius-10"><i class="far fa-list-alt margin-right-10px text-main-color"></i>Basic Informations</h4>
 			<div class="padding-30px padding-bottom-30px background-white border-radius-10">
                 <form method="post" enctype="multipart/form-data">
-{#                    {% csrf_token %}#}
 {#                    {{ form.as_p }}#}
 {#                    {{ formset.management_form }}#}
 {#                            {% for form in formset %}#}
 {#                                {{ form }}<br><br>#}
 {#                    {% endfor %}#}
                         {% csrf_token %}
-
                     {% crispy form %}
+
 {#                        {% crispy form %}#}
 {#    {{ direction_form.management_form }}#}
 {#    {{ direction_form.non_form_errors }}#}
@@ -38,28 +37,30 @@
 {% endblock %}
 
 {% block footer %}
-<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
-
-{{ form.media }}
-
-<script>
-(function($) {
-    $('#add-form').click(function() {
-        var index = $('#id_inline_test_models-TOTAL_FORMS').val()
-        var newTable = $('#id_inline_test_models-__prefix__-DELETE').parents('table').clone()
-        newTable.find(':input').each(function() {
-            for (attr of ['name', 'id'])
-                $(this).attr(
-                    attr,
-                    $(this).attr(attr).replace('__prefix__', index)
-                )
-        })
-        newTable.insertBefore($(this))
-        $('#id_inline_test_models-TOTAL_FORMS').val(
-            parseInt($('#id_inline_test_models-TOTAL_FORMS').val()) + 1
-        )
-        newTable.slideDown()
-    })
-})($)
-</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {{ form.media.js }}
+{#<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>#}
+{# <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>#}
+{##}
+{#{{ form.media }}#}
+{#<script>#}
+{#(function($) {#}
+{#    $('#add-form').click(function() {#}
+{#        var index = $('#id_inline_test_models-TOTAL_FORMS').val()#}
+{#        var newTable = $('#id_inline_test_models-__prefix__-DELETE').parents('table').clone()#}
+{#        newTable.find(':input').each(function() {#}
+{#            for (attr of ['name', 'id'])#}
+{#                $(this).attr(#}
+{#                    attr,#}
+{#                    $(this).attr(attr).replace('__prefix__', index)#}
+{#                )#}
+{#        })#}
+{#        newTable.insertBefore($(this))#}
+{#        $('#id_inline_test_models-TOTAL_FORMS').val(#}
+{#            parseInt($('#id_inline_test_models-TOTAL_FORMS').val()) + 1#}
+{#        )#}
+{#        newTable.slideDown()#}
+{#    })#}
+{# })($)#}
+{#</script>#}
 {% endblock %}

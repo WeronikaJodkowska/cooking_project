@@ -31,10 +31,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'crispy_forms',
-    # 'users',
+    'easy_select2',
     'dal',
     'dal_select2',
+    'crispy_forms',
+    # 'users',
     'account.apps.AccountConfig',
     'social_django',
     'ingredients',

@@ -2,7 +2,9 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
+from easy_select2 import Select2
 
+from recipes.models import RecipeCategory
 from .models import Profile
 
 
