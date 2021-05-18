@@ -42,6 +42,13 @@ class DiseaseDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        disease = get_object_or_404(Disease, id=self.kwargs['pk'])
+        blacklisted = False
+        if BlackList.objects.filter(user=self.request.user.id, disease=disease).exists():
+            blacklisted = True
+        context['disease_is_blacklisted'] = blacklisted
+
         context['category_id'] = self.kwargs.get('pk')
         # context['form'] = BlackListCreateForm(initial={'self_ingredients': self.object})
         return context

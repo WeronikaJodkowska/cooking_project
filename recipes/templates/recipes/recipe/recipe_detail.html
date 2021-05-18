@@ -75,9 +75,10 @@
 	{% csrf_token %}
 
 	{% if recipe_is_favorited %}
-	<button type="submit" name="recipe_id" value="{{recipe.id}}" class="btn btn-info">Unlike</button>
+
+	<button type="submit" name="recipe_id" value="{{recipe.id}}" class="btn btn-danger"><i class="far fa-heart"></i> Delete from favorites</button>
 	{% else %}
-	<button type="submit" name="recipe_id" value="{{recipe.id}}" class="btn btn-info">Like</button>
+	<button type="submit" name="recipe_id" value="{{recipe.id}}" class="btn btn-outline-danger"><i class="far fa-heart"></i> Add to favorites</button>
 	{% endif %}
   </form>
 {% else %}

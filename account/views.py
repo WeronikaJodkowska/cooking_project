@@ -64,7 +64,7 @@ def favourite_recipe_add(request, id):
         recipe.favourites.remove(request.user)
     else:
         recipe.favourites.add(request.user)
-    # return HttpResponseRedirect(reverse('recipes:recipe_detail', args=[str(id)]))
+    # return HttpResponseRedirect(reverse('account:favourite_recipe_list'))
 
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 # @login_required
