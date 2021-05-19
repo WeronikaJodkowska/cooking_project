@@ -204,6 +204,39 @@ class SearchResultsListView(ListView):
         return result
 
 
+# class SearchResultsListView(ListView):
+#     model = Recipe
+#     context_object_name = 'recipe_list'
+#     template_name = 'recipes/recipe/search_results.html'
+#
+#     def get_queryset(self):
+#         result = super(SearchResultsListView, self).get_queryset()
+#         keywords = self.request.GET.get('q')
+#         keywords = re.split(' |;|; |, |,|\*|\n', q)
+#         recipe_id = []
+#         # for i in range(len(q)):
+#         #     print(q[i])
+#         if keywords:
+#             qs = [Q()]
+#             recipe_object = RecipeIngredients.objects.filter(
+#                 Q(ingredient__name__in=q)).prefetch_related().distinct().values_list('recipe', flat=True)
+#             print(q)
+#             print(recipe_object)
+#             # for r in recipe_object:
+#             #     recipe_id.append(r)
+#             # print(recipe_id[0])
+#
+#             result = Recipe.objects.filter(pk__in=recipe_object)
+#             print(result)
+#             # recipe = Recipe.objects.get(pk__in=recipe_id)
+#             # print(recipe.name)
+#             # postresult = Recipe.objects.filter(Q(list_ingredient__name__in=q)).prefetch_related().distinct()
+#         #     result = recipe
+#         else:
+#             result = None
+#         return result
+
+
 class CreateRecipeView(LoginRequiredMixin, CreateView):
     model = Recipe
     form_class = RecipeCreateForm
