@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.admindocs',
     'easy_select2',
     'dal',
     'dal_select2',
