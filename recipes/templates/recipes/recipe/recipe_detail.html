@@ -97,12 +97,13 @@
 {% endif %}
                     </div>
                 </div>
+                {% if disease_ingredient %}
                 {% if request.user.is_authenticated  %}
                     <div class="margin-bottom-40px box-shadow">
                         <div class="padding-30px background-white">
                             <h3>Be careful, the following ingredients are on the prohibited list: </h3>
                             {% for i in disease_ingredient %}
-                                <ul><li>{{ i }} ({{ diseases }})</li></ul>
+                                <ul><li>{{ i }}</li></ul>
 {#                                {% for j in i %}#}
 {#                                    <ul><li>{{ i }} ({{ j }})</li></ul>#}
 {#                                    {% for k in i.values %}#}
@@ -112,6 +113,10 @@
 {#                                    {% endfor %}#}
 {#                                {% endfor %}#}
                             {% endfor %}
+                                {% endif %}
+{#                        {% for i in disease_name %}#}
+{#                            {{ i }}#}
+{#                        {% endfor %}#}
                         </div>
                     </div>
                 {% endif %}

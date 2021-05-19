@@ -89,34 +89,43 @@ class RecipeDetailView(DetailView):
         context['list_ingredient'] = RecipeIngredients.objects.filter(recipe_id=self.kwargs.get('pk'))
         context['directions'] = Direction.objects.filter(recipe_id=self.kwargs.get('pk'))
         ingredients = RecipeIngredients.objects.filter(recipe=self.kwargs.get('pk'))
-        # print('ingredients ', ingredients)
+        print("ingredients ", ingredients)
         recipe_ingredients = []
         disease_ingredients = []
-        same_ingredients = []
-        disease_name = []
+        d_i = {}
+        d_o = []
         for i in ingredients:
             recipe_ingredients.append(i.ingredient.name)
-        # print(recipe_ingredients)
+        print("recipe_ingredients ", recipe_ingredients)
 
-        # directions = Direction.objects.filter(recipe_id=self.kwargs.get('pk'))
-        # print('direction', directions)
-        # for d in directions:
-        #     print(d.text)
         if self.request.user.is_authenticated:
             context['blacklist'] = BlackList.objects.filter(user=self.request.user)
             context['diseases'] = Disease.objects.filter(blacklist_disease__user=self.request.user)
             diseases = Disease.objects.filter(blacklist_disease__user=self.request.user)
-            for disease in diseases:
+            print("diseases ", diseases)
+            for disease in diseases.distinct():
                 disease_ingr = disease.list_ingredient.all().filter()
+                d_i = {disease: disease_ingr}
+                d_o.append(d_i)
                 for i in disease_ingr:
                     disease_ingredients.append(i.name)
 
-            # print(disease_ingredients)
-            same_ingredients = list(set(recipe_ingredients) & set(disease_ingredients))
-            print(same_ingredients)
+            print("d_o ", d_o)
+            print("d", disease_ingredients)
 
+            same_ingredients = list(set(recipe_ingredients) & set(disease_ingredients))
+            print("same_ingredients ", same_ingredients)
             context['disease_ingredient'] = same_ingredients
-            context['disease_name'] = disease_name
+            context['disease_name'] = diseases.values_list('name').distinct()
+
+            print(context['disease_name'])
+
+            for i in d_o:
+                print(i)
+                for j in i:
+                    print(j)
+            # context['disease_name'] = d_o
+            print("disease_name ", context['disease_name'])
             # print(disease_name)
         # if self.request.user.is_authenticated:
         #     global i_1, i_2, i_3, i_4
