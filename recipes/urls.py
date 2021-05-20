@@ -20,12 +20,12 @@ from django.urls import path, include
 from .views import CategoryListView, CategoryDetailView, RecipeListView, \
     SearchResultsListView, CreateRecipeView, IngredientAutoComplete, \
     RecipeByUserView, RecipeOwnView, RecipeDetailView, RecipeByTimeView, \
-    CategoryAutoComplete
+    CategoryAutoComplete, autocomplete
 
 app_name = 'recipes'
 
 urlpatterns = [
-    # path('', views.recipe_list, name='recipe_list'),
+                  # path('', views.recipe_list, name='recipe_list'),
     # path('<slug:category_slug>/', views.recipe_list,
     #      name='recipe_list_by_category'),
     # path('<int:id>/<slug:slug>/', views.recipe_detail,

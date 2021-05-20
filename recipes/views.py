@@ -7,6 +7,7 @@ from django.contrib.postgres.search import SearchQuery
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models import Q
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
@@ -58,6 +59,7 @@ class RecipeListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['category_list'] = RecipeCategory.objects.all()
+        context['all_colleges'] = Ingredient.objects.all()
         return context
 
 
@@ -189,7 +191,8 @@ class SearchResultsListView(ListView):
     def get_queryset(self):
         result = super(SearchResultsListView, self).get_queryset()
         q = self.request.GET.get('q')
-        q = re.split(' |;|; |, |,|\*|\n', q)
+        # q = re.split(' |;|; |, |,|\*|\n', q)
+        q = re.split(', ', q)
         recipe_id = []
         # for i in range(len(q)):
         #     print(q[i])
@@ -374,6 +377,7 @@ class RecipeByMeasurementView(ListView):
         else:
             result = None
         return result
+
 
 # class CreateRecipeView(CreateView):
 #     form_class = RecipeCreateForm

@@ -1,10 +1,13 @@
+import json
+
 from django.core import exceptions
 from django import forms
 from django.contrib import auth
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 from django.urls import reverse
 from django.utils.translation import ugettext as _
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, password_validation
 from django.contrib.auth.decorators import login_required
@@ -28,6 +31,29 @@ from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditFor
 from .models import Profile
 from recipes.models import Recipe, RecipeCategory
 from ingredients.models import Ingredient
+
+
+def autocomplete(request):
+    if 'term' in request.GET:
+        qs = Ingredient.objects.filter(name__icontains=request.GET.get('term'))
+        print(qs)
+        titles = list()
+        for product in qs:
+            titles.append(product.name)
+        # titles = [product.title for product in qs]
+        return JsonResponse(titles, safe=False)
+    return render(request, 'base.html')
+
+
+# def autocomplete(request):
+#     if 'term' in request.GET:
+#         qs = Ingredient.objects.filter(title__icontains=request.GET.get('term'))
+#         titles = list()
+#         for product in qs:
+#             titles.append(product.title)
+#         # titles = [product.title for product in qs]
+#         return JsonResponse(titles, safe=False)
+#     return render(request, 'base.html')
 
 
 def validate_password_strength(value):
@@ -224,6 +250,7 @@ def edit(request):
                   'account/edit.html',
                   {'user_form': user_form,
                    'profile_form': profile_form})
+
 
 #
 # def posts_list(request):
