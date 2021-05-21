@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.core.validators import RegexValidator
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
@@ -36,22 +35,11 @@ class Recipe(models.Model):
                                  on_delete=models.CASCADE)
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
-    # directions = models.ForeignKey(Direction, related_name='directions', on_delete=models.CASCADE)
     preparation_time = models.CharField(max_length=10, blank=True, help_text="Enter time in minutes or hours",
                                         verbose_name='preparation time',
-                                        # validators=[
-                                        #     RegexValidator(
-                                        #         regex='[1-9][0-9] min'
-                                        #     )
-                                        # ]
                                         )
     image = models.ImageField(upload_to='recipes/%Y/%m/%d')
     favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
-    # list_ingredient = models.ManyToManyField(Ingredient, blank=True, related_name='recipe_list_ingredient',)
-    # through='MeasurementQty', through_fields=('recipe', 'ingredient'))
-    # users = models.ManyToManyField('auth.User', null=True, blank=True)
-    # list_ingredient = models.TextField(default=None)
-    # cart = models.ManyToManyField(User, related_name='cart', default=None, blank=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='d')
     user = models.ForeignKey(User, blank=True, null=True, default=None, on_delete=models.CASCADE)
 
