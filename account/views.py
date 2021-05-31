@@ -91,7 +91,6 @@ def favourite_recipe_add(request, id):
     else:
         recipe.favourites.add(request.user)
     # return HttpResponseRedirect(reverse('account:favourite_recipe_list'))
-
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
@@ -172,8 +171,8 @@ def user_login(request):
 @login_required
 def dashboard(request):
     return render(request,
-                  'account/dashboard.html',
-                  {'section': 'dashboard'})
+                  'account/dashboard.html')
+                  # {'section': 'dashboard'})
 
 
 def register(request):
@@ -202,7 +201,8 @@ def register(request):
                 mail_subject, message, to=[to_email]
             )
             email.send()
-            return HttpResponse('Please confirm your email address to complete the registration')
+            return render(request, 'account/email_confirm.html')
+            # return HttpResponse('Please confirm your email address to complete the registration')
 
             # return render(request,
             #               'account/register_done.html',
@@ -224,9 +224,11 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         Profile.objects.create(user=user)
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        return render(request, 'account/email_confirmed.html')
+        # return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
-        return HttpResponse('Activation link is invalid!')
+        return render(request, 'account/email_not_confirmed.html')
+        # return HttpResponse('Activation link is invalid!')
 
 
 @login_required

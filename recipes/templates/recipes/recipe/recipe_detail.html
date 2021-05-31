@@ -54,7 +54,9 @@
                         <br>
                         {% for i in list_ingredient %}
                             <ul>
-                            <li>{{ i.ingredient.name }} {{ i.amount }} {{ i.unit.name }}</li>
+                            <li>{{ i.ingredient.name }}
+                                {% if i.amount == None %}{{ i.unit.name }}
+                                {% else %}{{ i.amount }} {{ i.unit.name }}{% endif %}</li>
                             </ul>
                         {% endfor %}
 {#                        {% for i in list_ingredient %}#}
@@ -93,7 +95,7 @@
 	{% endif %}
   </form>
 {% else %}
-  <a class="btn btn-outline-info" href="{% url 'account:login' %}?next={{request.path}}">Log in to like this article!</a><br>
+  <a class="btn btn-outline-info" href="{% url 'account:login' %}?next={{request.path}}">Log in to add this recipe to favorites!</a><br>
 {% endif %}
                     </div>
                 </div>

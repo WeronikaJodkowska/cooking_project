@@ -22,14 +22,8 @@ class Category(models.Model):
 
 
 class Ingredient(models.Model):
-    # category = models.ForeignKey(Category,
-    #                              related_name='ingredients',
-    #                              on_delete=models.CASCADE,
-    #                              default=None)
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
-    # image = models.ImageField(upload_to='ingredients/%Y/%m/%d')
-    # favourites = models.ManyToManyField(User, related_name='favourite_ingredient', default=None, blank=True)
 
     class Meta:
         ordering = ('name',)

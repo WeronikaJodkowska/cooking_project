@@ -69,7 +69,7 @@ class RecipeCreateForm(forms.ModelForm):
                 HTML("<br>"),
                 Fieldset('Add directions',
                          Formset('directions')),
-                HTML("<br>"),
+                # HTML("<br>"),
                 ButtonHolder(Submit('submit', 'save')),
             )
         )

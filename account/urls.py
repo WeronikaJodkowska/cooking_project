@@ -22,7 +22,7 @@ urlpatterns = [
     # path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     # path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('', views.autocomplete, name='autocomplete'),
-    path('', views.dashboard, name='dashboard'),
+    path('/account', views.dashboard, name='dashboard'),
                   # path('ingredients/', include("ingredients.urls")),
     # path('', ingredients_views.ingredient_list, name='ingredient_list'),
     path('', include('django.contrib.auth.urls')),
@@ -34,6 +34,6 @@ urlpatterns = [
     path('favrecipes/', views.favourite_recipe_list, name='favourite_recipe_list'),
     path('favingredient/<int:id>/', views.favourite_ingredient_add, name='favourite_ingredient_add'),
     path('favingredients/', views.favourite_ingredient_list, name='favourite_ingredient_list'),
-    path('cart/<int:id>/', views.add_to_cart, name='add_to_cart'),
-    path('cart/', views.cart_list, name='cart_list'),
+    # path('cart/<int:id>/', views.add_to_cart, name='add_to_cart'),
+    # path('cart/', views.cart_list, name='cart_list'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

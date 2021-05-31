@@ -29,19 +29,20 @@ class Recipe(models.Model):
         ('p', 'Published'),
         ('w', 'Withdrawn'),
     ]
-
     category = models.ForeignKey(RecipeCategory,
                                  related_name='recipes',
                                  on_delete=models.CASCADE)
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
-    preparation_time = models.CharField(max_length=10, blank=True, help_text="Enter time in minutes or hours",
-                                        verbose_name='preparation time',
-                                        )
+    preparation_time = models.CharField(max_length=10, blank=True,
+                                        help_text="Enter time in minutes or hours",
+                                        verbose_name='preparation time')
     image = models.ImageField(upload_to='recipes/%Y/%m/%d')
-    favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
+    favourites = models.ManyToManyField(User, related_name='favourite',
+                                        default=None, blank=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='d')
-    user = models.ForeignKey(User, blank=True, null=True, default=None, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, blank=True, null=True, default=None,
+                             on_delete=models.CASCADE)
 
     class Meta:
         ordering = ('name',)
@@ -73,7 +74,8 @@ class Direction(models.Model):
 
 class MeasurementUnits(models.Model):
     name = models.CharField(max_length=20, verbose_name='Measurement Unit')
-    long_name = models.CharField(max_length=20, blank=True, verbose_name='long name')
+    long_name = models.CharField(max_length=20, blank=True,
+                                 verbose_name='long name')
 
     class Meta:
         verbose_name = 'Measurement Unit'
@@ -84,10 +86,14 @@ class MeasurementUnits(models.Model):
 
 
 class RecipeIngredients(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, blank=True, default=None)
-    amount = models.FloatField(max_length=100, blank=True, null=True, default=None)
-    unit = models.ForeignKey(MeasurementUnits, on_delete=models.CASCADE, blank=True, null=True, default=None)
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, blank=True, default=None)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,
+                               blank=True, default=None)
+    amount = models.FloatField(max_length=100, blank=True,
+                               null=True, default=None)
+    unit = models.ForeignKey(MeasurementUnits, on_delete=models.CASCADE,
+                             blank=True, null=True, default=None)
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE,
+                                   blank=True, default=None)
 
     class Meta:
         verbose_name = 'Recipe Ingredients'

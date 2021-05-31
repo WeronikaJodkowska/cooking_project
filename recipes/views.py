@@ -191,26 +191,44 @@ class SearchResultsListView(ListView):
     def get_queryset(self):
         result = super(SearchResultsListView, self).get_queryset()
         q = self.request.GET.get('q')
+        q1 = self.request.GET.get('q1')
         # q = re.split(' |;|; |, |,|\*|\n', q)
         q = re.split(', ', q)
+        q1 = re.split(', ', q1)
         recipe_id = []
         # for i in range(len(q)):
         #     print(q[i])
-        if q:
+        if q != ['']:
             recipe_object = RecipeIngredients.objects.filter(
                 Q(ingredient__name__in=q)).prefetch_related().distinct().values_list('recipe', flat=True)
-            print(q)
+            print('q', q)
+            print('recipe_object ', recipe_object)
+            # recipe_ingredients = RecipeIngredients.objects.filter(
+            #     Q(ingredient__name__in=q)).prefetch_related().distinct().values_list('ingredient', flat=True)
+            # # print(recipe_ingredients)
+            # ingredients = Ingredient.objects.filter(pk__in=recipe_ingredients)
+            # print(ingredients)
+            # for ingredient in recipe_ingredients:
+            #     print('Name: {}'.format(ingredient.name))
+            if q1:
+                recipe_except = recipe_object.exclude(Q(ingredient__name__in=q1))
+                print(recipe_except)
+                # for r in recipe_object:
+                #     recipe_id.append(r)
+                # print(recipe_id[0])
+                result = Recipe.objects.filter(pk__in=recipe_except)
+                print(result)
+        elif q == ['']:
+            print('q1')
+            recipe_object = RecipeIngredients.objects.filter(recipe__status='p')\
+                .prefetch_related().distinct().values_list('recipe', flat=True)
             print(recipe_object)
-            # for r in recipe_object:
-            #     recipe_id.append(r)
-            # print(recipe_id[0])
-
-            result = Recipe.objects.filter(pk__in=recipe_object)
-            print(result)
-            # recipe = Recipe.objects.get(pk__in=recipe_id)
-            # print(recipe.name)
-            # postresult = Recipe.objects.filter(Q(list_ingredient__name__in=q)).prefetch_related().distinct()
-        #     result = recipe
+            if q1:
+                ingredient_names = recipe_object.filter(Q(ingredient__name__in=q1))
+                print(ingredient_names)
+                recipe_except = recipe_object.difference(ingredient_names)
+                print(recipe_except)
+                result = Recipe.objects.filter(pk__in=recipe_except)
         else:
             result = None
         return result
@@ -293,7 +311,6 @@ class CreateRecipeView(LoginRequiredMixin, CreateView):
         #     messages.success(self.request, success_message)
         return super(CreateRecipeView, self).form_valid(form)
 
-
     # def get_form(self, form_class=None):
     def get_success_message(self, cleaned_data):
         return self.success_message % cleaned_data
@@ -323,7 +340,7 @@ class RecipeByUserView(ListView):
 
     def get_queryset(self):
         try:
-            entry = Recipe.objects.filter(user=self.kwargs.get('pk'))
+            entry = Recipe.objects.filter(user=self.kwargs.get('pk'), status='p')
         except ObjectDoesNotExist:
             print("Either the Recipe or entry doesn't exist.")
         return entry
@@ -351,7 +368,7 @@ class RecipeByTimeView(ListView):
             recipe = Recipe.objects.filter(id=recipe_id)
             time = Recipe.objects.values('preparation_time').filter(id=recipe_id)
             print(time)
-            entry = Recipe.objects.filter(preparation_time__in=time)
+            entry = Recipe.objects.filter(preparation_time__in=time, status='p')
             print(entry)
             unit = RecipeIngredients.objects.filter(unit__name='g')
             print('unit ', unit)
@@ -377,7 +394,6 @@ class RecipeByMeasurementView(ListView):
         else:
             result = None
         return result
-
 
 # class CreateRecipeView(CreateView):
 #     form_class = RecipeCreateForm

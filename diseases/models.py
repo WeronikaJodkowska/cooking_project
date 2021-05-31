@@ -9,7 +9,8 @@ from ingredients.models import Ingredient
 class DiseaseCategory(models.Model):
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, unique=True)
-    image = models.ImageField(null=True, blank=True, default=None, upload_to='disease_categories/%Y/%m/%d')
+    image = models.ImageField(null=True, blank=True, default=None,
+                              upload_to='disease_categories/%Y/%m/%d')
 
     class Meta:
         ordering = ('name',)
@@ -24,15 +25,14 @@ class DiseaseCategory(models.Model):
 
 
 class Disease(models.Model):
-    category = models.ForeignKey(DiseaseCategory, related_name='diseases', on_delete=models.CASCADE)
+    category = models.ForeignKey(DiseaseCategory,
+                                 related_name='diseases',
+                                 on_delete=models.CASCADE)
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
-
-    # favourites = models.ManyToManyField(User, related_name='favourite', default=None, blank=True)
-    list_ingredient = models.ManyToManyField(Ingredient, related_name='disease_ingredients', blank=True, default=None)
-    # ingredients = models.ForeignKey(Ingredient, related_name='disease_ingredients',
-    #                                 null=True, blank=True, default=None,
-    #                                 on_delete=models.CASCADE)
+    list_ingredient = models.ManyToManyField(Ingredient,
+                                             related_name='disease_ingredients',
+                                             blank=True, default=None)
 
     class Meta:
         ordering = ('name',)
@@ -51,12 +51,14 @@ class Disease(models.Model):
 
 
 class BlackList(models.Model):
-    user = models.ForeignKey(User, blank=True, related_name='blacklist_user',
-                             null=True, default=None, on_delete=models.CASCADE)
-    # disease = models.ManyToManyField(Disease, related_name='blacklist_disease', blank=True, default=None)
-    # self_ingredients = models.ManyToManyField(Ingredient, related_name='blacklist_ingredients', blank=True, null=True, default=None)
-    disease = models.ForeignKey(Disease, related_name='blacklist_disease', blank=True, null=True, default=None, on_delete=models.CASCADE)
-    # self_ingredients = models.ForeignKey(Ingredient, related_name='blacklist_ingredients', blank=True, null=True, default=None, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, blank=True,
+                             related_name='blacklist_user',
+                             null=True, default=None,
+                             on_delete=models.CASCADE)
+    disease = models.ForeignKey(Disease,
+                                related_name='blacklist_disease',
+                                blank=True, null=True, default=None,
+                                on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.id)

@@ -99,8 +99,8 @@
 		<div id="log-in" class="site-form log-in-form box-shadow border-radius-10">
             <div class="form-output">
                 <form method="post">
-                    {{ user_form.as_p }}
                     {% csrf_token %}
+                    {{ user_form.as_p }}
                     <p><input type="submit" class="btn btn-md btn-primary full-width" value="Create my account"></p>
                     <div class="or"></div>
                     <a href="{% url "social:begin" "google-oauth2" %}" class="google btn btn-md full-width btn-icon-left"><i class="fab fa-google-plus margin-right-8px" aria-hidden="true"></i> Login with Google</a>
