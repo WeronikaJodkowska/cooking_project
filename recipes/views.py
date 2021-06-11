@@ -229,6 +229,7 @@ class SearchResultsListView(ListView):
                 recipe_except = recipe_object.difference(ingredient_names)
                 print(recipe_except)
                 result = Recipe.objects.filter(pk__in=recipe_except)
+                print(type(result))
         else:
             result = None
         return result
