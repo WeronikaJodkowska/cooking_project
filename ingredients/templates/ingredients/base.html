@@ -9,12 +9,8 @@
 <body>
 <div id="header">
     <a href="/" class="logo">Ингредиенты</a>
-{#    <a href="/account" class="logo">Аккаунт</a>#}
-{#    <a href="{% url 'recipes:category_list' %}" class="logo">Рецепты</a>#}
-{#    <a href="{% url 'recipes:category_list' %}" class="logo">Рецепты</a>#}
     <span class="user">
         {% if request.user.is_authenticated %}
-{#            Hello {{ request.user.first_name }},#}
             Hello, <a href="{% url 'account:dashboard' %}">{{ request.user.first_name }}</a>,
             <a href="{% url 'account:logout' %}">Logout</a>
         {% else %}
@@ -24,7 +20,6 @@
 </div>
 <div id="content">
     {% block content %}
-{#            <a href="/recipes" class="logo">Рецепты</a>#}
     {% endblock %}
 </div>
 

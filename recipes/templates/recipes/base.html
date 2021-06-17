@@ -4,15 +4,13 @@
 <head>
     <link rel="icon" href="{% static 'img/logo-small.png' %}">
     <title>{% block title %}{% endblock %}</title>
-{#    <link href="{% static "css/base.css" %}" rel="stylesheet">#}
-{#    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">#}
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<meta name="keywords" content="recipes food, recipes , chinese food, italian food">
 	<meta name="description" content="Cook Note - Food & Recipes Food Template">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- google fonts -->
+    <!-- google fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800%7CPoppins:100,200,300i,300,400,700,400i,500%7CDancing+Script:700" rel="stylesheet">
-		<!-- animate -->
+    <!-- animate -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <link rel="stylesheet" href="{% static  'css/animate.css' %}" />
@@ -190,44 +188,3 @@
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-{#{% load static %}#}
-{#<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">#}
-{#<!DOCTYPE html>#}
-{#<html lang="en">#}
-{#<head>#}
-{#    <meta charset="UTF-8">#}
-{#    <title>{% block title %}Рецепты{% endblock %}</title>#}
-{#    <link href="{% static "css/base.css" %}" rel="stylesheet">#}
-{#</head>#}
-{#<body>#}
-{#<div id="header">#}
-{#    <a href="/" class="logo">Рецепты1111</a>#}
-{#    <a href="{% url 'ingredients:ingredient_list' %}" class="logo">Ингредиенты</a>#}
-{#    <span class="user">#}
-{#        {% if request.user.is_authenticated %}#}
-{#            Hello, <a href="{% url 'account:dashboard' %}">{{ request.user.first_name }}</a>,#}
-{#            <a href="{% url 'account:logout' %}">Logout</a>#}
-{#        {% else %}#}
-{#            <a href="{% url 'account:login' %}">Log-in</a>#}
-{#        {% endif %}#}
-{#    </span>#}
-{##}
-{#    <a href="{% url 'post_new' %}" class="top-menu">Добавить рецепт</a>#}
-{#</div>#}
-{#<div id="content">#}
-{#    {% block content %}#}
-{#    {% endblock %}#}
-{#</div>#}
-{#</body>#}
-{#</html>#}

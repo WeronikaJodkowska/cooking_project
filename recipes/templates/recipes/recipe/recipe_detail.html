@@ -14,14 +14,10 @@
 			<h1 class="font-weight-300">{{ recipe.name }}</h1>
             {% if request.user.is_authenticated %}
                 {% if messages %}
-{#<ul class="messages">#}
-    {% for message in messages %}
-{#    <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> #}
-        <h4 class="font-weight-300">{{ message }}</h4>
-{#    </li>#}
-    {% endfor %}
-{#</ul>#}
-{% endif %}
+                    {% for message in messages %}
+                        <h4 class="font-weight-300">{{ message }}</h4>
+                    {% endfor %}
+                {% endif %}
             {% endif %}
 		</div>
 	</div>
@@ -33,23 +29,21 @@
                         <img src="{{ recipe.image.url }}">
                     </div>
                     <div class="padding-lr-30px padding-tb-20px">
-{#                        <h5 class="margin-bottom-20px margin-top-10px">{{ recipe.name }}</h5>#}
                         <h4><a class="active" href="{% url 'recipes:category_detail' recipe.category.id %}">{{ recipe.category }}</a></h4>
                         <hr>
-                    {% if recipe.preparation_time or recipe.user is not None %}
-                    <div class="row no-gutters">
-                            {% if recipe.preparation_time %}
-                                <div class="col-4 text-left"><i class="far fa-clock"></i>
-                                    <a class="active" href="{% url 'recipes:recipes_by_time' recipe.id %}">{{ recipe.preparation_time }}</a>
-                                </div>
-                            {% endif %}
-                            {% if recipe.user is not None %}
-                                <div>Created by <a href="{% url 'recipes:recipes_by_user' recipe.user.id %}" class="text-red">{{ recipe.user }}</a></div>
-                            {% endif %}
-
-                    </div>
-                        <hr>
-                    {% endif %}
+                        {% if recipe.preparation_time or recipe.user is not None %}
+                            <div class="row no-gutters">
+                                {% if recipe.preparation_time %}
+                                    <div class="col-4 text-left"><i class="far fa-clock"></i>
+                                        <a class="active" href="{% url 'recipes:recipes_by_time' recipe.id %}">{{ recipe.preparation_time }}</a>
+                                    </div>
+                                {% endif %}
+                                {% if recipe.user is not None %}
+                                    <div>Created by <a href="{% url 'recipes:recipes_by_user' recipe.user.id %}" class="text-red">{{ recipe.user }}</a></div>
+                                {% endif %}
+                            </div>
+                            <hr>
+                        {% endif %}
                         <h3>Ingredients</h3>
                         <br>
                         {% for i in list_ingredient %}
@@ -59,16 +53,7 @@
                                 {% else %}{{ i.amount }} {{ i.unit.name }}{% endif %}</li>
                             </ul>
                         {% endfor %}
-{#                        {% for i in list_ingredient %}#}
-{#                            <ul>#}
-{#                            {% if i.ingredient.name in disease_ingredient %}#}
-{#                                <strike><li>{{ i.ingredient.name }} {{ i.amount }} {{ i.unit.name }}</li></strike>#}
-{#                            {% else %}#}
-{#                                <li>{{ i.ingredient.name }} {{ i.amount }} {{ i.unit.name }}</li>#}
-{#                            {% endif %}#}
-{#                            </ul>#}
-{#                        {% endfor %}#}
-                    <hr>
+                        <hr>
                         <h3>Method</h3>
                         {% for d in directions %}
                             {{ d.order|add:1 }}. {{ d.text }}<br>
@@ -78,49 +63,31 @@
                             <br>
                         {% endfor %}
                         <hr>
-{#                        {% if request.user.is_authenticated  %}#}
-{#                            <div class="row no-gutters">#}
-{#                                <div class="col-4 text-left"><a href="{% url 'account:favourite_recipe_add' recipe.id %}" class="text-red"><i class="far fa-heart"></i> Save</a></div>#}
-{#                            </div>#}
-{#                        {% endif %}#}
-                    {% if user.is_authenticated %}
-  <form action="{% url 'account:favourite_recipe_add' recipe.id %}" method="POST">
-	{% csrf_token %}
-
-	{% if recipe_is_favorited %}
-
-	<button type="submit" name="recipe_id" value="{{recipe.id}}" class="btn btn-danger"><i class="far fa-heart"></i> Delete from favorites</button>
-	{% else %}
-	<button type="submit" name="recipe_id" value="{{recipe.id}}" class="btn btn-outline-danger"><i class="far fa-heart"></i> Add to favorites</button>
-	{% endif %}
-  </form>
-{% else %}
-  <a class="btn btn-outline-info" href="{% url 'account:login' %}?next={{request.path}}">Log in to add this recipe to favorites!</a><br>
-{% endif %}
+                        {% if user.is_authenticated %}
+                            <form action="{% url 'account:favourite_recipe_add' recipe.id %}" method="POST">
+                                {% csrf_token %}
+                                {% if recipe_is_favorited %}
+                                    <button type="submit" name="recipe_id" value="{{recipe.id}}" class="btn btn-danger"><i class="far fa-heart"></i> Delete from favorites</button>
+                                {% else %}
+                                    <button type="submit" name="recipe_id" value="{{recipe.id}}" class="btn btn-outline-danger"><i class="far fa-heart"></i> Add to favorites</button>
+                                {% endif %}
+                            </form>
+                        {% else %}
+                            <a class="btn btn-outline-info" href="{% url 'account:login' %}?next={{request.path}}">Log in to add this recipe to favorites!</a><br>
+                        {% endif %}
                     </div>
                 </div>
                 {% if disease_ingredient %}
-                {% if request.user.is_authenticated  %}
+                {% if request.user.is_authenticated %}
                     <div class="margin-bottom-40px box-shadow">
                         <div class="padding-30px background-white">
                             <h3>Be careful, the following ingredients are on the prohibited list: </h3>
                             {% for i in disease_ingredient %}
                                 <ul><li>{{ i }}</li></ul>
-{#                                {% for j in i %}#}
-{#                                    <ul><li>{{ i }} ({{ j }})</li></ul>#}
-{#                                    {% for k in i.values %}#}
-{#                                        {% for g in k %}#}
-{#                                            <ul><li>{{ g }} ({{ j }})</li></ul>#}
-{#                                        {% endfor %}#}
-{#                                    {% endfor %}#}
-{#                                {% endfor %}#}
                             {% endfor %}
-                                {% endif %}
-{#                        {% for i in disease_name %}#}
-{#                            {{ i }}#}
-{#                        {% endfor %}#}
-                        </div>
+                          </div>
                     </div>
+                {% endif %}
                 {% endif %}
             </div>
         </div>

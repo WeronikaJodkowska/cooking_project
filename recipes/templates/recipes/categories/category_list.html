@@ -11,28 +11,24 @@
 			<h1 class="font-weight-300">Recipe categories</h1>
 		</div>
 	</div>
-
-        <div class="container margin-bottom-100px">
-            <div class="row">
-
-                {% for category in category_list %}
-                    <!-- item -->
-                <div class="col-lg-6 margin-bottom-30px">
-                    <div class="background-white thum-hover box-shadow hvr-float full-width">
-{#                    <div class="item">#}
-                        <div class="float-md-left margin-right-30px thum-xs">
-                            <a href="{% url 'recipes:category_detail' category.id %}">
-                                <img src="{{ category.image.url }}">
-                            </a>
-                        </div>
-                        <div class="padding-25px">
-                            <h3><a class="d-block text-dark text-capitalize text-medium margin-tb-15px" href="{% url 'recipes:category_detail' category.id %}">{{ category.name }}</a></h3>
-                            <hr>
-					    </div>
-                        <div class="clearfix"></div>
+    <div class="container margin-bottom-100px">
+        <div class="row">
+            {% for category in category_list %}
+            <div class="col-lg-6 margin-bottom-30px">
+                <div class="background-white thum-hover box-shadow hvr-float full-width">
+                    <div class="float-md-left margin-right-30px thum-xs">
+                        <a href="{% url 'recipes:category_detail' category.id %}">
+                            <img src="{{ category.image.url }}">
+                        </a>
                     </div>
+                    <div class="padding-25px">
+                        <h3><a class="d-block text-dark text-capitalize text-medium margin-tb-15px" href="{% url 'recipes:category_detail' category.id %}">{{ category.name }}</a></h3>
+                        <hr>
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
-                {% endfor %}
             </div>
+            {% endfor %}
         </div>
+    </div>
 {% endblock %}

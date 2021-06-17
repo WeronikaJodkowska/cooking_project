@@ -1,28 +1,8 @@
-{#{% extends "base.html" %}#}
-{#{% block title %}Categories{% endblock %}#}
-{##}
-{#{% block content %}#}
-{#    {% for category in category_list %}#}
-{#        <div>#}
-{#        <h2><a href="">{{ category.name }}</a></h2>#}
-{#        </div>#}
-{#        {% url 'recipes:recipes_by_category' category.id %}#}
-{#        <div class="item">#}
-{#            <a href="{% url 'recipes:category_detail' category.id %}">#}
-{#                <img src="{{ category.image.url }}">#}
-{#            </a>#}
-{#            <br>#}
-{#            <a href="{% url 'recipes:category_detail' category.id %}">{{ category.name }}</a>#}
-{#        </div>#}
-{#    {% endfor %}#}
-{#{% endblock %}#}
-
 {% extends "base.html" %}
 {% block title %}Категории ингредиентов{% endblock %}
 {% block content %}
     {% for category in category_list %}
         <div class="item">
-
             <a href="{% url 'ingredients:category_detail' category.id %}">
                 <img src="{{ category.image.url }}">
             </a>

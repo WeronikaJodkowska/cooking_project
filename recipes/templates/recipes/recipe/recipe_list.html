@@ -1,37 +1,3 @@
-{#{% extends "recipes/base.html" %}#}
-{#{% load static %}#}
-{##}
-{#{% block title %}#}
-{#    {% if category %}{{ category.name }}{% else %}Рецепты{% endif %}#}
-{#{% endblock %}#}
-{##}
-{#{% block content %}#}
-{#    <div id="sidebar">#}
-{#    <h3>Categories</h3>#}
-{#    <ul>#}
-{#        <li {% if not category %}class="selected"{% endif %}>#}
-{#        <a href="{% url "recipes:recipe_list" %}">Все рецепты</a>#}
-{#        </li>#}
-{#        {% for c in categories %}#}
-{#            <li {% if category.slug == c.slug %}class="selected" {% endif %}>#}
-{#            <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>#}
-{#            </li>#}
-{#        {% endfor %}#}
-{#    </ul>#}
-{#    </div>#}
-{#    <div id="main" class="recipe-list">#}
-{#    <h1>{% if category %}{{ category.name }}{% else %}Рецепты{% endif %}</h1>#}
-{#    {% for recipe in recipes %}#}
-{#        <div class="item">#}
-{#        <a href="{{ recipe.get_absolute_url }}">#}
-{#            <img src="{{ recipe.image.url }}">#}
-{#        </a>#}
-{#        <a href="{{ recipe.get_absolute_url }}">{{ recipe.name }}</a>#}
-{#        </div>#}
-{#    {% endfor %}#}
-{#    </div>#}
-{#{% endblock %}#}
-
 {% extends "base.html" %}
 {% block title %}Recipes{% endblock %}
 
@@ -48,29 +14,11 @@
                 Recipes
             </li>
         </ol>
-{#			<h1 class="font-weight-300">{{ category.name }}</h1>#}
     </div>
 </div>
-{#    <div class="container">#}
-{#		<div class="margin-bottom-60px">#}
-{#			<div class="listing-search box-shadow">#}
-{#                <div class="col-md-4">#}
-{#                    <div class="keywords">#}
-{#                        <form class="row no-gutters" action="{% url 'recipes:search_results' %}" method="get">#}
-{##}
-{#    <form class="form-inline mt-2 mt-md-0" action="{% url 'recipes:search_results' %}" method="get">#}
-{#        <input name="q" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">#}
-{#                            <input name="q" class="listing-form first" type="text" placeholder="Keywords..." aria-label="Search">#}
-{#                        </form>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
     <div class="container margin-bottom-100px">
         <div class="row">
             {% for recipe in recipe_list %}
-{#        <div class="item">#}
                 <div class="col-lg-6 margin-bottom-30px">
                     <div class="background-white thum-hover box-shadow hvr-float full-width">
                         <div class="float-md-left margin-right-30px thum-xs">
@@ -89,34 +37,8 @@
                     </div>
                 </div>
             {% endfor %}
-
-{#    {% for category in category_list %}#}
-{#        {{ category.name }}#}
-{#    {% endfor %}#}
         </div>
     </div>
-
-{#    {% if is_paginated %}#}
-{#  <ul class="pagination justify-content-center">#}
-{#    {% if page_obj.has_previous %}#}
-{#      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>#}
-{#    {% else %}#}
-{#      <li class="disabled page-item"><span class="page-link">&laquo;</span></li>#}
-{#    {% endif %}#}
-{#    {% for i in paginator.page_range %}#}
-{#      {% if page_obj.number == i %}#}
-{#        <li class="active page-item"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>#}
-{#      {% else %}#}
-{#        <li><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>#}
-{#      {% endif %}#}
-{#    {% endfor %}#}
-{#    {% if page_obj.has_next %}#}
-{#      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>#}
-{#    {% else %}#}
-{#      <li class="disabled page-item"><span class="page-link">&raquo;</span></li>#}
-{#    {% endif %}#}
-{#  </ul>#}
-{#{% endif %}#}
     <div class="pagination justify-content-center">
         <span class="step-links">
             <ul class="pagination">

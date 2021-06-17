@@ -2,8 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 <table>
-{{ formset.management_form|crispy }}
-
+    {{ formset.management_form|crispy }}
     {% for form in formset.forms %}
             <tr class="{% cycle 'row1' 'row2' %} formset_row-{{ formset.prefix }}">
                 {% for field in form.visible_fields %}
