@@ -13,6 +13,7 @@ class CategoryAdmin(admin.ModelAdmin):
 class DiseaseAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'category']
     prepopulated_fields = {'slug': ('name',)}
+    autocomplete_fields = ['list_ingredient']
 
 
 @admin.register(BlackList)

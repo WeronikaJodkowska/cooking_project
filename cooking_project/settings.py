@@ -195,3 +195,5 @@ CART_SESSION_ID = 'cart'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '949817039508-4qecubgab6thm8f4t9j4njp2q9om2khj.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'NDW_OaiK8u04shRPiVbQ40X4'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

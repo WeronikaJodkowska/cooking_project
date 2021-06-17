@@ -22,7 +22,7 @@ urlpatterns = [
     # path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     # path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('', views.autocomplete, name='autocomplete'),
-    path('/account', views.dashboard, name='dashboard'),
+    path('account', views.dashboard, name='dashboard'),
                   # path('ingredients/', include("ingredients.urls")),
     # path('', ingredients_views.ingredient_list, name='ingredient_list'),
     path('', include('django.contrib.auth.urls')),
