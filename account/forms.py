@@ -41,11 +41,6 @@ class UserRegistrationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'email')
-    #
-    # def __init__(self, *args, **kwargs):
-    #     super(UserRegistrationForm, self).__init__(*args, **kwargs)
-    #     if self.fields['password'].validators.append(validate_password_strength):
-    #         raise forms.ValidationError('Passwords don\'t match.')
 
     def clean_password2(self):
         cd = self.cleaned_data

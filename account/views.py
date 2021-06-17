@@ -1,18 +1,10 @@
-import json
-
-from django.core import exceptions
-from django import forms
-from django.contrib import auth
 from django.core.exceptions import ValidationError
-from django.db.models import Q
-from django.urls import reverse
 from django.utils.translation import ugettext as _
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, password_validation
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import redirect, get_object_or_404
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.template.loader import render_to_string
 from django.views.generic import DetailView
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
@@ -25,12 +17,12 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
-UserModel = get_user_model()
-
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Profile
 from recipes.models import Recipe, RecipeCategory
 from ingredients.models import Ingredient
+
+UserModel = get_user_model()
 
 
 def autocomplete(request):
@@ -40,20 +32,8 @@ def autocomplete(request):
         titles = list()
         for product in qs:
             titles.append(product.name)
-        # titles = [product.title for product in qs]
         return JsonResponse(titles, safe=False)
     return render(request, 'base.html')
-
-
-# def autocomplete(request):
-#     if 'term' in request.GET:
-#         qs = Ingredient.objects.filter(title__icontains=request.GET.get('term'))
-#         titles = list()
-#         for product in qs:
-#             titles.append(product.title)
-#         # titles = [product.title for product in qs]
-#         return JsonResponse(titles, safe=False)
-#     return render(request, 'base.html')
 
 
 def validate_password_strength(value):
@@ -90,59 +70,6 @@ def favourite_recipe_add(request, id):
         recipe.favourites.remove(request.user)
     else:
         recipe.favourites.add(request.user)
-    # return HttpResponseRedirect(reverse('account:favourite_recipe_list'))
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
-
-
-# @login_required
-# def add_to_cart(request, id):
-#     recipe = get_object_or_404(Recipe, id=id)
-#     user = get_object_or_404(User, id=request.user.id)
-#     # if Cart.objects.all().filter(id=request.user.id).exists():
-#     #     cart = Cart(recipe=recipe, user=user)
-#     #     cart.delete()
-#     # else:
-#     if not Cart.objects.all().filter(recipe=recipe).exists():
-#         cart = Cart(recipe=recipe, user=user)
-#         cart.save()
-#     else:
-#         print("exists")
-#     return HttpResponseRedirect(request.META['HTTP_REFERER'])
-
-
-@login_required
-def favourite_ingredient_list(request):
-    new = Ingredient.objects.filter(favourites=request.user)
-    return render(request,
-                  'account/favourite_ingredients.html',
-                  {'new': new})
-
-
-@login_required
-def favourite_ingredient_add(request, id):
-    ingredient = get_object_or_404(Ingredient, id=id)
-    if ingredient.favourites.filter(id=request.user.id).exists():
-        ingredient.favourites.remove(request.user)
-    else:
-        ingredient.favourites.add(request.user)
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
-
-
-@login_required
-def cart_list(request):
-    cart = Recipe.objects.filter(cart=request.user)
-    return render(request,
-                  'account/cart.html',
-                  {'cart': cart})
-
-
-@login_required
-def add_to_cart(request, id):
-    recipe = get_object_or_404(Recipe, id=id)
-    if recipe.cart.filter(id=request.user.id).exists():
-        recipe.cart.remove(request.user)
-    else:
-        recipe.cart.add(request.user)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
@@ -172,7 +99,6 @@ def user_login(request):
 def dashboard(request):
     return render(request,
                   'account/dashboard.html')
-                  # {'section': 'dashboard'})
 
 
 def register(request):
@@ -182,10 +108,6 @@ def register(request):
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
             new_user = user_form.save(commit=False)
-            # try:
-            #     password_validation.validate_password(user_form.cleaned_data['password'])
-            # except exceptions.ValidationError as e:
-            #     raise forms.ValidationError('Invalid value')
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
             current_site = get_current_site(request)
@@ -202,11 +124,6 @@ def register(request):
             )
             email.send()
             return render(request, 'account/email_confirm.html')
-            # return HttpResponse('Please confirm your email address to complete the registration')
-
-            # return render(request,
-            #               'account/register_done.html',
-            #               {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
     return render(request,
@@ -225,10 +142,8 @@ def activate(request, uidb64, token):
         user.save()
         Profile.objects.create(user=user)
         return render(request, 'account/email_confirmed.html')
-        # return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return render(request, 'account/email_not_confirmed.html')
-        # return HttpResponse('Activation link is invalid!')
 
 
 @login_required
@@ -254,18 +169,7 @@ def edit(request):
                    'profile_form': profile_form})
 
 
-#
-# def posts_list(request):
-#     queryset = RecipeCategory.objects.all()
-#     context = {
-#         "category_list": queryset,
-#     }
-#     print(context)
-#     return render(request, "base.html", context)
-
-
 class CategoryDetailView(DetailView):
     model = RecipeCategory
     context_object_name = 'category'
-    # paginate_by = 2
     template_name = 'base.html'
