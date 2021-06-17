@@ -145,13 +145,13 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-DEFAULT_FROM_EMAIL = 'veronica.jodkowska@gmail.com'
-SERVER_EMAIL = 'veronica.jodkowska@gmail.com'
+DEFAULT_FROM_EMAIL = 'aspecipe@gmail.com'
+SERVER_EMAIL = 'aspecipe@gmail.com'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'veronica.jodkowska@gmail.com'
-EMAIL_HOST_PASSWORD = 'AR77gonmix'
+EMAIL_HOST_USER = 'aspecipe@gmail.com'
+EMAIL_HOST_PASSWORD = 'SP77ecipemix'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
@@ -165,33 +165,14 @@ AUTHENTICATION_BACKENDS = [
 
 ]
 
-# PASSWORD_HASHERS = [
-#     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
-#     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
-#     'django.contrib.auth.hashers.Argon2PasswordHasher',
-#     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
-# ]
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+]
 
 # ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1']
-
-CART_SESSION_ID = 'cart'
-
-# LOGIN_REDIRECT_URL = "dashboard"
-# LOGOUT_REDIRECT_URL = "dashboard"
-#
-# EMAIL_HOST = "smtp.mailgun.org"
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-# EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-# EMAIL_USE_TLS = True
-#
-# AUTHENTICATION_BACKENDS = [
-#     "django.contrib.auth.backends.ModelBackend",
-#     "social_core.backends.github.GithubOAuth2",
-# ]
-#
-# SOCIAL_AUTH_GITHUB_KEY = os.environ.get("078bf4a5e4e953fb897b")
-# SOCIAL_AUTH_GITHUB_SECRET = os.environ.get("99bcc5dcef95476eb36c6926fc0921acb2be2293 ")
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '949817039508-4qecubgab6thm8f4t9j4njp2q9om2khj.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'NDW_OaiK8u04shRPiVbQ40X4'

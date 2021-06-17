@@ -28,68 +28,21 @@
                             <ul><li>{{ ingredient.name }}</li></ul>
                         {% endfor %}
                         <hr>
-                                        {% if user.is_authenticated %}
-  <form action="{% url 'diseases:add_to_blacklist' disease.id %}" method="POST">
-	{% csrf_token %}
-
-	{% if disease_is_blacklisted %}
-
-	<button type="submit" name="recipe_id" value="{{disease.id}}" class="btn btn-danger"><i class="far fa-heart"></i> Delete from Blacklist</button>
-	{% else %}
-	<button type="submit" name="recipe_id" value="{{disease.id}}" class="btn btn-outline-danger"><i class="far fa-heart"></i> Add to Blacklist</button>
-	{% endif %}
-  </form>
-{% else %}
-  <a class="btn btn-outline-info" href="{% url 'account:login' %}?next={{request.path}}">Log in to like this article!</a><br>
-{% endif %}
-{#                        {% if request.user.is_authenticated  %}#}
-{#                            {% if blacklist.user == request.user %}#}
-{#                                <a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="text-red">Add</a>#}
-{#                            <div class="row no-gutters">#}
-{#                                <div class="col-4 text-left"><a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="text-red"><i class="fa fa-ban"></i> Add to Blacklist</a></div>#}
-{#                            </div>#}
-{#                            {% else %}#}
-{#                                 <a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="text-red">Delete</a>#}
-{##}
-{#                            <div class="row no-gutters">#}
-{#                                <div class="col-4 text-left"><a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="text-black"><i class="fa fa-ban"></i> Delete from the Blacklist</a></div>#}
-{#                            </div>#}
-{#                        {% endif %}#}
-{#                            {% if blacklist.user == request.user %}#}
-{#{% else %}#}
-{#                            <div class="row no-gutters">#}
-{#                                <div class="col-4 text-left"><a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="text-red"><i class="fas fa-exclamation-circle"></i> Delete from the Blacklist</a></div>#}
-{#                            </div>#}
-{#                            {% endif %}#}
-{#                        {% endif %}#}
+                        {% if user.is_authenticated %}
+                            <form action="{% url 'diseases:add_to_blacklist' disease.id %}" method="POST">
+	                            {% csrf_token %}
+                                {% if disease_is_blacklisted %}
+                                    <button type="submit" name="recipe_id" value="{{disease.id}}" class="btn btn-danger"><i class="far fa-heart"></i> Delete from Blacklist</button>
+                                {% else %}
+                                    <button type="submit" name="recipe_id" value="{{disease.id}}" class="btn btn-outline-danger"><i class="far fa-heart"></i> Add to Blacklist</button>
+                                {% endif %}
+                            </form>
+                        {% else %}
+                            <a class="btn btn-outline-info" href="{% url 'account:login' %}?next={{request.path}}">Log in to add this disease to the blacklist!</a><br>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 {% endblock %}
-
-
-
-{#<div class="disease-detail">#}
-{#        <img src="{{ disease.image.url }}">#}
-{#        <h1>{{ disease.category.name }}</h1>#}
-{##}
-{#        <h1>Запрещенные ингредиенты</h1>#}
-{#        {% for ingredient in disease.list_ingredient.all %}#}
-{#			<ul><li>{{ ingredient.name }}</li></ul>#}
-{#        {% endfor %}#}
-{##}
-{#        {{ form.as_p }}#}
-{#        <a href="{% url 'diseases:blacklist_new' %}" class="btn btn-outline-primary">Add to Blacklist</a>#}
-{#        <a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="btn btn-outline-primary">Add to Blacklist</a>#}
-{#        <h2>New blacklist</h2>#}
-{#    <form method="post">#}
-{#        enctype="multipart/form-data">#}
-{#    {% csrf_token %}#}
-{#    {{ form.as_p }}#}
-{##}
-{#        <a href="{% url 'diseases:add_to_blacklist' disease.id %}" class="btn btn-outline-primary">Add to Blacklist</a>#}
-{#    </form>#}
-{#    </div>#}

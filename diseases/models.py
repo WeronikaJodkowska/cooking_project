@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.template.defaultfilters import slugify
 from django.urls import reverse
 
 from ingredients.models import Ingredient
@@ -41,14 +40,6 @@ class Disease(models.Model):
     def __str__(self):
         return self.name
 
-    # def get_absolute_url(self):
-    #     return reverse('recipes:recipe_detail',
-    #                    args=[self.id, self.slug])
-    #
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(self.name)
-    #     super(Recipe, self).save(*args, **kwargs)
-
 
 class BlackList(models.Model):
     user = models.ForeignKey(User, blank=True,
@@ -62,8 +53,3 @@ class BlackList(models.Model):
 
     def __str__(self):
         return str(self.id)
-
-    # def get_ingredients_by_disease(self, obj):
-    #     return "\n".join([p.list_ingredient for p in obj.Disease.all()])
-
-
