@@ -20,18 +20,12 @@ from django.urls import path, include
 from .views import CategoryListView, CategoryDetailView, RecipeListView, \
     SearchResultsListView, CreateRecipeView, IngredientAutoComplete, \
     RecipeByUserView, RecipeOwnView, RecipeDetailView, RecipeByTimeView, \
-    CategoryAutoComplete, autocomplete
+    CategoryAutoComplete
 
 app_name = 'recipes'
 
 urlpatterns = [
-                  # path('', views.recipe_list, name='recipe_list'),
-    # path('<slug:category_slug>/', views.recipe_list,
-    #      name='recipe_list_by_category'),
-    # path('<int:id>/<slug:slug>/', views.recipe_detail,
-    #      name='recipe_detail'),
     path('account/', include('account.urls')),
-
     path('recipes/', CategoryListView.as_view(), name='category_list'),
     path('recipes_by_user/<int:pk>', RecipeByUserView.as_view(), name='recipes_by_user'),
     path('recipes_own/<int:pk>', RecipeOwnView.as_view(), name='recipes_own'),
@@ -40,7 +34,6 @@ urlpatterns = [
     path('', RecipeListView.as_view(), name='recipe_list'),
     path('recipes/<int:pk>', RecipeDetailView.as_view(), name='recipe_detail'),
     path('search/', SearchResultsListView.as_view(), name='search_results'),
-    # path('recipe/new/', create_recipe, name='recipe_new'),
     path('recipe/new/', CreateRecipeView.as_view(), name='recipe_new'),
     path('category-autocomplete/', CategoryAutoComplete.as_view(), name='category-autocomplete'),
     path('ingredient_autocomplete/', IngredientAutoComplete.as_view(), name='ingredient_autocomplete'),
