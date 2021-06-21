@@ -11,14 +11,13 @@
 			<h1 class="font-weight-300">Disease categories</h1>
 		</div>
 	</div>
-
    	<div class="container margin-bottom-100px">
 		<div class="row">
             {% for category in category_list %}
                 <div class="col-lg-6 margin-bottom-30px">
                     <div class="background-white thum-hover box-shadow hvr-float full-width">
                         <div class="padding-25px">
-                            <a href="{% url 'diseases:category_detail' category.id %}" class="d-block text-dark text-capitalize text-medium margin-tb-15px">{{ category.name }}</a>
+                            <a href="{% url 'diseases:category_detail' category.slug %}" class="d-block text-dark text-capitalize text-medium margin-tb-15px">{{ category.name }}</a>
                             <hr>
                         </div>
                         <div class="clearfix"></div>

@@ -76,10 +76,8 @@
 			</div>
 		</div>
 	</header>
-
 	<!-- // Header  -->
-
-<div id="content">
+    <div id="content">
         {% block content %}
         {% endblock %}
     </div>
@@ -99,7 +97,6 @@
 					</ul>
 					<!-- // Social -->
 				</div>
-
 				<div class="col-lg-4  col-md-4 sm-mb-30px">
                     <ul class="footer-menu-2 row margin-0px padding-0px list-unstyled">
 
@@ -114,16 +111,13 @@
 						<li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
                         <li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
 					</ul>
-
 					<ul class="footer-menu-2 row margin-0px padding-0px list-unstyled">
 						<li class="col-6  padding-tb-5px"><a href="/" class="text-grey-2">Home</a></li>
 						<li class="col-6  padding-tb-5px"><a href="{% url 'recipes:category_list' %}" class="text-grey-2">Recipes</a></li>
 						<li class="col-6  padding-tb-5px"><a href="{% url 'account:favourite_recipe_list' %}" class="text-grey-2">Favorite recipes</a></li>
                         <li class="col-6  padding-tb-5px"><a href="{% url 'recipes:recipe_new' %}" class="text-grey-2">Add recipe</a></li>
-
 					</ul>
 				</div>
-
 				<div class="col-lg-4  col-md-4 sm-mb-30px">
                     <ul class="footer-menu-2 row margin-0px padding-0px list-unstyled">
 	                    <li class="col-6  padding-tb-5px"><a href="#" class="text-grey-2"></a></li>
@@ -142,12 +136,9 @@
 						<li class="col-6  padding-tb-5px"><a href="{% url 'diseases:black_list' %}" class="text-grey-2">Blacklist</a></li>
                 	</ul>
 				</div>
-
-
 			</div>
 		</div>
 	</footer>
-
     <div class="padding-tb-10px background-main-color">
 		<div class="container">
 			<div class="row">
@@ -167,7 +158,6 @@
 			</div>
 		</div>
 	</div>
-
 	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'js/sticky-sidebar.js' %}"></script>
 	<script src="{% static 'js/YouTubePopUp.jquery.js' %}"></script>

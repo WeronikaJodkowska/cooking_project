@@ -15,6 +15,12 @@ class DiseaseAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     autocomplete_fields = ['list_ingredient']
 
+    # def clean_name(self):
+    #     """
+    #     ensure that name is always lower case.
+    #     """
+    #     return self.cleaned_data['name'].lower()
+
 
 @admin.register(BlackList)
 class BlackListAdmin(admin.ModelAdmin):

@@ -10,17 +10,16 @@
 				<li><a href="/">Home</a></li>
 				<li class="active">Disease</li>
 			</ol>
-			<h1 class="font-weight-300">{{ disease.name }}</h1>
+			<h1 class="font-weight-300 text-capitalize">{{ disease.name }}</h1>
 		</div>
 	</div>
-
     <div class="container">
 		<div class="row">
             <div class="col-lg-8">
                 <div class="margin-bottom-40px card border-0 box-shadow">
                     <div class="padding-lr-30px padding-tb-20px">
-                    <h4>Disease category: </h4>
-                        <h4><a class="active" href="{% url 'diseases:category_detail' disease.category.id %}">{{ disease.category.name }}</a></h4>
+                    <h4>Disease category:
+                        <a class="active text-capitalize" href="{% url 'diseases:category_detail' disease.category.slug %}">{{ disease.category.name }}</a></h4>
                         <hr>
                         <h3>Prohibited Ingredients:</h3>
                         <br>

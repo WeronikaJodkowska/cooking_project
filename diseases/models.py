@@ -19,6 +19,10 @@ class DiseaseCategory(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.name = self.name.lower()
+        return super(DiseaseCategory, self).save(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse('diseases:category_list', args=[self.slug])
 
@@ -39,6 +43,13 @@ class Disease(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.name = self.name.lower()
+        return super(Disease, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('diseases:disease_detail', args=[self.slug])
 
 
 class BlackList(models.Model):

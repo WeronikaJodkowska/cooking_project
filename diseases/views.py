@@ -22,11 +22,6 @@ class CategoryDetailView(DetailView):
     template_name = 'diseases/categories/category_detail.html'
 
 
-class DiseaseListView(ListView):
-    model = Disease
-    template_name = 'diseases/disease/disease_list.html'
-
-
 class DiseaseDetailView(DetailView):
     model = Disease
     context_object_name = 'disease'
@@ -35,12 +30,11 @@ class DiseaseDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        disease = get_object_or_404(Disease, id=self.kwargs['pk'])
+        disease = get_object_or_404(Disease, slug=self.kwargs['slug'])
         blacklisted = False
         if BlackList.objects.filter(user=self.request.user.id, disease=disease).exists():
             blacklisted = True
         context['disease_is_blacklisted'] = blacklisted
-
         context['category_id'] = self.kwargs.get('pk')
         return context
 
