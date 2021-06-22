@@ -22,7 +22,7 @@ class RecipeIngredientsInline(admin.TabularInline):
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     actions = ['make_published']
-    list_display = ['name', 'slug', 'status']
+    list_display = ['name', 'id', 'slug', 'status']
     prepopulated_fields = {'slug': ('name',)}
     inlines = [ClassInline, RecipeIngredientsInline]
     autocomplete_fields = ['category']

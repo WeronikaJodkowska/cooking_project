@@ -11,7 +11,7 @@ from .models import Category, Ingredient
 
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug']
+    list_display = ['name', 'id', 'slug']
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ['Recipe']
 

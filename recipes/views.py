@@ -245,3 +245,22 @@ class RecipeByMeasurementView(ListView):
         else:
             result = None
         return result
+
+
+class RecipeByIngredient(ListView):
+    model = Recipe
+    template_name = 'recipes/recipe/recipe_by_ingredient.html'
+
+    def get_queryset(self):
+        result = super(RecipeByIngredient, self).get_queryset()
+        ingredient = self.kwargs.get('pk')
+        ingredient_name = Ingredient.objects.values('name').filter(id=ingredient)
+        print(ingredient)
+        print(ingredient_name)
+        recipe_object = RecipeIngredients.objects.filter(ingredient__name__in=ingredient_name).\
+            prefetch_related().distinct().values_list('recipe', flat=True)
+        print(recipe_object)
+        result = Recipe.objects.filter(pk__in=recipe_object)
+        print(result)
+        # result = Recipe.objects.filter(Q(list_ingredient__name__in=q)).prefetch_related().distinct()
+        return result

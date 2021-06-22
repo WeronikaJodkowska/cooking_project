@@ -48,7 +48,7 @@
                         <br>
                         {% for i in list_ingredient %}
                             <ul>
-                            <li>{{ i.ingredient.name }}
+                                <li><a href="{% url 'recipes:recipes_by_ingredient' i.ingredient.id %}" class="text-red">{{ i.ingredient.name }}</a>
                                 {% if i.amount == None %}{{ i.unit.name }}
                                 {% else %}{{ i.amount }} {{ i.unit.name }}{% endif %}</li>
                             </ul>
