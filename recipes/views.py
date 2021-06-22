@@ -125,7 +125,7 @@ class SearchResultsListView(ListView):
                 recipe_except = recipe_object.exclude(Q(ingredient__name__in=q1))
                 result = Recipe.objects.filter(pk__in=recipe_except)
         elif q == ['']:
-            recipe_object = RecipeIngredients.objects.filter(recipe__status='p')\
+            recipe_object = RecipeIngredients.objects.filter(recipe__status='p') \
                 .prefetch_related().distinct().values_list('recipe', flat=True)
             if q1:
                 ingredient_names = recipe_object.filter(Q(ingredient__name__in=q1))
@@ -224,8 +224,8 @@ class RecipeByTimeView(ListView):
     def get_queryset(self):
         try:
             recipe_id = self.kwargs.get('pk')
-            time = Recipe.objects.values('preparation_time').filter(id=recipe_id)
-            entry = Recipe.objects.filter(preparation_time__in=time, status='p')
+            time = Recipe.objects.values('the_timedelta').filter(id=recipe_id)
+            entry = Recipe.objects.filter(the_timedelta__in=time, status='p')
         except ObjectDoesNotExist:
             print("Either the Recipe or entry doesn't exist.")
         return entry
@@ -252,15 +252,9 @@ class RecipeByIngredient(ListView):
     template_name = 'recipes/recipe/recipe_by_ingredient.html'
 
     def get_queryset(self):
-        result = super(RecipeByIngredient, self).get_queryset()
         ingredient = self.kwargs.get('pk')
         ingredient_name = Ingredient.objects.values('name').filter(id=ingredient)
-        print(ingredient)
-        print(ingredient_name)
-        recipe_object = RecipeIngredients.objects.filter(ingredient__name__in=ingredient_name).\
+        recipe_object = RecipeIngredients.objects.filter(ingredient__name__in=ingredient_name). \
             prefetch_related().distinct().values_list('recipe', flat=True)
-        print(recipe_object)
         result = Recipe.objects.filter(pk__in=recipe_object)
-        print(result)
-        # result = Recipe.objects.filter(Q(list_ingredient__name__in=q)).prefetch_related().distinct()
         return result

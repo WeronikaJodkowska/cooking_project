@@ -1,5 +1,7 @@
 {% extends "recipes/base.html" %}
 {% load static %}
+{% load duration %}
+
 {% block title %}
     {{ recipe.name }}
 {% endblock %}
@@ -31,11 +33,12 @@
                     <div class="padding-lr-30px padding-tb-20px">
                         <h4><a class="active" href="{% url 'recipes:category_detail' recipe.category.id %}">{{ recipe.category }}</a></h4>
                         <hr>
-                        {% if recipe.preparation_time or recipe.user is not None %}
+                        {% if recipe.the_timedelta or recipe.user is not None %}
                             <div class="row no-gutters">
-                                {% if recipe.preparation_time %}
+                                {% if recipe.the_timedelta %}
                                     <div class="col-4 text-left"><i class="far fa-clock"></i>
-                                        <a class="active" href="{% url 'recipes:recipes_by_time' recipe.id %}">{{ recipe.preparation_time }}</a>
+{#                                        {{ recipe.the_timedelta }}#}
+                                        <a class="active" href="{% url 'recipes:recipes_by_time' recipe.id %}">{{ recipe.the_timedelta|duration }}</a>
                                     </div>
                                 {% endif %}
                                 {% if recipe.user is not None %}

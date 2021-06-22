@@ -34,9 +34,11 @@ class Recipe(models.Model):
                                  on_delete=models.CASCADE)
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
-    preparation_time = models.CharField(max_length=10, blank=True,
-                                        help_text="Enter time in minutes or hours",
-                                        verbose_name='preparation time')
+    # preparation_time = models.CharField(max_length=10, blank=True,
+    #                                     help_text="Enter time in minutes or hours",
+    #                                     verbose_name='preparation time')
+    the_timedelta = models.DurationField(blank=True, null=True)
+
     image = models.ImageField(upload_to='recipes/%Y/%m/%d')
     favourites = models.ManyToManyField(User, related_name='favourite',
                                         default=None, blank=True)

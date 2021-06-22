@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admindocs',
+    'django.forms',
+    'django_filters',
     'easy_select2',
     'dal',
     'dal_select2',
@@ -127,6 +129,10 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
+TIME_INPUT_FORMATS = [
+    '%H:%M',
+]
+
 USE_I18N = True
 
 USE_L10N = True
@@ -176,5 +182,7 @@ PASSWORD_HASHERS = [
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '949817039508-4qecubgab6thm8f4t9j4njp2q9om2khj.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'NDW_OaiK8u04shRPiVbQ40X4'
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
