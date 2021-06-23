@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'easy_select2',
     'dal',
     'dal_select2',
+    'durationwidget',
     'crispy_forms',
     'account.apps.AccountConfig',
     'social_django',

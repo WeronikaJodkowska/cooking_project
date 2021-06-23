@@ -3,6 +3,7 @@ from django import forms
 from django.forms.models import inlineformset_factory
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Fieldset, Div, HTML, ButtonHolder, Submit
+from durationwidget.widgets import TimeDurationWidget
 from easy_select2 import Select2
 
 from .custom_layout_object import *
@@ -18,9 +19,11 @@ class MyCheckboxSelectMultiple(forms.CheckboxSelectMultiple):
 class RecipeCreateForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control form-control-sm"}))
     category = forms.ModelChoiceField(queryset=RecipeCategory.objects.all(), widget=Select2(attrs={"class": "form-control form-control-sm"}))
-    preparation_time = forms.CharField(label='Cook time',
-                                       widget=forms.TextInput(attrs={"class": "form-control form-control-sm",
-                                                                     'placeholder': '1 hr 30 mins'}))
+    # the_timedelta = forms.CharField(label='Cook time',
+    #                                    widget=forms.TextInput(attrs={"class": "form-control form-control-sm",
+    #                                                                  'placeholder': '1 hr 30 mins'}))
+
+    preparation_time = forms.DurationField(widget=TimeDurationWidget(show_seconds=False, attrs={"class": "col-md-3"}), required=False)
     image = forms.ImageField(error_messages={'invalid': "Image files only"},
                              widget=forms.FileInput(attrs={"class": "form-control form-control-sm"}))
 
@@ -37,7 +40,7 @@ class RecipeCreateForm(forms.ModelForm):
         self.helper.form_tag = True
         self.helper.form_class = 'form-horizontal'
         self.helper.label_class = 'col-md-3 create-label'
-        self.helper.field_class = 'col-md-9'
+        self.helper.field_class = 'form-control col-md-9'
         self.helper.layout = Layout(
             Div(
                 Field('name'),
